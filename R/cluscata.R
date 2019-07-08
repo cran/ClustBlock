@@ -10,7 +10,7 @@
 ##' @usage
 ##'cluscata(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE,
 ##'         Itermax=30, Graph_dend=TRUE, Graph_bar=TRUE, printlevel=FALSE,
-##'         gpmax=min(6, nblo-1))
+##'         gpmax=min(6, nblo-1), alpha=0.05, nperm=100)
 ##'
 ##' @param Data data frame or matrix where the blocks of binary variables are merged horizontally. If you have a different format, see \code{\link{change_cata_format}}
 ##'
@@ -31,6 +31,12 @@
 ##' @param printlevel logical. Print the number of remaining levels during the hierarchical clustering algorithm? Default: FALSE
 ##'
 ##' @param gpmax logical. What is maximum number of clusters to consider? Default: min(6, nblo-1)
+##'
+##' @param alpha numerical between 0 and 1. What is the threshold to test if there is more than one cluster? Default: 0.05
+##'
+##' @param nperm numerical. How many permutations are required to test if there is more than one cluster?
+##'
+##'
 ##'
 ##' @return Each partitionK contains a list for each number of clusters of the partition, K=1 to gpmax with:
 ##'         \itemize{
@@ -53,6 +59,7 @@
 ##'          \item cutree_k: the partition obtained by cutting the dendrogram in K clusters (before consolidation).
 ##'          \item overall_homogeneity_ng: percentage of overall homogeneity by number of clusters before consolidation (and after if there is no noise cluster)
 ##'          \item diff_crit_ng: variation of criterion when a merging is done before consolidation (and after if there is no noise cluster)
+##'          \item test_one_cluster: decision and pvalue to know if there is more than one cluster
 ##'          \item param: parameters called
 ##'          \item type: parameter passed to other functions
 ##'          }
@@ -61,17 +68,21 @@
 ##' @keywords CATA
 ##'
 ##' @references
-##' Llobell, F., Cariou, V., Vigneau, E., Labenne, A., & Qannari, E. M. (2019). A new approach for the analysis of data and the clustering of subjects in a CATA experiment. Food Quality and Preference, 72, 31-39.
+##' Llobell, F., Cariou, V., Vigneau, E., Labenne, A., & Qannari, E. M. (2019). A new approach for the analysis of data and the clustering of subjects in a CATA experiment. Food Quality and Preference, 72, 31-39.\cr
+##' Llobell, F., Giacalone, D., Labenne, A.,  Qannari, E.M. (2019).	Assessment of the agreement and cluster analysis of the respondents in a CATA experiment.	Food Quality and Preference, 77, 184-190.
 ##'
 ##' @examples
-##' \dontrun{
+##' \donttest{
 ##' data(straw)
+##' #with 40 subjects
 ##' res=cluscata(Data=straw[,1:(16*40)], nblo=40)
 ##' plot(res, ngroups=3, Graph_dend=FALSE)
 ##' summary(res, ngroups=3)
 ##' #With noise cluster
 ##' res2=cluscata(Data=straw[,1:(16*40)], nblo=40, Noise_cluster=TRUE,
 ##' Graph_dend=FALSE, Graph_bar=FALSE)
+##' #with all subjects
+##' res=cluscata(Data=straw, nblo=114, printlevel=TRUE)
 ##' }
 ##'
 ##' @seealso   \code{\link{plot.cluscata}}, \code{\link{summary.cluscata}} , \code{\link{catatis}}, \code{\link{cluscata_kmeans}}, \code{\link{change_cata_format}}
@@ -85,7 +96,7 @@
 
 
 cluscata=function(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE, Itermax=30,
-                  Graph_dend=TRUE, Graph_bar=TRUE, printlevel=FALSE,gpmax=min(6, nblo-1)){
+                  Graph_dend=TRUE, Graph_bar=TRUE, printlevel=FALSE,gpmax=min(6, nblo-1), alpha=0.05, nperm=100){
 
   #initialisation
   n=nrow(Data)
@@ -158,9 +169,19 @@ cluscata=function(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE
     muk[j]=normXi
     if(normXi==0)
     {
-      stop(paste("error: the subject",NameBlocks[j], "has only 0 or only 1"))
+      stop(paste("error: the subject",NameBlocks[j], "has only 0"))
     }
     Xi[,,j]=Aj/normXi #standardization
+  }
+
+
+  #only one cluster?
+  testonecluster=.one_cluster_or_more_cata(Data, nblo, nperm = nperm, alpha=alpha)
+  if(testonecluster$decision==TRUE)
+  {
+    testonecluster$decision="Only one cluster can be considered"
+  }else{
+    testonecluster$decision="Clustering is necessary"
   }
 
 
@@ -396,7 +417,7 @@ cluscata=function(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE
   #results
   res=c(res.consol, list(dend=mydendC, cutree_k=cutree_k,
                          overall_homogeneity_ng=round(overall_homogeneity_ng,1),
-                         diff_crit_ng=round(diff_crit_ng,2), param=list(nblo=nblo, ng=nbgroup_hart,
+                         diff_crit_ng=round(diff_crit_ng,2),test_one_cluster=testonecluster, param=list(nblo=nblo, ng=nbgroup_hart,
                          Noise_cluster=Noise_cluster, gpmax=gpmax, n=n, nvar=nvar), type="H+C"))
 
   class(res)="cluscata"

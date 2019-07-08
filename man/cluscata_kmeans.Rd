@@ -57,7 +57,8 @@ summary(cl_km)
 
 }
 \references{
-Llobell, F., Cariou, V., Vigneau, E., Labenne, A., & Qannari, E. M. (2019). A new approach for the analysis of data and the clustering of subjects in a CATA experiment. Food Quality and Preference, 72, 31-39.
+Llobell, F., Cariou, V., Vigneau, E., Labenne, A., & Qannari, E. M. (2019). A new approach for the analysis of data and the clustering of subjects in a CATA experiment. Food Quality and Preference, 72, 31-39.\cr
+Llobell, F., Giacalone, D., Labenne, A.,  Qannari, E.M. (2019).	Assessment of the agreement and cluster analysis of the respondents in a CATA experiment.	Food Quality and Preference, 77, 184-190.
 }
 \seealso{
 \code{\link{plot.cluscata}} , \code{\link{summary.cluscata}}, \code{\link{catatis}}, \code{\link{cluscata}}, \code{\link{change_cata_format}}

@@ -73,7 +73,7 @@ plot.catatis=function(x, Graph=TRUE, Graph_weights=TRUE, axes=c(1,2), tit="CATAT
   {
     dev.new()
     barplot(res.catatis$weights)
-    title(paste("Weight of each subject"))
+    title(paste("Weights"))
   }
 
 

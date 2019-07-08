@@ -22,6 +22,7 @@ a list with:
          \item homogeneity: homogeneity index (%) of each cluster and the overall homogeneity index (%) of the partition
          \item weights: weight associated with each block in its cluster
          \item rho: the threshold for the noise cluster
+          \item test_one_cluster: decision and pvalue to know if there is more than one cluster
          }
 }
 \description{

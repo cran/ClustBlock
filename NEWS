@@ -1,0 +1,4 @@
+Changes in ClustBlock 1.1.0 (2019-07-08)
+* Test to know if there is more than one group in clustatis, clustatis_FreeSort and cluscata
+* Test the consistency of each attribute in a CATA experiment
+* minor changes

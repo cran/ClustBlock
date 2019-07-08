@@ -249,14 +249,14 @@ statis=function(Data,Blocks,NameBlocks=NULL,Graph_obj=TRUE, Graph_weights=TRUE, 
     {
       dev.new()
       par(xpd=FALSE)
-      plot(C[,1],C[,2],type="n",lwd=5,pch=16,asp=1,xlab=paste("Dim 1 (",pouriner[1],"%)"), ylab=paste("Dim 2 (",pouriner[2],"%)"),xlim=c(min(C[,1])-0.05,max(C[,1])+0.05),ylim=c(min(C[,2])-0.05,max(C[,2])+0.05))
+      plot(C[,1],C[,2],type="n",lwd=5,pch=16,xlab=paste("Dim 1 (",pouriner[1],"%)"), ylab=paste("Dim 2 (",pouriner[2],"%)"),xlim=c(min(C[,1])-0.2,max(C[,1])+0.2),ylim=c(min(C[,2])-0.2,max(C[,2])+0.2))
       text(C[,1],C[,2],rownames(Data),col=rainbow(nrow(Data)))
       abline(h=0,v=0)
       title("STATIS")
 
       #projection of each object of each block
       dev.new()
-      plot(C[,1],C[,2],type="n",lwd=5,pch=16,asp=1,xlab=paste("Dim 1 (",pouriner[1],"%)"), ylab=paste("Dim 2 (",pouriner[2],"%)"),xlim=c(min(C[,1])-0.25,max(C[,1])+0.25),ylim=c(min(C[,2])-0.25,max(C[,2])+0.25))
+      plot(C[,1],C[,2],type="n",lwd=5,pch=16,xlab=paste("Dim 1 (",pouriner[1],"%)"), ylab=paste("Dim 2 (",pouriner[2],"%)"),xlim=c(min(C[,1])-0.25,max(C[,1])+0.25),ylim=c(min(C[,2])-0.25,max(C[,2])+0.25))
       text(C[,1],C[,2],rownames(Data),col=rainbow(n),font=2)
       for (l in 1: length(Blocks))
       {
@@ -320,9 +320,9 @@ statis=function(Data,Blocks,NameBlocks=NULL,Graph_obj=TRUE, Graph_weights=TRUE, 
 
   res=list(RV=round(RV,2),compromise=round(W,4),weights=round(u,5),lambda=round(lambda,3),
            overall_error=round(Q,2),error_by_conf=round(dw,2),rv_with_compromise=round(rv,2),
-           homogeneity=homogeneity,coord=round(C,3), eigenvalues=round(vp,3), inertia=pouriner, error_by_obj=round(obj,2),
-           scalefactors=round(facteurech,2), proj_config=round(configs,3),
-           proj_objects=round(objects,3), param=list(nblo=nblo, n=n))
+           homogeneity=homogeneity,coord=round(C,5), eigenvalues=round(vp,3), inertia=pouriner, error_by_obj=round(obj,2),
+           scalefactors=round(facteurech,2), proj_config=round(configs,5),
+           proj_objects=round(objects,5), param=list(nblo=nblo, n=n))
 
   class(res)="statis"
 

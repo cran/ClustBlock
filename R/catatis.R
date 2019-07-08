@@ -28,13 +28,13 @@
 ##'          \item weights: the weights associated with the subjects to build the compromise
 ##'          \item lambda:  the first eigenvalue of the S matrix
 ##'          \item overall error: the error for the CATATIS criterion
-##'          \item error_by_conf: the error by subject (CATATIS criterion)
+##'          \item error_by_sub: the error by subject (CATATIS criterion)
+##'          \item error_by_prod: the error by product (CATATIS criterion)
 ##'          \item s_with_compromise: the similarity coefficient of each subject with the compromise
 ##'          \item homogeneity: homogeneity of the subjects (in percentage)
 ##'          \item CA: the results of correspondance analysis performed on the compromise dataset
 ##'          \item eigenvalues: the eigenvalues associated to the correspondance analysis
 ##'          \item inertia: the percentage of total variance explained by each axis of the CA
-##'          \item error_by_obj: the error by object (CATATIS criterion)
 ##'          \item scalefactors: the scaling factors of each subject
 ##'          \item nb_1: the number of 1 in each block, i.e. the number of checked attributes by subject.
 ##'          \item param: parameters called
@@ -49,6 +49,8 @@
 ##'
 ##'
 ##' @importFrom FactoMineR CA
+##' @importFrom stats var
+##' @importFrom stats quantile
 ##'
 ##' @examples
 ##' data(straw)
@@ -110,6 +112,11 @@ catatis=function(Data,nblo,NameBlocks=NULL, NameVar=NULL, Graph=TRUE, Graph_weig
   {
     stop("At least 2 blocks are required")
   }
+  #parapet for number of attributes
+  if(nvar<3)
+  {
+    stop("At least 3 attributes are required")
+  }
 
   #no NA
   if(sum(is.na(Data))>0)
@@ -131,7 +138,7 @@ catatis=function(Data,nblo,NameBlocks=NULL, NameVar=NULL, Graph=TRUE, Graph_weig
     muk[j]=normXj
     if(normXj==0)
     {
-      stop(paste("error: the subject",NameBlocks[j], "has only 0 or only 1"))  #parapet for constant configurations
+      stop(paste("error: the subject",NameBlocks[j], "has only 0"))  #parapet for null configurations
     }
     Xj[,,j]=Aj/normXj #standardization
   }
@@ -252,8 +259,8 @@ catatis=function(Data,nblo,NameBlocks=NULL, NameVar=NULL, Graph=TRUE, Graph_weig
 
   #results
   res=list(S=round(S,2),compromise=round(C,2),weights=round(u,2),lambda=round(lambda,2),overall_error=round(Q,2),
-           error_by_conf=round(dw,2), s_with_compromise=round(s,2), homogeneity=homogeneity, CA=e, eigenvalues=eigenvalues,
-           inertia=pouriner, error_by_obj=round(obj,2), scalefactors=round(facteurech,2), nb_1=muk**2, param=list(n=n, nblo=nblo, nvar=nvar))
+           error_by_sub=round(dw,2), error_by_prod=round(obj,2), s_with_compromise=round(s,2), homogeneity=homogeneity, CA=e, eigenvalues=eigenvalues,
+           inertia=pouriner, scalefactors=round(facteurech,2), nb_1=muk**2, param=list(n=n, nblo=nblo, nvar=nvar))
   class(res)="catatis"
 
 

@@ -61,8 +61,8 @@
 ##'
 ##'
 ##' @references
-##' Llobell, F., Cariou, V., Vigneau, E., Labenne, A., & Qannari, E. M. (2018). Analysis and clustering of multiblock datasets by means of the STATIS and CLUSTATIS methods. Application to sensometrics. Food Quality and Preference, in Press.
-##'
+##' Llobell, F., Cariou, V., Vigneau, E., Labenne, A., & Qannari, E. M. (2018). Analysis and clustering of multiblock datasets by means of the STATIS and CLUSTATIS methods. Application to sensometrics. Food Quality and Preference, in Press.\cr
+##' Llobell, F., Vigneau, E., Qannari, E. M. (2019). Clustering datasets by means of CLUSTATIS with identification of atypical datasets. Application to sensometrics. Food Quality and Preference, 75, 97-104.
 ##'
 ##'
 ##'
@@ -278,6 +278,15 @@ clustatis_kmeans=function(Data,Blocks, clust, nstart=40, rho=0, NameBlocks=NULL,
         }else{
           goout=1
         }
+
+        #1 cluster left?
+        if(0%in% oldgroup & nlevels(factor(oldgroup))!=ngroups+1)
+        {
+          warning(paste("One cluster is empty with "), ngroups," clusters, rho is too high")
+          oldgroup[oldgroup==0]="K+1"
+          return(oldgroup)
+        }
+
         iter=iter+1
       }
 
@@ -379,7 +388,7 @@ clustatis_kmeans=function(Data,Blocks, clust, nstart=40, rho=0, NameBlocks=NULL,
       #1 cluster left?
       if(0%in% oldgroup & nlevels(factor(oldgroup))!=ngroups+1)
       {
-        warning(paste("One cluster is empty with "), ngroups," clusters")
+        warning(paste("One cluster is empty with "), ngroups," clusters, rho is too high")
         oldgroup[oldgroup==0]="K+1"
         return(oldgroup)
       }
@@ -506,9 +515,12 @@ colnames(tab1)[1]="homogeneity (%)"
     {
       for (j in 1:ncol(C))
       {
-        if (cor(Cref[,j],C[,j])<0)
+        if(var(C[,j])>10^(-12) & var(Cref[,j])>10^(-12))
         {
-          C[,j]=-C[,j]#axes orientation
+          if (cor(Cref[,j],C[,j])<0)
+          {
+            C[,j]=-C[,j]#axes orientation
+          }
         }
       }
     }

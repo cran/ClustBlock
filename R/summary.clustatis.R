@@ -29,6 +29,7 @@
 ##'          \item homogeneity: homogeneity index (%) of each cluster and the overall homogeneity index (%) of the partition
 ##'          \item weights: weight associated with each block in its cluster
 ##'          \item rho: the threshold for the noise cluster
+##'           \item test_one_cluster: decision and pvalue to know if there is more than one cluster
 ##'          }
 ##'
 ##'
@@ -64,9 +65,13 @@ summary.clustatis=function(object, ngroups=NULL, ...)
     }
   }
 
+
   if(res.clustatis$type=="H+C")
   {
+    test_one_cluster=res.clustatis$test_one_cluster
     res.clustatis=res.clustatis[[ngroups]]
+  }else{
+    test_one_cluster="No test"
   }
   NameBlocks=rownames(res.clustatis$group)
 
@@ -82,7 +87,9 @@ summary.clustatis=function(object, ngroups=NULL, ...)
     names(liste_groups)[ngroups+1]="Noise cluster (K+1)"
   }
 
-  res=list(groups=liste_groups, homogeneity=res.clustatis$homogeneity,
-        weights=res.clustatis$weights, rho=res.clustatis$rho)
+    res=list(groups=liste_groups, homogeneity=res.clustatis$homogeneity,
+             weights=res.clustatis$weights, rho=res.clustatis$rho, test_one_cluster=test_one_cluster)
+
+
   return(res)
 }

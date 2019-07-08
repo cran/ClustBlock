@@ -6,7 +6,7 @@
 \usage{
 clustatis_FreeSort(Data, NameSub=NULL, Noise_cluster=FALSE,Itermax=30,
                            Graph_dend=TRUE, Graph_bar=TRUE, printlevel=FALSE,
-                           gpmax=min(6, ncol(Data)-1))
+                           gpmax=min(6, ncol(Data)-1), alpha=0.05, nperm=100)
 }
 \arguments{
 \item{Data}{data frame or matrix. Corresponds to all variables that contain subjects results. Each column corresponds to a subject and gives the groups to which the products (rows) are assigned}
@@ -24,6 +24,10 @@ clustatis_FreeSort(Data, NameSub=NULL, Noise_cluster=FALSE,Itermax=30,
 \item{printlevel}{logical. Print the number of remaining levels during the hierarchical clustering algorithm? Default: FALSE}
 
 \item{gpmax}{logical. What is maximum number of clusters to consider? Default: min(6, ncol(Data)-1)}
+
+\item{alpha}{numerical between 0 and 1. What is the threshold to test if there is more than one cluster? Default: 0.05}
+
+\item{nperm}{numerical. How many permutations are required to test if there is more than one cluster?}
 }
 \value{
 Each partitionK contains a list for each number of clusters of the partition, K=1 to gpmax with:
@@ -48,6 +52,7 @@ Each partitionK contains a list for each number of clusters of the partition, K=
          \item cutree_k: the partition obtained by cutting the dendrogram for K clusters (before consolidation).
          \item overall_homogeneity_ng: percentage of overall homogeneity by number of clusters before consolidation (and after if there is no noise cluster)
          \item diff_crit_ng: variation of criterion when a merging is done before consolidation (and after if there is no noise cluster)
+         \item test_one_cluster: decision and pvalue to know if there is more than one cluster
          \item param: parameters called
          \item type: parameter passed to other functions
          }
@@ -63,7 +68,8 @@ plot(res.clu, Graph_dend=FALSE)
 
 }
 \references{
-Llobell, F., Cariou, V., Vigneau, E., Labenne, A., & Qannari, E. M. (2018). Analysis and clustering of multiblock datasets by means of the STATIS and CLUSTATIS methods. Application to sensometrics. Food Quality and Preference, in Press.
+Llobell, F., Cariou, V., Vigneau, E., Labenne, A., & Qannari, E. M. (2018). Analysis and clustering of multiblock datasets by means of the STATIS and CLUSTATIS methods. Application to sensometrics. Food Quality and Preference, in Press.\cr
+Llobell, F., Vigneau, E., Qannari, E. M. (2019). Clustering datasets by means of CLUSTATIS with identification of atypical datasets. Application to sensometrics. Food Quality and Preference, 75, 97-104.
 }
 \seealso{
 \code{\link{clustatis}}, \code{\link{preprocess_FreeSort}}, \code{\link{summary.clustatis}}, , \code{\link{plot.clustatis}}

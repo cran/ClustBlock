@@ -54,7 +54,8 @@
 ##' @keywords CATA
 ##'
 ##' @references
-##' Llobell, F., Cariou, V., Vigneau, E., Labenne, A., & Qannari, E. M. (2019). A new approach for the analysis of data and the clustering of subjects in a CATA experiment. Food Quality and Preference, 72, 31-39.
+##' Llobell, F., Cariou, V., Vigneau, E., Labenne, A., & Qannari, E. M. (2019). A new approach for the analysis of data and the clustering of subjects in a CATA experiment. Food Quality and Preference, 72, 31-39.\cr
+##' Llobell, F., Giacalone, D., Labenne, A.,  Qannari, E.M. (2019).	Assessment of the agreement and cluster analysis of the respondents in a CATA experiment.	Food Quality and Preference, 77, 184-190.
 ##'
 ##' @examples
 ##' data(straw)
@@ -155,7 +156,7 @@ cluscata_kmeans=function(Data,nblo, clust, nstart=40, rho=0, NameBlocks=NULL, Na
     nor=sqrt(sum(Ai==1))
     if(nor==0)
     {
-      stop(paste("error: the subject",NameBlocks[i], "has only 0 or only 1"))
+      stop(paste("error: the subject",NameBlocks[i], "has only 0"))
     }
     Xi[,,i]=Ai/nor
   }
@@ -244,6 +245,13 @@ cluscata_kmeans=function(Data,nblo, clust, nstart=40, rho=0, NameBlocks=NULL, Na
           goout=1
         }
         iter=iter+1
+        #1 cluster left?
+        if(0%in% oldgroup & nlevels(factor(oldgroup))!=ngroups+1)
+        {
+          warning(paste("One cluster is empty with "), ngroups," clusters, rho is too high")
+          oldgroup[oldgroup==0]="K+1"
+          return(oldgroup)
+        }
       }
 
       #best partition?
@@ -359,6 +367,12 @@ cluscata_kmeans=function(Data,nblo, clust, nstart=40, rho=0, NameBlocks=NULL, Na
       else
       {
         goout=1
+      }
+      if(0%in% oldgroup & nlevels(factor(oldgroup))!=ngroups+1)
+      {
+        warning(paste("One cluster is empty with "), ngroups," clusters, rho is too high")
+        oldgroup[oldgroup==0]="K+1"
+        return(oldgroup)
       }
       iter=iter+1
     }
@@ -515,10 +529,13 @@ cluscata_kmeans=function(Data,nblo, clust, nstart=40, rho=0, NameBlocks=NULL, Na
     {
       for (j in 1:ncol(C))
       {
-        if (cor(Cref[,j],C[,j])<0)
+        if(var(C[,j])>10^(-12) & var(Cref[,j])>10^(-12))
         {
-          e$row$coord[,j]=-e$row$coord[,j]#axes orientation
-          e$col$coord[,j]=-e$col$coord[,j]
+          if (cor(Cref[,j],C[,j])<0)
+          {
+            e$row$coord[,j]=-e$row$coord[,j]#axes orientation
+            e$col$coord[,j]=-e$col$coord[,j]
+          }
         }
       }
     }

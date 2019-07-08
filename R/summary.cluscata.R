@@ -27,6 +27,7 @@
 ##'          \item homogeneity: homogeneity index (%) of each cluster and the overall homogeneity index (%) of the partition
 ##'          \item weights: weight associated with each subject in its cluster
 ##'          \item rho: the threshold for the noise cluster
+##'          \item test_one_cluster: decision and pvalue to know if there is more than one cluster
 ##'          }
 ##'
 ##' @keywords CATA
@@ -65,7 +66,10 @@ summary.cluscata=function(object, ngroups=NULL, ...)
 
   if(res.cluscata$type=="H+C")
   {
+    test_one_cluster=res.cluscata$test_one_cluster
     res.cluscata=res.cluscata[[ngroups]]
+  }else{
+    test_one_cluster="No test"
   }
   NameBlocks=rownames(res.cluscata$group)
 
@@ -82,6 +86,6 @@ summary.cluscata=function(object, ngroups=NULL, ...)
   }
 
   res=list(groups=liste_groups, homogeneity=res.cluscata$homogeneity,
-           weights=res.cluscata$weights, rho=res.cluscata$rho)
+           weights=res.cluscata$weights, rho=res.cluscata$rho, test_one_cluster=test_one_cluster)
   return(res)
 }

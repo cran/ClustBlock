@@ -27,13 +27,13 @@ a list with:
          \item weights: the weights associated with the subjects to build the compromise
          \item lambda:  the first eigenvalue of the S matrix
          \item overall error: the error for the CATATIS criterion
-         \item error_by_conf: the error by subject (CATATIS criterion)
+         \item error_by_sub: the error by subject (CATATIS criterion)
+         \item error_by_prod: the error by product (CATATIS criterion)
          \item s_with_compromise: the similarity coefficient of each subject with the compromise
          \item homogeneity: homogeneity of the subjects (in percentage)
          \item CA: the results of correspondance analysis performed on the compromise dataset
          \item eigenvalues: the eigenvalues associated to the correspondance analysis
          \item inertia: the percentage of total variance explained by each axis of the CA
-         \item error_by_obj: the error by object (CATATIS criterion)
          \item scalefactors: the scaling factors of each subject
          \item nb_1: the number of 1 in each block, i.e. the number of checked attributes by subject.
          \item param: parameters called

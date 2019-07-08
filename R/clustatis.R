@@ -10,7 +10,7 @@
 ##' @usage
 ##'  clustatis(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE,scale=FALSE,
 ##'  Itermax=30, Graph_dend=TRUE, Graph_bar=TRUE,
-##'   printlevel=FALSE, gpmax=min(6, length(Blocks)-1))
+##'   printlevel=FALSE, gpmax=min(6, length(Blocks)-1), alpha=0.05, nperm=100)
 ##'
 ##'
 ##' @param Data data frame or matrix. Correspond to all the blocks of variables merged horizontally
@@ -33,6 +33,9 @@
 ##'
 ##' @param gpmax logical. What is maximum number of clusters to consider? Default: min(6, length(Blocks)-1)
 ##'
+##' @param alpha numerical between 0 and 1. What is the threshold to test if there is more than one cluster? Default: 0.05
+##'
+##' @param nperm numerical. How many permutations are required to test if there is more than one cluster?
 ##'
 ##'
 ##'
@@ -58,6 +61,7 @@
 ##'          \item cutree_k: the partition obtained by cutting the dendrogram for K clusters (before consolidation).
 ##'          \item overall_homogeneity_ng: percentage of overall homogeneity by number of clusters before consolidation (and after if there is no noise cluster)
 ##'          \item diff_crit_ng: variation of criterion when a merging is done before consolidation (and after if there is no noise cluster)
+##'          \item test_one_cluster: decision and pvalue to know if there is more than one cluster
 ##'          \item param: parameters called
 ##'          \item type: parameter passed to other functions
 ##'          }
@@ -67,7 +71,8 @@
 ##' @keywords quantitative
 ##'
 ##' @references
-##' Llobell, F., Cariou, V., Vigneau, E., Labenne, A., & Qannari, E. M. (2018). Analysis and clustering of multiblock datasets by means of the STATIS and CLUSTATIS methods. Application to sensometrics. Food Quality and Preference, in Press.
+##' Llobell, F., Cariou, V., Vigneau, E., Labenne, A., & Qannari, E. M. (2018). Analysis and clustering of multiblock datasets by means of the STATIS and CLUSTATIS methods. Application to sensometrics. Food Quality and Preference, in Press.\cr
+##' Llobell, F., Vigneau, E., Qannari, E. M. (2019). Clustering datasets by means of CLUSTATIS with identification of atypical datasets. Application to sensometrics. Food Quality and Preference, 75, 97-104.
 ##'
 ##'
 ##' @importFrom  stats as.dendrogram cor cutree runif
@@ -97,7 +102,7 @@
 
 clustatis=function(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE,scale=FALSE,
                    Itermax=30, Graph_dend=TRUE, Graph_bar=TRUE,
-                   printlevel=FALSE,gpmax=min(6, length(Blocks)-1)){
+                   printlevel=FALSE,gpmax=min(6, length(Blocks)-1), alpha=0.05, nperm=100){
 
 
   nblo=length(Blocks)
@@ -188,6 +193,17 @@ clustatis=function(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE,scale=FALSE,
     }
     Wi[,,i]=Wi[,,i]/sqrt(sum(diag(Wi[,,i]%*%Wi[,,i])))#standardization
   }
+
+  #only one cluster?
+  testonecluster=.one_cluster_or_more(Data, Blocks, nperm = nperm, scale=scale, alpha=alpha)
+  if(testonecluster$decision==TRUE)
+  {
+    testonecluster$decision="Only one cluster can be considered"
+  }else{
+    testonecluster$decision="Clustering is necessary"
+  }
+
+
 
   # criterion Q when each data table forms a group itself: 0
   crit=rep(0,nblo)
@@ -421,7 +437,7 @@ names(cutree_k)=names(rho)=names(res.consol)=paste0("partition", 1:gpmax)
   #results
   res=c(res.consol, list(dend=mydendC, cutree_k=cutree_k,
            overall_homogeneity_ng=round(overall_homogeneity_ng,1),
-           diff_crit_ng=round(diff_crit_ng,2), param=list(nblo=nblo, ng=nbgroup_hart,
+           diff_crit_ng=round(diff_crit_ng,2), test_one_cluster=testonecluster, param=list(nblo=nblo, ng=nbgroup_hart,
            Noise_cluster=Noise_cluster, gpmax=gpmax, n=n), type="H+C"))
   class(res)="clustatis"
 
