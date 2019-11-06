@@ -18,7 +18,7 @@
 ##'
 ##' @param Graph_weights logical. Should the barplot of the weights be plotted? Default: TRUE
 ##'
-##' @param axes  numerical vector (length 2). Axes to be ploted. Default: c(1,2)
+##' @param axes  numerical vector (length 2). Axes to be plotted. Default: c(1,2)
 ##'
 ##' @param tit string. Title for the objects graphical representation. Default: 'STATIS'
 ##'

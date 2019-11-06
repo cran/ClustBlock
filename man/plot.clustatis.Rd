@@ -20,7 +20,7 @@ Graph_bar=FALSE, Graph_weights=FALSE, axes=c(1,2), col=NULL, cex=1, ...)
 
 \item{Graph_weights}{logical. Should the barplot of the weights in each cluster be plotted? Default: FALSE}
 
-\item{axes}{numerical vector (length 2). Axes to be ploted. Default: c(1,2)}
+\item{axes}{numerical vector (length 2). Axes to be plotted. Default: c(1,2)}
 
 \item{col}{vector. Color for each object. Default: rainbow(nrow(Data))}
 

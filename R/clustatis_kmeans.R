@@ -4,11 +4,11 @@
 ##'
 ##'
 ##' @description
-##' Partitionning of  of quantitative variables. Each cluster is associated with a compromise
+##' Partitionning algorithm for quantitative variables. Each cluster is associated with a compromise
 ##' computed by the STATIS method. Moreover, a noise cluster can be set up.
 ##'
 ##' @usage
-##' clustatis_kmeans(Data,Blocks, clust, nstart=40, rho=0, NameBlocks=NULL,
+##' clustatis_kmeans(Data, Blocks, clust, nstart=40, rho=0, NameBlocks=NULL,
 ##' Itermax=30,Graph_groups=TRUE, Graph_weights=FALSE,
 ##'  scale=FALSE, print_attempt=FALSE)
 ##'
@@ -42,7 +42,7 @@
 ##'
 ##' @return a list with:
 ##'         \itemize{
-##'          \item group: the clustering partition. If Noise_cluster=TRUE, some blocks could be in the noise cluster ("K+1")
+##'          \item group: the clustering partition. If rho>0, some blocks could be in the noise cluster ("K+1")
 ##'          \item rho: the threshold for the noise cluster
 ##'          \item homogeneity: percentage of homogeneity of the blocks in each cluster and the overall homogeneity
 ##'          \item rv_with_compromise: RV coefficient of each block with its cluster compromise
@@ -95,7 +95,7 @@
 
 
 
-clustatis_kmeans=function(Data,Blocks, clust, nstart=40, rho=0, NameBlocks=NULL,Itermax=30,Graph_groups=TRUE,
+clustatis_kmeans=function(Data,Blocks, clust, nstart=40, rho=0, NameBlocks=NULL,Itermax=30, Graph_groups=TRUE,
                           Graph_weights=FALSE, scale=FALSE, print_attempt=FALSE){
 
   nblo=length(Blocks)
@@ -195,6 +195,19 @@ clustatis_kmeans=function(Data,Blocks, clust, nstart=40, rho=0, NameBlocks=NULL,
     Wi[,,i]=Wi[,,i]/sqrt(sum(diag(Wi[,,i]%*%Wi[,,i])))#standardization
   }
 
+  #####RV matrix#####
+
+  RV=matrix(0,nblo,nblo)
+  diag(RV)=rep(1,nblo)
+  if(nblo>1)
+  {
+    for (i in 1:(nblo-1)) {
+      for (j in (i+1):nblo) {
+        RV[i,j]=sum(diag(Wi[,,i]%*%Wi[,,j]))
+        RV[j,i]=RV[i,j]
+      } }
+  }
+
 
 
   if(init==FALSE)
@@ -237,7 +250,7 @@ clustatis_kmeans=function(Data,Blocks, clust, nstart=40, rho=0, NameBlocks=NULL,
           for (tab in 1:length(cluster)) {
             Wj[[tab]]=Wi[,,cluster[tab]]
           }
-          statisgr=.crit_statisWj(Wj)
+          statisgr=.crit_statisWj(Wj, cluster, RV)
           Wk[,,i]=statisgr$W
           lamb[i]=statisgr$lambda/length(cluster)
           alpha[[i]]=statisgr$u
@@ -342,7 +355,7 @@ clustatis_kmeans=function(Data,Blocks, clust, nstart=40, rho=0, NameBlocks=NULL,
         for (tab in 1:length(cluster)) {
           Wj[[tab]]=Wi[,,cluster[tab]]
         }
-        statisgr=.crit_statisWj(Wj)
+        statisgr=.crit_statisWj(Wj, cluster, RV)
         Wk[,,i]=statisgr$W
         lamb[i]=statisgr$lambda/length(cluster)
         alpha[[i]]=statisgr$u
@@ -431,7 +444,7 @@ clustatis_kmeans=function(Data,Blocks, clust, nstart=40, rho=0, NameBlocks=NULL,
   {
     Wj[[i]]=Wi[,,i]
   }
-  stati=.crit_statisWj(Wj)
+  stati=.crit_statisWj(Wj, 1:nblo, RV)
   lambda_tot=stati$lambda/nblo
   ne=NULL
   for (i in 1:ngroups)
@@ -450,14 +463,14 @@ clustatis_kmeans=function(Data,Blocks, clust, nstart=40, rho=0, NameBlocks=NULL,
     for (tab in 1:length(cluster)) {
       Wj[[tab]]=Wi[,,cluster[tab]]
     }
-    statisk1=.crit_statisWj(Wj)
+    statisk1=.crit_statisWj(Wj, cluster, RV)
     lambk1=statisk1$lambda/length(cluster)
     tab1=data.frame(homogeneity=round(c(lamb,lambk1, overall,lambda_tot),3)*100, nb_blocks=c(ne,length(adios), sum(ne), nblo))
     rownames(tab1)=c(paste("Cluster",1:ngroups), "Noise cluster", "Overall", "One group")
   }
-colnames(tab1)[1]="homogeneity (%)"
+  colnames(tab1)[1]="homogeneity (%)"
 
-#rv with compromise and weights
+  #rv with compromise and weights
   rvcomp=list()
   for (k in 1:ngroups)
   {
@@ -534,9 +547,9 @@ colnames(tab1)[1]="homogeneity (%)"
     names(pouriner)=paste("Dim", 1:(nrow(Data)-1))
     inertia[[i]]=pouriner
 
-  #graphical representations
-  if (Graph_groups==TRUE)
-  {
+    #graphical representations
+    if (Graph_groups==TRUE)
+    {
       dev.new()
       plot(C[,1],C[,2],type="n",lwd=5,pch=16,asp=1,xlab=paste("Dim 1 (",pouriner[1],"%)"), ylab=paste("Dim 2 (",pouriner[2],"%)"),xlim=c(min(C[,1])-0.05,max(C[,1])+0.05))
       text(C[,1],C[,2],rownames(Data),col=rainbow(nrow(Data)))

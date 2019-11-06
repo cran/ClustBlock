@@ -9,8 +9,9 @@
 ##'
 ##' @usage
 ##'  clustatis(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE,scale=FALSE,
-##'  Itermax=30, Graph_dend=TRUE, Graph_bar=TRUE,
-##'   printlevel=FALSE, gpmax=min(6, length(Blocks)-1), alpha=0.05, nperm=100)
+##'   Itermax=30, Graph_dend=TRUE, Graph_bar=TRUE,
+##'   printlevel=FALSE, gpmax=min(6, length(Blocks)-1), Testonlyoneclust=TRUE,
+##'   alpha=0.05, nperm=50)
 ##'
 ##'
 ##' @param Data data frame or matrix. Correspond to all the blocks of variables merged horizontally
@@ -33,9 +34,11 @@
 ##'
 ##' @param gpmax logical. What is maximum number of clusters to consider? Default: min(6, length(Blocks)-1)
 ##'
+##' @param Testonlyoneclust logical. Test if there is more than one cluster? Default: TRUE
+##'
 ##' @param alpha numerical between 0 and 1. What is the threshold to test if there is more than one cluster? Default: 0.05
 ##'
-##' @param nperm numerical. How many permutations are required to test if there is more than one cluster?
+##' @param nperm numerical. How many permutations are required to test if there is more than one cluster? Default: 50
 ##'
 ##'
 ##'
@@ -102,7 +105,8 @@
 
 clustatis=function(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE,scale=FALSE,
                    Itermax=30, Graph_dend=TRUE, Graph_bar=TRUE,
-                   printlevel=FALSE,gpmax=min(6, length(Blocks)-1), alpha=0.05, nperm=100){
+                   printlevel=FALSE,gpmax=min(6, length(Blocks)-1), Testonlyoneclust=TRUE,
+                   alpha=0.05, nperm=50){
 
 
   nblo=length(Blocks)
@@ -195,12 +199,31 @@ clustatis=function(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE,scale=FALSE,
   }
 
   #only one cluster?
-  testonecluster=.one_cluster_or_more(Data, Blocks, nperm = nperm, scale=scale, alpha=alpha)
-  if(testonecluster$decision==TRUE)
+  if (Testonlyoneclust==TRUE)
   {
-    testonecluster$decision="Only one cluster can be considered"
+    testonecluster=.one_cluster_or_more(Data, Blocks, nperm = nperm, scale=scale, alpha=alpha)
+    if(testonecluster$decision==TRUE)
+    {
+      testonecluster$decision="Only one cluster can be considered"
+    }else{
+      testonecluster$decision="Clustering is necessary"
+    }
   }else{
-    testonecluster$decision="Clustering is necessary"
+    testonecluster=list(decision="Untested", pvalue="Untested")
+  }
+
+
+  #RV matrix:
+
+  RV=matrix(0,nblo,nblo)
+  diag(RV)=rep(1,nblo)
+  if(nblo>1)
+  {
+    for (i in 1:(nblo-1)) {
+      for (j in (i+1):nblo) {
+        RV[i,j]=sum(diag(Wi[,,i]%*%Wi[,,j]))
+        RV[j,i]=RV[i,j]
+      } }
   }
 
 
@@ -246,7 +269,8 @@ clustatis=function(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE,scale=FALSE,
         for (tab in 1:length(newcluster)) {
           Wj[[tab]]=Wi[,,newcluster[tab]]
         }
-        newstatis=.crit_statisWj(Wj)
+
+        newstatis=.crit_statisWj(Wj, newcluster, RV)
         deltacurrent=newstatis$Q-sum(crit[c(i,j)])
         # if deltacurrent is smaller than deltamin, the current information is saved:
         if (deltacurrent<deltamin) {
@@ -330,22 +354,22 @@ clustatis=function(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE,scale=FALSE,
             axisnames = TRUE,names.arg = paste((gpmax):1),las=2,cex.names = 0.6,cex.main=1.2,col = "blue")
   }
 
-   #number of clusters advised
-    criter=sort(results[,5],decreasing = TRUE)
-    H=NULL
-    for (k in 1:(gpmax-1))
-    {
-      H[k]=((criter[k]/criter[k+1]-1))*(nblo-k-1)
-    }
-    #barplot(H[-(gpmax-1)]-H[-1], names.arg=2:gpmax)
-    nbgroup_hart=which.max(H[-(gpmax-1)]-H[-1])+1
-    cat(paste("Recommended number of clusters =", nbgroup_hart),"\n")
+  #number of clusters advised
+  criter=sort(results[,5],decreasing = TRUE)
+  H=NULL
+  for (k in 1:(gpmax-1))
+  {
+    H[k]=((criter[k]/criter[k+1]-1))*(nblo-k-1)
+  }
+  #barplot(H[-(gpmax-1)]-H[-1], names.arg=2:gpmax)
+  nbgroup_hart=which.max(H[-(gpmax-1)]-H[-1])+1
+  cat(paste("Recommended number of clusters =", nbgroup_hart),"\n")
 
 
 
 
 
-######find the threshold rho for the noise cluster and consolidation
+  ######find the threshold rho for the noise cluster and consolidation
   res.consol=list()
   cutree_k=list()
   rho=NULL
@@ -365,7 +389,7 @@ clustatis=function(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE,scale=FALSE,
         for (tab in 1:length(cluster)) {
           Wj[[tab]]=Wi[,,cluster[tab]]
         }
-        statisk=.crit_statisWj(Wj)
+        statisk=.crit_statisWj(Wj, cluster, RV)
         Wk[,,i]=statisk$W
       }
 
@@ -401,7 +425,7 @@ clustatis=function(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE,scale=FALSE,
                                      Graph_groups=FALSE, Graph_weights = FALSE, scale = scale)
   }
 
-names(cutree_k)=names(rho)=names(res.consol)=paste0("partition", 1:gpmax)
+  names(cutree_k)=names(rho)=names(res.consol)=paste0("partition", 1:gpmax)
 
 
   #after consolidation
@@ -436,9 +460,9 @@ names(cutree_k)=names(rho)=names(res.consol)=paste0("partition", 1:gpmax)
 
   #results
   res=c(res.consol, list(dend=mydendC, cutree_k=cutree_k,
-           overall_homogeneity_ng=round(overall_homogeneity_ng,1),
-           diff_crit_ng=round(diff_crit_ng,2), test_one_cluster=testonecluster, param=list(nblo=nblo, ng=nbgroup_hart,
-           Noise_cluster=Noise_cluster, gpmax=gpmax, n=n), type="H+C"))
+                         overall_homogeneity_ng=round(overall_homogeneity_ng,1),
+                         diff_crit_ng=round(diff_crit_ng,2), test_one_cluster=testonecluster, param=list(nblo=nblo, ng=nbgroup_hart,
+                                                                                                         Noise_cluster=Noise_cluster, gpmax=gpmax, n=n), type="H+C"))
   class(res)="clustatis"
 
   return(res)

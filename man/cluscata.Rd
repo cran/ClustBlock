@@ -6,7 +6,7 @@
 \usage{
 cluscata(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE,
         Itermax=30, Graph_dend=TRUE, Graph_bar=TRUE, printlevel=FALSE,
-        gpmax=min(6, nblo-1), alpha=0.05, nperm=100)
+        gpmax=min(6, nblo-1), Testonlyoneclust=TRUE, alpha=0.05, nperm=50)
 }
 \arguments{
 \item{Data}{data frame or matrix where the blocks of binary variables are merged horizontally. If you have a different format, see \code{\link{change_cata_format}}}
@@ -29,9 +29,11 @@ cluscata(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE,
 
 \item{gpmax}{logical. What is maximum number of clusters to consider? Default: min(6, nblo-1)}
 
+\item{Testonlyoneclust}{logical. Test if there is more than one cluster? Default: TRUE}
+
 \item{alpha}{numerical between 0 and 1. What is the threshold to test if there is more than one cluster? Default: 0.05}
 
-\item{nperm}{numerical. How many permutations are required to test if there is more than one cluster?}
+\item{nperm}{numerical. How many permutations are required to test if there is more than one cluster? Default: 50}
 }
 \value{
 Each partitionK contains a list for each number of clusters of the partition, K=1 to gpmax with:

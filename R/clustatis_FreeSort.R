@@ -10,7 +10,8 @@
 ##' @usage
 ##'clustatis_FreeSort(Data, NameSub=NULL, Noise_cluster=FALSE,Itermax=30,
 ##'                            Graph_dend=TRUE, Graph_bar=TRUE, printlevel=FALSE,
-##'                            gpmax=min(6, ncol(Data)-1), alpha=0.05, nperm=100)
+##'                            gpmax=min(6, ncol(Data)-1), Testonlyoneclust=TRUE,
+##'                            alpha=0.05, nperm=50)
 ##'
 ##'
 ##' @param Data data frame or matrix. Corresponds to all variables that contain subjects results. Each column corresponds to a subject and gives the groups to which the products (rows) are assigned
@@ -29,9 +30,11 @@
 ##'
 ##' @param gpmax logical. What is maximum number of clusters to consider? Default: min(6, ncol(Data)-1)
 ##'
+##' @param Testonlyoneclust logical. Test if there is more than one cluster? Default: TRUE
+##'
 ##' @param alpha numerical between 0 and 1. What is the threshold to test if there is more than one cluster? Default: 0.05
 ##'
-##' @param nperm numerical. How many permutations are required to test if there is more than one cluster?
+##' @param nperm numerical. How many permutations are required to test if there is more than one cluster? Default: 50
 ##'
 ##'
 ##'
@@ -78,6 +81,7 @@
 ##'data(choc)
 ##'res.clu=clustatis_FreeSort(choc)
 ##'plot(res.clu, Graph_dend=FALSE)
+##'summary(res.clu)
 ##'
 ##' @seealso   \code{\link{clustatis}}, \code{\link{preprocess_FreeSort}}, \code{\link{summary.clustatis}}, , \code{\link{plot.clustatis}}
 ##'
@@ -89,7 +93,8 @@
 
 clustatis_FreeSort=function(Data,NameSub=NULL, Noise_cluster=FALSE,Itermax=30,
                         Graph_dend=TRUE, Graph_bar=TRUE, printlevel=FALSE,
-                       gpmax=min(6, ncol(Data)-1), alpha=0.05, nperm=100)
+                        gpmax=min(6, ncol(Data)-1), Testonlyoneclust=TRUE,
+                        alpha=0.05, nperm=50)
 {
 
   prepro=preprocess_FreeSort(Data, NameSub = NameSub)
@@ -97,6 +102,6 @@ clustatis_FreeSort=function(Data,NameSub=NULL, Noise_cluster=FALSE,Itermax=30,
   a=clustatis(Data=prepro$new_Data,Blocks= prepro$Blocks,NameBlocks= prepro$NameBlocks,
               Noise_cluster=Noise_cluster, scale=FALSE, Itermax=Itermax,
               Graph_dend=Graph_dend, Graph_bar=Graph_bar, printlevel=printlevel, gpmax=gpmax,
-              alpha=alpha, nperm=nperm)
+              Testonlyoneclust=Testonlyoneclust, alpha=alpha, nperm=nperm)
   return(a)
 }

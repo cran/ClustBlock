@@ -21,7 +21,7 @@ col.obj="blue", col.attr="red", ...)
 
 \item{Graph_weights}{logical. Should the barplot of the weights in each cluster be plotted? Default: FALSE}
 
-\item{axes}{numerical vector (length 2). Axes to be ploted. Default: c(1,2)}
+\item{axes}{numerical vector (length 2). Axes to be plotted. Default: c(1,2)}
 
 \item{cex}{numerical. Numeric character expansion factor; multiplied by par("cex") yields the final character size. NULL and NA are equivalent to 1.0.}
 

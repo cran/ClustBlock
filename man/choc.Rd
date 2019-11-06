@@ -5,7 +5,7 @@
 \alias{choc}
 \title{chocolates data}
 \format{Free sorting data. A data frame with 14 rows (the chocolates) and 25 columns (the subjects).
- COlumn indicates the groups to which the products (rows) are assigned.}
+ The numbers indicate the groups to which the products (rows) are assigned.}
 \usage{
 data(choc)
 }

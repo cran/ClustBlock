@@ -164,7 +164,7 @@ statis=function(Data,Blocks,NameBlocks=NULL,Graph_obj=TRUE, Graph_weights=TRUE, 
     Wj[,,j]=Xj%*%t(Xj)
     Wj[,,j]=Wj[,,j]/sqrt(sum(diag(Wj[,,j]%*%Wj[,,j])))  # standardisation so that ||Wj||=1
   }
-  # % RV matrix:
+  # RV matrix:
   RV=matrix(0,nblo,nblo)
   diag(RV)=rep(1,nblo)
   if(nblo>1)

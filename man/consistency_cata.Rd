@@ -34,7 +34,7 @@ Permutation test on the agreement between subjects for each attribute in a CATA 
 #with only 40 subjects
 consistency_cata(Data=straw[,1:(16*40)], nblo=40)
 #with all subjects
-consistency_cata(Data=straw, nblo=114, printlevel=TRUE)
+consistency_cata(Data=straw, nblo=114, printAttrTest=TRUE)
 }
 
 }

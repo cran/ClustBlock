@@ -10,7 +10,7 @@
 ##' @usage
 ##'cluscata(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE,
 ##'         Itermax=30, Graph_dend=TRUE, Graph_bar=TRUE, printlevel=FALSE,
-##'         gpmax=min(6, nblo-1), alpha=0.05, nperm=100)
+##'         gpmax=min(6, nblo-1), Testonlyoneclust=TRUE, alpha=0.05, nperm=50)
 ##'
 ##' @param Data data frame or matrix where the blocks of binary variables are merged horizontally. If you have a different format, see \code{\link{change_cata_format}}
 ##'
@@ -32,9 +32,11 @@
 ##'
 ##' @param gpmax logical. What is maximum number of clusters to consider? Default: min(6, nblo-1)
 ##'
+##' @param Testonlyoneclust logical. Test if there is more than one cluster? Default: TRUE
+##'
 ##' @param alpha numerical between 0 and 1. What is the threshold to test if there is more than one cluster? Default: 0.05
 ##'
-##' @param nperm numerical. How many permutations are required to test if there is more than one cluster?
+##' @param nperm numerical. How many permutations are required to test if there is more than one cluster? Default: 50
 ##'
 ##'
 ##'
@@ -96,7 +98,8 @@
 
 
 cluscata=function(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE, Itermax=30,
-                  Graph_dend=TRUE, Graph_bar=TRUE, printlevel=FALSE,gpmax=min(6, nblo-1), alpha=0.05, nperm=100){
+                  Graph_dend=TRUE, Graph_bar=TRUE, printlevel=FALSE,gpmax=min(6, nblo-1),
+                  Testonlyoneclust=TRUE, alpha=0.05, nperm=50){
 
   #initialisation
   n=nrow(Data)
@@ -176,14 +179,27 @@ cluscata=function(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE
 
 
   #only one cluster?
-  testonecluster=.one_cluster_or_more_cata(Data, nblo, nperm = nperm, alpha=alpha)
-  if(testonecluster$decision==TRUE)
+  if (Testonlyoneclust==TRUE)
   {
-    testonecluster$decision="Only one cluster can be considered"
+    testonecluster=.one_cluster_or_more_cata(Data, nblo, nperm = nperm, alpha=alpha)
+    if(testonecluster$decision==TRUE)
+    {
+      testonecluster$decision="Only one cluster can be considered"
+    }else{
+      testonecluster$decision="Clustering is necessary"
+    }
   }else{
-    testonecluster$decision="Clustering is necessary"
+    testonecluster=list(decision="Untested", pvalue="Untested")
   }
 
+  # S matrix:
+  S=matrix(0,nblo,nblo)
+  diag(S)=rep(1,nblo)
+  for (i in 1:(nblo-1)) {
+    for (j in (i+1):nblo) {
+      S[i,j]=sum(diag(Xi[,,i]%*%t(Xi[,,j])))
+      S[j,i]=S[i,j]
+    } }
 
   # criterion when each data table forms a group itself: 0
   crit=rep(0,nblo)
@@ -228,7 +244,7 @@ cluscata=function(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE
         for (tab in 1:length(newcluster)) {
           Xj[[tab]]=Xi[,,newcluster[tab]]
         }
-        newcatatis=.crit_cataXj(Xj)
+        newcatatis=.crit_cataXj(Xj, newcluster, S)
         deltacurrent=newcatatis$Q-sum(crit[c(i,j)])
         # if deltacurrent is smaller than deltamin, the current information is saved:
         if (deltacurrent<deltamin) {
@@ -313,15 +329,15 @@ cluscata=function(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE
 
 
   #number of clusters advised
-    criter=sort(results[,5],decreasing = TRUE)
-    H=NULL
-    for (k in 1:(gpmax-1))
-    {
-      H[k]=((criter[k]/criter[k+1]-1))*(nblo-k-1)
-    }
-    #barplot(H[-(gpmax-1)]-H[-1], names.arg=2:gpmax)
-    nbgroup_hart=which.max(H[-(gpmax-1)]-H[-1])+1
-    cat(paste("Recommended number of clusters =", nbgroup_hart),"\n")
+  criter=sort(results[,5],decreasing = TRUE)
+  H=NULL
+  for (k in 1:(gpmax-1))
+  {
+    H[k]=((criter[k]/criter[k+1]-1))*(nblo-k-1)
+  }
+  #barplot(H[-(gpmax-1)]-H[-1], names.arg=2:gpmax)
+  nbgroup_hart=which.max(H[-(gpmax-1)]-H[-1])+1
+  cat(paste("Recommended number of clusters =", nbgroup_hart),"\n")
 
 
 
@@ -346,7 +362,7 @@ cluscata=function(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE
         for (tab in 1:length(cluster)) {
           Xj[[tab]]=Xi[,,cluster[tab]]
         }
-        catatisk=.crit_cataXj(Xj)
+        catatisk=.crit_cataXj(Xj, cluster, S)
         Ck[,,i]=catatisk$C
       }
 
@@ -379,7 +395,7 @@ cluscata=function(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE
     #consolidation
 
     res.consol[[K]]=cluscata_kmeans(Data, nblo, coupe, rho=rho[K], NameBlocks = NameBlocks, NameVar=NameVar, Itermax=Itermax,
-                                     Graph_groups=FALSE)
+                                    Graph_groups=FALSE)
 
   }
   names(cutree_k)=names(rho)=names(res.consol)=paste0("partition", 1:gpmax)
@@ -418,7 +434,7 @@ cluscata=function(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE
   res=c(res.consol, list(dend=mydendC, cutree_k=cutree_k,
                          overall_homogeneity_ng=round(overall_homogeneity_ng,1),
                          diff_crit_ng=round(diff_crit_ng,2),test_one_cluster=testonecluster, param=list(nblo=nblo, ng=nbgroup_hart,
-                         Noise_cluster=Noise_cluster, gpmax=gpmax, n=n, nvar=nvar), type="H+C"))
+                                                                                                        Noise_cluster=Noise_cluster, gpmax=gpmax, n=n, nvar=nvar), type="H+C"))
 
   class(res)="cluscata"
 

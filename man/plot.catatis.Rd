@@ -14,7 +14,7 @@ col.obj="blue", col.attr="red", ...)
 
 \item{Graph_weights}{logical. Should the barplot of the weights be plotted? Default: TRUE}
 
-\item{axes}{numerical vector (length 2). Axes to be ploted}
+\item{axes}{numerical vector (length 2). Axes to be plotted}
 
 \item{tit}{string. Title for the graphical representation. Default: 'CATATIS'}
 

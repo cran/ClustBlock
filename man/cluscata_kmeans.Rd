@@ -31,7 +31,7 @@ cluscata_kmeans(Data,nblo, clust, nstart=40, rho=0, NameBlocks=NULL, NameVar=NUL
 \value{
 a list with:
         \itemize{
-         \item group: the clustering partition. If Noise_cluster=TRUE, some subjects could be in the noise cluster ("K+1")
+         \item group: the clustering partition. If rho>0, some subjects could be in the noise cluster ("K+1")
          \item rho: the threshold for the noise cluster
          \item homogeneity: percentage of homogeneity of the subjects in each cluster and the overall homogeneity
          \item s_with_compromise: Similarity coefficient of each subject with its cluster compromise

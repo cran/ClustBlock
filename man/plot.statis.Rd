@@ -10,7 +10,7 @@ Graph_weights=TRUE, tit="STATIS", col=NULL, cex=1, ...)
 \arguments{
 \item{x}{object of class 'statis'}
 
-\item{axes}{numerical vector (length 2). Axes to be ploted. Default: c(1,2)}
+\item{axes}{numerical vector (length 2). Axes to be plotted. Default: c(1,2)}
 
 \item{Graph_obj}{logical. Should the compromise graphical representation be plotted? Default: TRUE}
 

@@ -16,7 +16,7 @@
 ##'
 ##' @param Graph_weights logical. Should the barplot of the weights be plotted? Default: TRUE
 ##'
-##' @param axes  numerical vector (length 2). Axes to be ploted
+##' @param axes  numerical vector (length 2). Axes to be plotted
 ##'
 ##' @param tit string. Title for the graphical representation. Default: 'CATATIS'
 ##'

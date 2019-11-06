@@ -1,30 +1,24 @@
-.crit_statisWj=function(Wj){
-#Wj list
+.crit_statisWj=function(Wj, index, RVtot){
+  #Wj list
 
 
 
   n=nrow(Wj[[1]])
   nblo=length(Wj)
 
+  RV=RVtot[index, index]
 
-  # % RV matrix:
-  RV=matrix(0,nblo,nblo)
-  diag(RV)=rep(1,nblo)
-  if(nblo>1)
+  if (length(index)>1)
   {
-    for (i in 1:(nblo-1)) {
-      for (j in (i+1):nblo) {
-        RV[i,j]=sum(diag(Wj[[i]]%*%Wj[[j]]))
-        RV[j,i]=RV[i,j]
-      } }
+    ressvd=.firstEig(RV)
+    u=ressvd$u
+    u=u*sign(u[1])
+    lambda=ressvd$lambda
+  }else{
+    u=1
+    lambda=1
   }
 
-
-
-  ressvd=.firstEig(RV)
-  u=ressvd$u
-  u=u*sign(u[1])
-  lambda=ressvd$lambda
   # the compromise W:
   W=matrix(0,n,n)
   for (j in 1:nblo) { W=W+(u[j]*Wj[[j]]) }

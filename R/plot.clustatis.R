@@ -22,7 +22,7 @@
 ##'
 ##' @param Graph_weights logical. Should the barplot of the weights in each cluster be plotted? Default: FALSE
 ##'
-##' @param axes  numerical vector (length 2). Axes to be ploted. Default: c(1,2)
+##' @param axes  numerical vector (length 2). Axes to be plotted. Default: c(1,2)
 ##'
 ##' @param col vector. Color for each object. Default: rainbow(nrow(Data))
 ##'

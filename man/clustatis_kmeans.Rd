@@ -4,7 +4,7 @@
 \alias{clustatis_kmeans}
 \title{Compute the CLUSTATIS partitionning algorithm on different blocks of quantitative variables. Can be performed using a multi start strategy or initial partition provided by the user}
 \usage{
-clustatis_kmeans(Data,Blocks, clust, nstart=40, rho=0, NameBlocks=NULL,
+clustatis_kmeans(Data, Blocks, clust, nstart=40, rho=0, NameBlocks=NULL,
 Itermax=30,Graph_groups=TRUE, Graph_weights=FALSE,
  scale=FALSE, print_attempt=FALSE)
 }
@@ -34,7 +34,7 @@ Itermax=30,Graph_groups=TRUE, Graph_weights=FALSE,
 \value{
 a list with:
         \itemize{
-         \item group: the clustering partition. If Noise_cluster=TRUE, some blocks could be in the noise cluster ("K+1")
+         \item group: the clustering partition. If rho>0, some blocks could be in the noise cluster ("K+1")
          \item rho: the threshold for the noise cluster
          \item homogeneity: percentage of homogeneity of the blocks in each cluster and the overall homogeneity
          \item rv_with_compromise: RV coefficient of each block with its cluster compromise
@@ -50,7 +50,7 @@ a list with:
          }
 }
 \description{
-Partitionning of  of quantitative variables. Each cluster is associated with a compromise
+Partitionning algorithm for quantitative variables. Each cluster is associated with a compromise
 computed by the STATIS method. Moreover, a noise cluster can be set up.
 }
 \examples{

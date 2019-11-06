@@ -1,30 +1,24 @@
-.crit_cataXj=function(Xj){
+.crit_cataXj=function(Xj, index, Stot){
   #Xj list
 
   n=nrow(Xj[[1]])
   nblo=length(Xj)
   nvar=ncol(Xj[[1]])
 
+  S=Stot[index, index]
 
-  # % S matrix:
-  S=matrix(0,nblo,nblo)
-  diag(S)=rep(1,nblo)
-  if(nblo>1)
+
+
+  if (length(index)>1)
   {
-    for (i in 1:(nblo-1))
-    {
-      for (j in (i+1):nblo)
-      {
-        S[i,j]=sum(diag(Xj[[i]]%*%t(Xj[[j]])))
-        S[j,i]=S[i,j]
-      }
-    }
+    ressvd=.firstEig(S)
+    u=ressvd$u
+    u=u*sign(u[1])
+    lambda=ressvd$lambda
+  }else{
+    u=1
+    lambda=1
   }
-
-  ressvd=.firstEig(S)
-  u=ressvd$u
-  u=u*sign(u[1])
-  lambda=ressvd$lambda
 
   # the compromise C:
   C=matrix(0,n,nvar)

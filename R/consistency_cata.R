@@ -43,7 +43,7 @@
 ##' #with only 40 subjects
 ##' consistency_cata(Data=straw[,1:(16*40)], nblo=40)
 ##' #with all subjects
-##' consistency_cata(Data=straw, nblo=114, printlevel=TRUE)
+##' consistency_cata(Data=straw, nblo=114, printAttrTest=TRUE)
 ##'}
 ##'
 ##' @seealso   \code{\link{change_cata_format}}

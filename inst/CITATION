@@ -1,0 +1,10 @@
+bibentry(bibtype = "Manual",
+         title = "ClustBlock: Clustering of Datasets",
+         author = c(person("Fabien", "Llobell"),
+                    person("Evelyne", "Vigneau"),
+                    person("Veronique", "Cariou"),
+                    person("El Mostafa", "Qannari")),
+		 year = "2019",
+		 note = "R package version 2.1.0",
+		 textVersion="Llobell, F., Vigneau, E., Cariou, V., Qannari, E.M. (2019). ClustBlock: Clustering of Datasets. R package version 2.1.0."
+)

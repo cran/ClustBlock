@@ -36,7 +36,7 @@
 ##'
 ##' @return a list with:
 ##'         \itemize{
-##'          \item group: the clustering partition. If Noise_cluster=TRUE, some subjects could be in the noise cluster ("K+1")
+##'          \item group: the clustering partition. If rho>0, some subjects could be in the noise cluster ("K+1")
 ##'          \item rho: the threshold for the noise cluster
 ##'          \item homogeneity: percentage of homogeneity of the subjects in each cluster and the overall homogeneity
 ##'          \item s_with_compromise: Similarity coefficient of each subject with its cluster compromise
@@ -161,6 +161,16 @@ cluscata_kmeans=function(Data,nblo, clust, nstart=40, rho=0, NameBlocks=NULL, Na
     Xi[,,i]=Ai/nor
   }
 
+
+  # S matrix:
+  S=matrix(0,nblo,nblo)
+  diag(S)=rep(1,nblo)
+  for (i in 1:(nblo-1)) {
+    for (j in (i+1):nblo) {
+      S[i,j]=sum(diag(Xi[,,i]%*%t(Xi[,,j])))
+      S[j,i]=S[i,j]
+    } }
+
   if(init==FALSE)
   {
     qual=10000
@@ -203,7 +213,7 @@ cluscata_kmeans=function(Data,nblo, clust, nstart=40, rho=0, NameBlocks=NULL, Na
           for (tab in 1:length(cluster)) {
             Xj[[tab]]=Xi[,,cluster[tab]]
           }
-          catatisgr=.crit_cataXj(Xj)
+          catatisgr=.crit_cataXj(Xj, cluster, S)
           Ck[,,i]=catatisgr$C
           lamb[i]=catatisgr$lambda/length(cluster)
           alpha[[i]]=catatisgr$alpha
@@ -321,7 +331,7 @@ cluscata_kmeans=function(Data,nblo, clust, nstart=40, rho=0, NameBlocks=NULL, Na
         for (tab in 1:length(cluster)) {
           Xj[[tab]]=Xi[,,cluster[tab]]
         }
-        catatisgr=.crit_cataXj(Xj)
+        catatisgr=.crit_cataXj(Xj, cluster, S)
         Ck[,,i]=catatisgr$C
         lamb[i]=catatisgr$lambda/sum(diag(catatisgr$S))
         alpha[[i]]=catatisgr$alpha
@@ -414,7 +424,7 @@ cluscata_kmeans=function(Data,nblo, clust, nstart=40, rho=0, NameBlocks=NULL, Na
   {
     Xj[[i]]=Xi[,,i]
   }
-  catati=.crit_cataXj(Xj)
+  catati=.crit_cataXj(Xj, 1:nblo, S)
   lambda_tot=catati$lambda/nblo
   ne=NULL
   for (i in 1:ngroups)
@@ -433,7 +443,7 @@ cluscata_kmeans=function(Data,nblo, clust, nstart=40, rho=0, NameBlocks=NULL, Na
     for (tab in 1:length(cluster)) {
       Xj[[tab]]=Xi[,,cluster[tab]]
     }
-    catatisk1=.crit_cataXj(Xj)
+    catatisk1=.crit_cataXj(Xj, cluster, S)
     lambk1=catatisk1$lambda/length(cluster)
     tab1=data.frame(homogeneity=round(c(lamb,lambk1, overall,lambda_tot),3)*100, nb_blocks=c(ne,length(adios), sum(ne), nblo))
     rownames(tab1)=c(paste("Cluster",1:ngroups), "Noise cluster", "Overall", "One group")
