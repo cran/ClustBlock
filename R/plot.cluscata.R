@@ -150,8 +150,8 @@ plot.cluscata=function(x, ngroups=NULL, Graph_groups=TRUE, Graph_dend=TRUE,
       un=axes[1]
       deux=axes[2]
       dev.new()
-      plot.CA(res.cluscata$CA[[i]], axes=axes, title=paste("Cluster",i),
-              cex=cex, col.row=col.obj, col.col=col.attr)
+      print(plot.CA(res.cluscata$CA[[i]], axes=axes, title=paste("Cluster",i),
+              cex=cex, col.row=col.obj, col.col=col.attr))
     }
   }
 

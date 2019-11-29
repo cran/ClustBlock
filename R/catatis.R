@@ -52,6 +52,7 @@
 ##' @importFrom stats var
 ##' @importFrom stats quantile
 ##'
+##'
 ##' @examples
 ##' data(straw)
 ##' res.cat=catatis(straw, nblo=114)
@@ -242,7 +243,7 @@ catatis=function(Data,nblo,NameBlocks=NULL, NameVar=NULL, Graph=TRUE, Graph_weig
   if (Graph==TRUE)
   {
     dev.new()
-    plot(e,title=paste("CATATIS"))
+    print(plot.CA(e,title=paste("CATATIS")))
   }
 
 

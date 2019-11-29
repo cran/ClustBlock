@@ -66,7 +66,7 @@ plot.catatis=function(x, Graph=TRUE, Graph_weights=TRUE, axes=c(1,2), tit="CATAT
   if(Graph==TRUE)
   {
     dev.new()
-    plot.CA(res.catatis$CA, axes=axes, title=tit, cex=cex, col.row=col.obj, col.col=col.attr)
+    print(plot.CA(res.catatis$CA, axes=axes, title=tit, cex=cex, col.row=col.obj, col.col=col.attr))
   }
 
   if (Graph_weights==TRUE)

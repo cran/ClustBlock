@@ -1,7 +1,7 @@
-56b9cc37e1275a74d0e2e4d47cd17d72 *DESCRIPTION
+f73d3d0ef6252d06c02fa176ce999575 *DESCRIPTION
 9b5ca984b6d91dbdc8b7b8c878fc0194 *NAMESPACE
-1d6d0e631ea07e9a5b6aa5fd31d35433 *NEWS
-aebfd21200e67662299004d3e6ea2692 *R/catatis.R
+3af137d11d46480746f3de05ea5aaadb *NEWS
+71bce3572b2bdc451622fbe9ec94f973 *R/catatis.R
 f6e0c849e98c8f0c99f5f622505a5e92 *R/change_cata_format.R
 496a27b431814ef199b8ddea143a68d3 *R/choc.R
 e453142d6d6aa8ead160c52bda63b11c *R/cluscata.R
@@ -18,8 +18,8 @@ a06a9823f659dba0728a4fa2de39356e *R/first_step.R
 a8a815c51b3fe098239dd7c4cdb0363d *R/one_cluster_or_more.R
 e921aa3ad096df1971f12cdd654d6b32 *R/one_cluster_or_more_cata.R
 93772efd3fa7c23969f2599966f87347 *R/order_var.R
-d02feabaed7a2c3849b2aecdf3b08492 *R/plot.catatis.R
-475368e2c2ccd0bc9241d6fe1b0cbc85 *R/plot.cluscata.R
+8a36b829e17a45e096d0eefb3799da11 *R/plot.catatis.R
+50bccbb392f77ec07609f98fadfd88db *R/plot.cluscata.R
 25c8a8684cf347c2eaa93d2772d7f652 *R/plot.clustatis.R
 28788b4a150c19c6bad3be3ff3e04d91 *R/plot.statis.R
 38179d8e175c6c79ca74d7a59596a629 *R/preprocess_FreeSort.R
