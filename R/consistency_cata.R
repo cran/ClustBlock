@@ -46,7 +46,7 @@
 ##' consistency_cata(Data=straw, nblo=114, printAttrTest=TRUE)
 ##'}
 ##'
-##' @seealso   \code{\link{change_cata_format}}
+##' @seealso   \code{\link{consistency_cata_panel}}, \code{\link{change_cata_format}}
 ##'
 ##' @export
 
@@ -62,6 +62,32 @@ consistency_cata=function(Data,nblo, nperm=100, alpha=0.05, printAttrTest=FALSE)
   Blocks=rep(nattr,nblo)
   J=rep(1:nblo , times =  Blocks )# indicates which block each variable belongs to
   if(is.null(colnames(Data))) colnames(Data)=rep(paste0("A",1:Blocks[1]), nblo)
+
+  #parapet for numerical Data
+  for (i in 1: ncol(Data))
+  {
+    if (is.numeric(Data[,i])==FALSE)
+    {
+      stop(paste("The data must be numeric (column",i,")"))
+    }
+  }
+
+  #parapet for binary Data
+  if ((sum(Data==0)+sum(Data==1))!=(dim(Data)[1]*dim(Data)[2]))
+  {
+    stop("only binary Data is accepted (0 or 1)")
+  }
+
+  #no NA
+  if(sum(is.na(Data))>0)
+  {
+    print("NA detected:")
+    tabna=which(is.na(Data), arr.ind = TRUE)
+    print(tabna)
+    stop(paste("NA are not accepted"))
+  }
+
+
   #prepare data
   Xi=array(0,dim=c(n,Blocks[1],nblo))  # array with all subjects matrices
   for(j in 1:nblo)

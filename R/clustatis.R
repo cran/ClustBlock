@@ -103,9 +103,9 @@
 
 
 
-clustatis=function(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE,scale=FALSE,
+clustatis=function(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE, scale=FALSE,
                    Itermax=30, Graph_dend=TRUE, Graph_bar=TRUE,
-                   printlevel=FALSE,gpmax=min(6, length(Blocks)-1), Testonlyoneclust=TRUE,
+                   printlevel=FALSE, gpmax=min(6, length(Blocks)-1), Testonlyoneclust=TRUE,
                    alpha=0.05, nperm=50){
 
 
@@ -361,7 +361,6 @@ clustatis=function(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE,scale=FALSE,
   {
     H[k]=((criter[k]/criter[k+1]-1))*(nblo-k-1)
   }
-  #barplot(H[-(gpmax-1)]-H[-1], names.arg=2:gpmax)
   nbgroup_hart=which.max(H[-(gpmax-1)]-H[-1])+1
   cat(paste("Recommended number of clusters =", nbgroup_hart),"\n")
 

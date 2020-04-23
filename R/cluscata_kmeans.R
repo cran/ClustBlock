@@ -113,6 +113,15 @@ cluscata_kmeans=function(Data,nblo, clust, nstart=40, rho=0, NameBlocks=NULL, Na
     stop("Error with the length of NameBlocks")
   }
 
+  #parapet for numerical Data
+  for (i in 1: ncol(Data))
+  {
+    if (is.numeric(Data[,i])==FALSE)
+    {
+      stop(paste("The data must be numeric (column",i,")"))
+    }
+  }
+
   #parapet for binary Data
   if ((sum(Data==0)+sum(Data==1))!=(dim(Data)[1]*dim(Data)[2]))
   {

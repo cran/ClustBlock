@@ -4,7 +4,7 @@
 ##'
 ##' @usage
 ##' \method{plot}{clustatis}(x, ngroups=NULL, Graph_groups=TRUE, Graph_dend=TRUE,
-##' Graph_bar=FALSE, Graph_weights=FALSE, axes=c(1,2), col=NULL, cex=1, ...)
+##' Graph_bar=FALSE, Graph_weights=FALSE, axes=c(1,2), col=NULL, cex=1, font=1, ...)
 ##'
 ##' @description
 ##' This function plots dendrogram, variation of the merging criterion, weights and STATIS map of each cluster
@@ -27,6 +27,8 @@
 ##' @param col vector. Color for each object. Default: rainbow(nrow(Data))
 ##'
 ##' @param cex numerical. Numeric character expansion factor; multiplied by par("cex") yields the final character size. NULL and NA are equivalent to 1.0.
+##'
+##' @param font numerical. Integer specifying font to use for text. 1=plain, 2=bold, 3=italic, 4=bold italic, 5=symbol. Default: 1
 ##'
 ##' @param ... further arguments passed to or from other methods
 ##
@@ -59,7 +61,7 @@
 
 plot.clustatis=function(x, ngroups=NULL, Graph_groups=TRUE, Graph_dend=TRUE,
                         Graph_bar=FALSE, Graph_weights=FALSE, axes=c(1,2), col=NULL,
-                        cex=1, ...)
+                        cex=1,font=1, ...)
 {
   res.clustatis=x
   if(class(res.clustatis)!="clustatis")
@@ -158,8 +160,8 @@ plot.clustatis=function(x, ngroups=NULL, Graph_groups=TRUE, Graph_dend=TRUE,
       un=axes[1]
       deux=axes[2]
       dev.new()
-      plot(C[,un],C[,deux],type="n",lwd=5,pch=16,xlab=paste("Dim",axes[1], "(" ,pouriner[un],"%)"), ylab=paste("Dim",axes[2], "(" ,pouriner[deux],"%)"),xlim=c(min(C[,un])-0.2,max(C[,un])+0.2), ylim=c(min(C[,deux])-0.2,max(C[,deux])+0.2))
-      text(C[,un],C[,deux],rownames(C),col=col, cex=cex)
+      plot(C[,un],C[,deux],type="n",lwd=5,pch=16,xlab=paste("Dim",axes[1], "(" ,pouriner[un],"%)"), ylab=paste("Dim",axes[2], "(" ,pouriner[deux],"%)"),xlim=c(min(C[,un])-0.2,max(C[,un])+0.2), ylim=c(min(C[,deux])-0.1,max(C[,deux])+0.1))
+      text(C[,un],C[,deux],rownames(C),col=col, cex=cex, font = font)
       abline(h=0,v=0)
       title(paste("Cluster",i))
     }

@@ -42,6 +42,6 @@ consistency_cata(Data=straw, nblo=114, printAttrTest=TRUE)
 Llobell, F., Giacalone, D., Labenne, A.,  Qannari, E.M. (2019).	Assessment of the agreement and cluster analysis of the respondents in a CATA experiment.	Food Quality and Preference, 77, 184-190.
 }
 \seealso{
-\code{\link{change_cata_format}}
+\code{\link{consistency_cata_panel}}, \code{\link{change_cata_format}}
 }
 \keyword{CATA}

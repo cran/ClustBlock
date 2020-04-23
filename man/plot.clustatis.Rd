@@ -5,7 +5,7 @@
 \title{Displays the CLUSTATIS graphs}
 \usage{
 \method{plot}{clustatis}(x, ngroups=NULL, Graph_groups=TRUE, Graph_dend=TRUE,
-Graph_bar=FALSE, Graph_weights=FALSE, axes=c(1,2), col=NULL, cex=1, ...)
+Graph_bar=FALSE, Graph_weights=FALSE, axes=c(1,2), col=NULL, cex=1, font=1, ...)
 }
 \arguments{
 \item{x}{object of class 'clustatis'.}
@@ -25,6 +25,8 @@ Graph_bar=FALSE, Graph_weights=FALSE, axes=c(1,2), col=NULL, cex=1, ...)
 \item{col}{vector. Color for each object. Default: rainbow(nrow(Data))}
 
 \item{cex}{numerical. Numeric character expansion factor; multiplied by par("cex") yields the final character size. NULL and NA are equivalent to 1.0.}
+
+\item{font}{numerical. Integer specifying font to use for text. 1=plain, 2=bold, 3=italic, 4=bold italic, 5=symbol. Default: 1}
 
 \item{...}{further arguments passed to or from other methods}
 }

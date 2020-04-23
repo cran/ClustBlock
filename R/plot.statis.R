@@ -6,7 +6,8 @@
 ##'
 ##' @usage
 ##' \method{plot}{statis}(x, axes=c(1,2), Graph_obj=TRUE,
-##' Graph_weights=TRUE, tit="STATIS", col=NULL, cex=1, ...)
+##' Graph_weights=TRUE, tit="STATIS", col=NULL, cex=1, font=1,
+##' xlim=NULL, ylim=NULL, ...)
 ##'
 ##' @description
 ##' This function plots the STATIS map and STATIS weights
@@ -25,6 +26,12 @@
 ##' @param col vector. Color for each object. If NULL, col=rainbow(nrow(Data)). Default: NULL
 ##'
 ##' @param cex numerical. Numeric character expansion factor; multiplied by par("cex") yields the final character size. NULL and NA are equivalent to 1.0.
+##'
+##' @param font numerical. Integer specifying font to use for text. 1=plain, 2=bold, 3=italic, 4=bold italic, 5=symbol. Default: 1
+##'
+##' @param xlim numerical vector (length 2). Minimum and maximum for x coordinates.
+##'
+##' @param ylim numerical vector (length 2). Minimum and maximum for y coordinates.
 ##'
 ##' @param ... further arguments passed to or from other methods
 ##'
@@ -49,7 +56,8 @@
 
 
 
-plot.statis=function(x, axes=c(1,2), Graph_obj=TRUE, Graph_weights=TRUE, tit="STATIS", col=NULL, cex=1, ...)
+plot.statis=function(x, axes=c(1,2), Graph_obj=TRUE, Graph_weights=TRUE, tit="STATIS",
+                     col=NULL, cex=1, font=1, xlim=NULL, ylim=NULL, ...)
 {
 
   res.statis=x
@@ -69,9 +77,17 @@ plot.statis=function(x, axes=c(1,2), Graph_obj=TRUE, Graph_weights=TRUE, tit="ST
     pouriner=res.statis$inertia
     un=axes[1]
     deux=axes[2]
+    if(is.null(xlim)==TRUE)
+    {
+      xlim=c(min(C[,un])-0.2,max(C[,un])+0.2)
+    }
+    if(is.null(ylim)==TRUE)
+    {
+      ylim=c(min(C[,deux])-0.2,max(C[,deux])+0.2)
+    }
     dev.new()
-    plot(C[,un],C[,deux],type="n",lwd=5,pch=16,xlab=paste("Dim",axes[1], "(" ,pouriner[un],"%)"), ylab=paste("Dim",axes[2], "(" ,pouriner[deux],"%)"),xlim=c(min(C[,un])-0.2,max(C[,un])+0.2), ylim=c(min(C[,deux])-0.2,max(C[,deux])+0.2))
-    text(C[,un],C[,deux],rownames(C),col=col, cex=cex)
+    plot(C[,un],C[,deux],type="n",lwd=5,pch=16,xlab=paste("Dim",axes[1], "(" ,pouriner[un],"%)"), ylab=paste("Dim",axes[2], "(" ,pouriner[deux],"%)"), xlim=xlim, ylim=ylim)
+    text(C[,un],C[,deux],rownames(C),col=col, cex=cex, font=font)
     abline(h=0,v=0)
     title(tit)
 

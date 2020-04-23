@@ -97,6 +97,15 @@ catatis=function(Data,nblo,NameBlocks=NULL, NameVar=NULL, Graph=TRUE, Graph_weig
     stop("Error with the length of NameBlocks")
   }
 
+  #parapet for numerical Data
+  for (i in 1: ncol(Data))
+  {
+    if (is.numeric(Data[,i])==FALSE)
+    {
+      stop(paste("The data must be numeric (column",i,")"))
+    }
+  }
+
   #parapet for binary Data
   if ((sum(Data==0)+sum(Data==1))!=(dim(Data)[1]*dim(Data)[2]))
   {
@@ -105,14 +114,15 @@ catatis=function(Data,nblo,NameBlocks=NULL, NameVar=NULL, Graph=TRUE, Graph_weig
   #parapet for number of objects
   if(n<3)
   {
-    stop("At least 3 objects are required")
+    stop("At least 3 products are required")
   }
 
   #parapet for number of blocks
   if(nblo<2)
   {
-    stop("At least 2 blocks are required")
+    stop("At least 2 subjects are required")
   }
+
   #parapet for number of attributes
   if(nvar<3)
   {
