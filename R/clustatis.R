@@ -10,7 +10,7 @@
 ##' @usage
 ##'  clustatis(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE,scale=FALSE,
 ##'   Itermax=30, Graph_dend=TRUE, Graph_bar=TRUE,
-##'   printlevel=FALSE, gpmax=min(6, length(Blocks)-1), Testonlyoneclust=TRUE,
+##'   printlevel=FALSE, gpmax=min(6, length(Blocks)-2), Testonlyoneclust=TRUE,
 ##'   alpha=0.05, nperm=50)
 ##'
 ##'
@@ -32,7 +32,7 @@
 ##'
 ##' @param printlevel logical. Print the number of remaining levels during the hierarchical clustering algorithm? Default: FALSE
 ##'
-##' @param gpmax logical. What is maximum number of clusters to consider? Default: min(6, length(Blocks)-1)
+##' @param gpmax logical. What is maximum number of clusters to consider? Default: min(6, length(Blocks)-2)
 ##'
 ##' @param Testonlyoneclust logical. Test if there is more than one cluster? Default: TRUE
 ##'
@@ -105,7 +105,7 @@
 
 clustatis=function(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE, scale=FALSE,
                    Itermax=30, Graph_dend=TRUE, Graph_bar=TRUE,
-                   printlevel=FALSE, gpmax=min(6, length(Blocks)-1), Testonlyoneclust=TRUE,
+                   printlevel=FALSE, gpmax=min(6, length(Blocks)-2), Testonlyoneclust=TRUE,
                    alpha=0.05, nperm=50){
 
 
@@ -357,11 +357,11 @@ clustatis=function(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE, scale=FALSE,
   #number of clusters advised
   criter=sort(results[,5],decreasing = TRUE)
   H=NULL
-  for (k in 1:(gpmax-1))
+  for (k in 1:min(gpmax,nblo-2))
   {
-    H[k]=((criter[k]/criter[k+1]-1))*(nblo-k-1)
+    H[k]=(criter[k]/criter[k+1]-1)*(nblo-k-1)
   }
-  nbgroup_hart=which.max(H[-(gpmax-1)]-H[-1])+1
+  nbgroup_hart=which.max(H[-(min(gpmax,nblo-2))]-H[-1])+1
   cat(paste("Recommended number of clusters =", nbgroup_hart),"\n")
 
 

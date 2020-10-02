@@ -47,6 +47,7 @@ STATIS method on quantitative blocks. SUpplementary outputs are also computed
  data(smoo)
  NameBlocks=paste0("S",1:24)
  st=statis(Data=smoo, Blocks=rep(2,24),NameBlocks = NameBlocks)
+ summary(st)
  #with variables scaling
  st2=statis(Data=smoo, Blocks=rep(2,24),NameBlocks = NameBlocks, Graph_weights=FALSE, scale=TRUE)
 

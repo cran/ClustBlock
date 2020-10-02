@@ -73,7 +73,7 @@ summary.cluscata=function(object, ngroups=NULL, ...)
   }
   NameBlocks=rownames(res.cluscata$group)
 
-  liste_groups=NULL
+  liste_groups=list()
   for (i in 1:ngroups)
   {
     liste_groups[[i]]=NameBlocks[res.cluscata$group==i]

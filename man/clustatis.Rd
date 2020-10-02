@@ -6,7 +6,7 @@
 \usage{
 clustatis(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE,scale=FALSE,
   Itermax=30, Graph_dend=TRUE, Graph_bar=TRUE,
-  printlevel=FALSE, gpmax=min(6, length(Blocks)-1), Testonlyoneclust=TRUE,
+  printlevel=FALSE, gpmax=min(6, length(Blocks)-2), Testonlyoneclust=TRUE,
   alpha=0.05, nperm=50)
 }
 \arguments{
@@ -28,7 +28,7 @@ clustatis(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE,scale=FALSE,
 
 \item{printlevel}{logical. Print the number of remaining levels during the hierarchical clustering algorithm? Default: FALSE}
 
-\item{gpmax}{logical. What is maximum number of clusters to consider? Default: min(6, length(Blocks)-1)}
+\item{gpmax}{logical. What is maximum number of clusters to consider? Default: min(6, length(Blocks)-2)}
 
 \item{Testonlyoneclust}{logical. Test if there is more than one cluster? Default: TRUE}
 

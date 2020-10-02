@@ -10,7 +10,7 @@
 ##' @usage
 ##'cluscata(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE,
 ##'         Itermax=30, Graph_dend=TRUE, Graph_bar=TRUE, printlevel=FALSE,
-##'         gpmax=min(6, nblo-1), Testonlyoneclust=TRUE, alpha=0.05, nperm=50)
+##'         gpmax=min(6, nblo-2), Testonlyoneclust=TRUE, alpha=0.05, nperm=50)
 ##'
 ##' @param Data data frame or matrix where the blocks of binary variables are merged horizontally. If you have a different format, see \code{\link{change_cata_format}}
 ##'
@@ -30,7 +30,7 @@
 ##'
 ##' @param printlevel logical. Print the number of remaining levels during the hierarchical clustering algorithm? Default: FALSE
 ##'
-##' @param gpmax logical. What is maximum number of clusters to consider? Default: min(6, nblo-1)
+##' @param gpmax logical. What is maximum number of clusters to consider? Default: min(6, nblo-2)
 ##'
 ##' @param Testonlyoneclust logical. Test if there is more than one cluster? Default: TRUE
 ##'
@@ -98,7 +98,7 @@
 
 
 cluscata=function(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE, Itermax=30,
-                  Graph_dend=TRUE, Graph_bar=TRUE, printlevel=FALSE,gpmax=min(6, nblo-1),
+                  Graph_dend=TRUE, Graph_bar=TRUE, printlevel=FALSE,gpmax=min(6, nblo-2),
                   Testonlyoneclust=TRUE, alpha=0.05, nperm=50){
 
   #initialisation
@@ -347,12 +347,11 @@ cluscata=function(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE
   #number of clusters advised
   criter=sort(results[,5],decreasing = TRUE)
   H=NULL
-  for (k in 1:(gpmax-1))
+  for (k in 1:min(gpmax,nblo-2))
   {
-    H[k]=((criter[k]/criter[k+1]-1))*(nblo-k-1)
+    H[k]=(criter[k]/criter[k+1]-1)*(nblo-k-1)
   }
-  #barplot(H[-(gpmax-1)]-H[-1], names.arg=2:gpmax)
-  nbgroup_hart=which.max(H[-(gpmax-1)]-H[-1])+1
+  nbgroup_hart=which.max(H[-(min(gpmax,nblo-2))]-H[-1])+1
   cat(paste("Recommended number of clusters =", nbgroup_hart),"\n")
 
 

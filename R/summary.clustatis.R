@@ -75,7 +75,7 @@ summary.clustatis=function(object, ngroups=NULL, ...)
   }
   NameBlocks=rownames(res.clustatis$group)
 
-  liste_groups=NULL
+  liste_groups=list()
   for (i in 1:ngroups)
   {
     liste_groups[[i]]=NameBlocks[res.clustatis$group==i]

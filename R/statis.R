@@ -64,6 +64,7 @@
 ##'  data(smoo)
 ##'  NameBlocks=paste0("S",1:24)
 ##'  st=statis(Data=smoo, Blocks=rep(2,24),NameBlocks = NameBlocks)
+##'  summary(st)
 ##'  #with variables scaling
 ##'  st2=statis(Data=smoo, Blocks=rep(2,24),NameBlocks = NameBlocks, Graph_weights=FALSE, scale=TRUE)
 ##'
@@ -126,6 +127,15 @@ statis=function(Data,Blocks,NameBlocks=NULL,Graph_obj=TRUE, Graph_weights=TRUE, 
         stop(paste("Error: Column", i, "is constant"))
       }
     }
+  }
+
+  #no NA
+  if(sum(is.na(Data))>0)
+  {
+    print("NA detected:")
+    tabna=which(is.na(Data), arr.ind = TRUE)
+    print(tabna)
+    stop(paste("NA are not accepted"))
   }
 
 
