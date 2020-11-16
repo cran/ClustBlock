@@ -29,7 +29,7 @@
   diag(S)=rep(1,nblo)
   for (i in 1:(nblo-1)) {
     for (j in (i+1):nblo) {
-      S[i,j]=sum(diag(Xj[,,i]%*%t(Xj[,,j])))
+      S[i,j]=sum(diag(tcrossprod(Xj[,,i],Xj[,,j])))
       S[j,i]=S[i,j]
     } }
 

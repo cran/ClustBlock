@@ -82,7 +82,7 @@ consistency_cata_panel=function(Data,nblo, nperm=100, alpha=0.05)
   }
 
 
-  Xj=array(0,dim=c(n,Blocks[1],nblo))  # array with all subjects matrices
+  Xj=array(0,dim=c(n,nattr,nblo))  # array with all subjects matrices
   muk=NULL
   for(j in 1:nblo)
   {
@@ -102,7 +102,7 @@ consistency_cata_panel=function(Data,nblo, nperm=100, alpha=0.05)
   diag(S)=rep(1,nblo)
   for (i in 1:(nblo-1)) {
     for (j in (i+1):nblo) {
-      S[i,j]=sum(diag(Xj[,,i]%*%t(Xj[,,j])))
+      S[i,j]=sum(diag(tcrossprod(Xj[,,i],Xj[,,j])))
       S[j,i]=S[i,j]
     } }
 
@@ -141,7 +141,7 @@ consistency_cata_panel=function(Data,nblo, nperm=100, alpha=0.05)
     diag(S)=rep(1,nblo)
     for (i in 1:(nblo-1)) {
       for (j in (i+1):nblo) {
-        S[i,j]=sum(diag(Xj[,,i]%*%t(Xj[,,j])))
+        S[i,j]=sum(diag(tcrossprod(Xj[,,i],Xj[,,j])))
         S[j,i]=S[i,j]
       } }
 

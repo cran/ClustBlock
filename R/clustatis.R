@@ -189,13 +189,13 @@ clustatis=function(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE, scale=FALSE,
   for (i in 1:nblo)
   {
     Xi=as.matrix(Data[,J==i])
-    Wi[,,i]=Xi%*%t(Xi)
-    nor=sqrt(sum(diag(Wi[,,i]%*%Wi[,,i])))
+    Wi[,,i]=tcrossprod(Xi)
+    nor=sqrt(sum(diag(tcrossprod(Wi[,,i]))))
     if(nor==0)
     {
       stop(paste("Configuration",i,"is constant"))
     }
-    Wi[,,i]=Wi[,,i]/sqrt(sum(diag(Wi[,,i]%*%Wi[,,i])))#standardization
+    Wi[,,i]=Wi[,,i]/nor #standardization
   }
 
   #only one cluster?
@@ -221,7 +221,7 @@ clustatis=function(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE, scale=FALSE,
   {
     for (i in 1:(nblo-1)) {
       for (j in (i+1):nblo) {
-        RV[i,j]=sum(diag(Wi[,,i]%*%Wi[,,j]))
+        RV[i,j]=sum(diag(crossprod(Wi[,,i],Wi[,,j])))
         RV[j,i]=RV[i,j]
       } }
   }
@@ -250,7 +250,6 @@ clustatis=function(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE, scale=FALSE,
   ncluster=nblo
   #for homogeneity
   quality=NULL
-  eig1=rep(1,nblo)
 
   for (level in 1:(nblo-1)) {
 
@@ -270,8 +269,8 @@ clustatis=function(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE, scale=FALSE,
           Wj[[tab]]=Wi[,,newcluster[tab]]
         }
 
-        newstatis=.crit_statisWj(Wj, newcluster, RV)
-        deltacurrent=newstatis$Q-sum(crit[c(i,j)])
+        newstatis=.crit_statisWj_fast(Wj, newcluster, RV)
+        deltacurrent=newstatis-sum(crit[c(i,j)])
         # if deltacurrent is smaller than deltamin, the current information is saved:
         if (deltacurrent<deltamin) {
           deltamin=deltacurrent
@@ -296,7 +295,7 @@ clustatis=function(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE, scale=FALSE,
     Q_current=Q_current+deltamin
     mergelist[level,]=merge1
     results[level,1:5]=c(merge, nblo+level, deltamin, Q_current)
-    crit[cl_1]=statismerge$Q
+    crit[cl_1]=statismerge
     crit=crit[-cl_2]
     cc[which(cc==cl_2)]=cl_1
     cc[which(cc>cl_2)]=cc[which(cc>cl_2)]-1
@@ -307,14 +306,8 @@ clustatis=function(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE, scale=FALSE,
     hmerge[level,]<-indic
     fusions[which(idgr[ncluster,]==cl_1)]<- level
     ordr <- .order_var(ordr,which(idgr[ncluster,]==cl_1))
-    #homogeneity of each cluster
-    eig1[cl_1]=statismerge$lambda
-    if(cl_2<=ncluster)
-    {
-      eig1[cl_2:ncluster]=eig1[(cl_2+1):(ncluster+1)]
-    }
-    eig1=eig1[-(ncluster+1)]
-    quality=c(quality, sum(eig1)/nblo)
+    # #overall homogeneity
+     quality=c(quality, (nblo-Q_current)/nblo)
 
     #show the level
     if(printlevel==TRUE)
@@ -401,9 +394,9 @@ clustatis=function(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE, scale=FALSE,
         for (k in 1:K)
         {
           W_k=as.matrix(Wk[,,k])
-          normW=sum(diag(W_k%*%W_k))
+          normW=sum(diag(crossprod(W_k)))
           W_i=Wi[,,i]
-          a=c(a,sum(diag(W_i%*%W_k))^2/(normW))
+          a=c(a,sum(diag(crossprod(W_i, W_k)))^2/(normW))
         }
         cr[[i]]=sqrt(a)
         if (K>1)

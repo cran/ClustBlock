@@ -9,8 +9,8 @@
 ##' computed by the CATATIS method. Moreover, a noise cluster can be set up.
 ##'
 ##' @usage
-##'cluscata_kmeans(Data,nblo, clust, nstart=40, rho=0, NameBlocks=NULL, NameVar=NULL,
-##'                Itermax=30, Graph_groups=TRUE, print_attempt=FALSE)
+##'cluscata_kmeans(Data,nblo, clust, nstart=100, rho=0, NameBlocks=NULL, NameVar=NULL,
+##'                Itermax=30, Graph_groups=TRUE, print_attempt=FALSE, Warnings=FALSE)
 ##'
 ##'
 ##' @param Data data frame or matrix where the blocks of binary variables are merged horizontally. If you have a different format, see \code{\link{change_cata_format}}
@@ -19,7 +19,7 @@
 ##'
 ##' @param clust numerical vector or integer. Initial partition or number of starting partitions if integer. If numerical vector, the numbers must be 1,2,3,...,number of clusters
 ##'
-##' @param nstart numerical. Number of starting partitions. Default: 40
+##' @param nstart numerical. Number of starting partitions. Default: 100
 ##'
 ##' @param rho numerical between 0 and 1. Threshold for the noise cluster. If 0, there is no noise cluster. Default: 0
 ##'
@@ -32,6 +32,8 @@
 ##' @param Graph_groups logical. Should each cluster compromise graphical representation be plotted? Default: TRUE
 ##'
 ##' @param print_attempt logical. Print the number of remaining attempts in multi-start case? Default: FALSE
+##'
+##' @param Warnings logical. Display warnings about the fact that none of the subjects in some clusters checked an attribute or product? Default: FALSE
 ##'
 ##'
 ##' @return a list with:
@@ -60,7 +62,7 @@
 ##' @examples
 ##' data(straw)
 ##' cl_km=cluscata_kmeans(Data=straw[,1:(16*40)], nblo=40, clust=3)
-##' plot(cl_km, Graph_groups=FALSE)
+##' plot(cl_km, Graph_groups=FALSE, Graph_weights = TRUE)
 ##' summary(cl_km)
 ##'
 ##' @seealso   \code{\link{plot.cluscata}} , \code{\link{summary.cluscata}}, \code{\link{catatis}}, \code{\link{cluscata}}, \code{\link{change_cata_format}}
@@ -71,8 +73,8 @@
 
 
 
-cluscata_kmeans=function(Data,nblo, clust, nstart=40, rho=0, NameBlocks=NULL, NameVar=NULL, Itermax=30,
-                         Graph_groups=TRUE, print_attempt=FALSE){
+cluscata_kmeans=function(Data,nblo, clust, nstart=100, rho=0, NameBlocks=NULL, NameVar=NULL, Itermax=30,
+                         Graph_groups=TRUE, print_attempt=FALSE, Warnings=FALSE){
 
 
 
@@ -158,7 +160,7 @@ cluscata_kmeans=function(Data,nblo, clust, nstart=40, rho=0, NameBlocks=NULL, Na
 
 
   #compute of Xi
-  Xi=array(0,dim=c(nrow(X),Blocks[1],nblo))
+  Xi=array(0,dim=c(nrow(X),nvar,nblo))
   for (i in 1:nblo)
   {
     Ai=as.matrix(X[,J==i])
@@ -176,7 +178,7 @@ cluscata_kmeans=function(Data,nblo, clust, nstart=40, rho=0, NameBlocks=NULL, Na
   diag(S)=rep(1,nblo)
   for (i in 1:(nblo-1)) {
     for (j in (i+1):nblo) {
-      S[i,j]=sum(diag(Xi[,,i]%*%t(Xi[,,j])))
+      S[i,j]=sum(diag(tcrossprod(Xi[,,i],Xi[,,j])))
       S[j,i]=S[i,j]
     } }
 
@@ -212,7 +214,7 @@ cluscata_kmeans=function(Data,nblo, clust, nstart=40, rho=0, NameBlocks=NULL, Na
           oldgroup=coupe
         }
         #compute of the compromises
-        Ck=array(0,dim=c(nrow(X),Blocks[1],ngroups))
+        Ck=array(0,dim=c(nrow(X),nvar,ngroups))
         lamb=NULL
         alpha=list()
         for (i in 1: ngroups)
@@ -237,9 +239,9 @@ cluscata_kmeans=function(Data,nblo, clust, nstart=40, rho=0, NameBlocks=NULL, Na
           for (k in 1: ngroups)
           {
             C_k=as.matrix(Ck[,,k])
-            normC=sum(diag(C_k%*%t(C_k)))
+            normC=sum(diag(tcrossprod(C_k)))
             X_i=Xi[,,i]
-            a=c(a,sum(diag(X_i%*%t(C_k)))^2/(normC))
+            a=c(a,sum(diag(tcrossprod(X_i, C_k)))^2/(normC))
           }
           cr[[i]]=sqrt(a)
         }
@@ -329,7 +331,7 @@ cluscata_kmeans=function(Data,nblo, clust, nstart=40, rho=0, NameBlocks=NULL, Na
         oldgroup=coupe
       }
       #compute of the compromises
-      Ck=array(0,dim=c(nrow(X),Blocks[1],ngroups))
+      Ck=array(0,dim=c(nrow(X),nvar,ngroups))
       lamb=NULL
       erreur=NULL
       alpha=list()
@@ -356,9 +358,9 @@ cluscata_kmeans=function(Data,nblo, clust, nstart=40, rho=0, NameBlocks=NULL, Na
         for (k in 1: ngroups)
         {
           C_k=as.matrix(Ck[,,k])
-          normC=sum(diag(C_k%*%t(C_k)))
+          normC=sum(diag(tcrossprod(C_k)))
           X_i=Xi[,,i]
-          a=c(a,sum(diag(X_i%*%t(C_k)))^2/(normC))
+          a=c(a,sum(diag(tcrossprod(X_i, C_k)))^2/(normC))
         }
         cr[[i]]=sqrt(a)
       }
@@ -492,7 +494,7 @@ cluscata_kmeans=function(Data,nblo, clust, nstart=40, rho=0, NameBlocks=NULL, Na
     rownames(compromis)=rownames(X)
     if (is.null(NameVar)==TRUE)
     {
-      colnames(compromis)=colnames(X)[1:(Blocks[1])]
+      colnames(compromis)=colnames(X)[1:nvar]
     }else{
       colnames(compromis)=NameVar
     }
@@ -518,12 +520,18 @@ cluscata_kmeans=function(Data,nblo, clust, nstart=40, rho=0, NameBlocks=NULL, Na
     if(length(colomnnull)>0)
     {
       compromis2=compromis[,-colomnnull]
-      warning("Partion in ", paste(ngroups), " clusters: no subject in cluster ", paste(i), " checked the attribute(s): ", paste(colnames(compromis)[colomnnull], collapse=","))
+      if (Warnings==TRUE)
+      {
+        warning("Partion in ", paste(ngroups), " clusters: no subject in cluster ", paste(i), " checked the attribute(s): ", paste(colnames(compromis)[colomnnull], collapse=","))
+      }
     }
     if(length(rownull)>0)
     {
       compromis2=compromis2[-rownull,]
-      warning("Partion in ", paste(ngroups), " clusters: no subject in cluster ", paste(i), " has a 1 for the product(s):  ", paste(rownames(compromis)[rownull], collapse=","))
+      if (Warnings==TRUE)
+      {
+        warning("Partion in ", paste(ngroups), " clusters: no subject in cluster ", paste(i), " has a 1 for the product(s):  ", paste(rownames(compromis)[rownull], collapse=","))
+      }
     }
 
     e=CA(compromis2,graph=FALSE)
@@ -566,7 +574,7 @@ cluscata_kmeans=function(Data,nblo, clust, nstart=40, rho=0, NameBlocks=NULL, Na
     {
 
       dev.new()
-      plot(e,title=paste("Cluster",i))
+      print(plot.CA(e,title=paste("Cluster",i)))
     }
   }
 

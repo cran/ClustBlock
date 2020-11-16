@@ -4,7 +4,7 @@
 \alias{clustatis_kmeans}
 \title{Compute the CLUSTATIS partitionning algorithm on different blocks of quantitative variables. Can be performed using a multi start strategy or initial partition provided by the user}
 \usage{
-clustatis_kmeans(Data, Blocks, clust, nstart=40, rho=0, NameBlocks=NULL,
+clustatis_kmeans(Data, Blocks, clust, nstart=100, rho=0, NameBlocks=NULL,
 Itermax=30,Graph_groups=TRUE, Graph_weights=FALSE,
  scale=FALSE, print_attempt=FALSE)
 }
@@ -15,7 +15,7 @@ Itermax=30,Graph_groups=TRUE, Graph_weights=FALSE,
 
 \item{clust}{numerical vector or integer. Initial partition or number of starting partitions if integer. If numerical vector, the numbers must be 1,2,3,...,number of clusters}
 
-\item{nstart}{integer. Number of starting partitions. Default: 40}
+\item{nstart}{integer. Number of starting partitions. Default: 100}
 
 \item{rho}{numerical between 0 and 1. Threshold for the noise cluster. Default:0}
 

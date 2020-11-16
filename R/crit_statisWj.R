@@ -10,10 +10,10 @@
 
   if (length(index)>1)
   {
-    ressvd=.firstEig(RV)
-    u=ressvd$u
+    ressvd=svd(RV)
+    u=ressvd$u[,1]
     u=u*sign(u[1])
-    lambda=ressvd$lambda
+    lambda=ressvd$d[1]
   }else{
     u=1
     lambda=1
@@ -23,16 +23,7 @@
   W=matrix(0,n,n)
   for (j in 1:nblo) { W=W+(u[j]*Wj[[j]]) }
 
-
-  # the sum of distances between the weighted scalar product matrices
-  # and the consensus
-  dw=rep(0,nblo)
-  normW=sum(diag(W%*%t(W)))
-  for (j in 1:nblo) {
-    a=Wj[[j]]-(u[j]*W)
-    dw[j]=sum(diag(a%*%t(a)))
-  }
-  Q=sum(dw)
+  Q=nblo - lambda
 
   return(list(RV=RV,W=W,u=u,lambda=lambda,Q=Q))
 

@@ -8,7 +8,7 @@
 ##' computed by the STATIS method. Moreover, a noise cluster can be set up.
 ##'
 ##' @usage
-##' clustatis_FreeSort_kmeans(Data, NameSub=NULL, clust, nstart=40, rho=0,Itermax=30,
+##' clustatis_FreeSort_kmeans(Data, NameSub=NULL, clust, nstart=100, rho=0,Itermax=30,
 ##' Graph_groups=TRUE, Graph_weights=FALSE,  print_attempt=FALSE)
 ##'
 ##'
@@ -18,7 +18,7 @@
 ##'
 ##' @param clust numerical vector or integer. Initial partition or number of starting partitions if integer. If numerical vector, the numbers must be 1,2,3,...,number of clusters
 ##'
-##' @param nstart integer. Number of starting partitions. Default: 40
+##' @param nstart integer. Number of starting partitions. Default: 100
 ##'
 ##' @param rho numerical between 0 and 1. Threshold for the noise cluster. Default:0
 ##'
@@ -74,7 +74,7 @@
 ##=============================================================================
 
 
-clustatis_FreeSort_kmeans=function(Data, NameSub=NULL, clust, nstart=40, rho=0,Itermax=30,
+clustatis_FreeSort_kmeans=function(Data, NameSub=NULL, clust, nstart=100, rho=0,Itermax=30,
                                    Graph_groups=TRUE, Graph_weights=FALSE,  print_attempt=FALSE)
 {
 

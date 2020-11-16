@@ -13,7 +13,7 @@
   {
     for (i in 1:(nblo-1)) {
       for (j in (i+1):nblo) {
-        RV[i,j]=sum(diag(Wi[,,i]%*%Wi[,,j]))
+        RV[i,j]=sum(diag(crossprod(Wi[,,i], Wi[,,j])))
         RV[j,i]=RV[i,j]
       } }
   }

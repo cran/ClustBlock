@@ -86,7 +86,7 @@ catatis=function(Data,nblo,NameBlocks=NULL, NameVar=NULL, Graph=TRUE, Graph_weig
   #rownames, colnames, NameBlocks
   if (is.null(NameBlocks)) NameBlocks=paste("S",1:nblo,sep="-")
   if(is.null(rownames(Data))) rownames(Data)=paste0("X", 1:nrow(Data))
-  if(is.null(colnames(Data))) colnames(Data)=rep(paste0("Y",1:Blocks[1]), nblo)
+  if(is.null(colnames(Data))) colnames(Data)=rep(paste0("Y",1:nvar), nblo)
 
   X=Data
 
@@ -140,7 +140,7 @@ catatis=function(Data,nblo,NameBlocks=NULL, NameVar=NULL, Graph=TRUE, Graph_weig
 
 
 
-  Xj=array(0,dim=c(n,Blocks[1],nblo))  # array with all subjects matrices
+  Xj=array(0,dim=c(n,nvar,nblo))  # array with all subjects matrices
   muk=NULL
   for(j in 1:nblo)
   {
@@ -163,7 +163,7 @@ catatis=function(Data,nblo,NameBlocks=NULL, NameVar=NULL, Graph=TRUE, Graph_weig
   diag(S)=rep(1,nblo)
   for (i in 1:(nblo-1)) {
     for (j in (i+1):nblo) {
-      S[i,j]=sum(diag(Xj[,,i]%*%t(Xj[,,j])))
+      S[i,j]=sum(diag(tcrossprod(Xj[,,i],Xj[,,j])))
       S[j,i]=S[i,j]
     } }
 
@@ -175,7 +175,7 @@ catatis=function(Data,nblo,NameBlocks=NULL, NameVar=NULL, Graph=TRUE, Graph_weig
   hom=lambda/sum(diag(S))
 
   # the compromise C:
-  C=matrix(0,n,Blocks[1])
+  C=matrix(0,n,nvar)
   for (j in 1:nblo) { C=C+(u[j]*Xj[,,j]) }
 
 
@@ -184,8 +184,8 @@ catatis=function(Data,nblo,NameBlocks=NULL, NameVar=NULL, Graph=TRUE, Graph_weig
   erreur=matrix(0,n,nblo)
   for (j in 1:nblo) {
     a=Xj[,,j]-(u[j]*C)
-    dw[j]=sum(diag(a%*%t(a)))
-    erreur[,j]=diag(a%*%t(a))
+    dw[j]=sum(diag(tcrossprod(a)))
+    erreur[,j]=diag(tcrossprod(a))
   }
   Q=sum(dw) #catatis criterion
 
@@ -200,18 +200,18 @@ catatis=function(Data,nblo,NameBlocks=NULL, NameVar=NULL, Graph=TRUE, Graph_weig
   rownames(C)=names(obj)=rownames(Data)
   if (is.null(NameVar)==TRUE)
   {
-    colnames(C)=colnames(Data)[1:(Blocks[1])]
+    colnames(C)=colnames(Data)[1:nvar]
   }else{
     colnames(C)=NameVar
   }
 
 
   #s with compromise
-  normC=sqrt(sum(diag(C%*%t(C))))
+  normC=sqrt(sum(diag(tcrossprod(C))))
   s=NULL
   for (i in 1:nblo)
   {
-    s=c(s,sum(diag(Xj[,,i]%*%t(C)))/normC)
+    s=c(s,sum(diag(tcrossprod(Xj[,,i],C)))/normC)
   }
 
   #CA

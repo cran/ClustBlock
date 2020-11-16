@@ -142,38 +142,24 @@ statis=function(Data,Blocks,NameBlocks=NULL,Graph_obj=TRUE, Graph_weights=TRUE, 
   X=scale(Data,center=TRUE,scale=scale) #X contains the centered (and scaled if necessary) data tables
   Wj=array(0,dim=c(n,n,nblo));             # association matrices
 
-
-
-  #scale factors
+  # globally standardization of each data matrix
+  # Computation of association matrices
+  muk=NULL
   for(j in 1:nblo) {
     Xj=as.matrix(X[,J==j])
-    Wj[,,j]=Xj%*%t(Xj)
+    Wj[,,j]=tcrossprod(Xj)
+    nor=sqrt(sum(diag(tcrossprod(Wj[,,j]))))
+    muk[j]=nor
+    if(nor==0)
+    {
+      stop(paste("Configuration",j,"is constant"))
+    }
+    Wj[,,j]=Wj[,,j]/nor  # standardisation so that ||Wj||=1
   }
-  muk=NULL
-  for (i in 1:nblo)
-  {
-    mi=Wj[,,i]
-    muk[i]=sqrt(sum(diag(t(mi)%*%mi)))
-  }
+
   mu=mean(muk)
   facteurech=mu/muk
 
-  #parapet for constant configurations
-  if (sum(muk==0)>0)
-  {
-    pb=which(muk==0)
-    stop(paste("Error: Configuration", pb, "is constant"))
-  }
-
-
-
-  # globally standardization of each data matrix
-  # Computation of association matrices
-  for(j in 1:nblo) {
-    Xj=as.matrix(X[,J==j])
-    Wj[,,j]=Xj%*%t(Xj)
-    Wj[,,j]=Wj[,,j]/sqrt(sum(diag(Wj[,,j]%*%Wj[,,j])))  # standardisation so that ||Wj||=1
-  }
   # RV matrix:
   RV=matrix(0,nblo,nblo)
   diag(RV)=rep(1,nblo)
@@ -181,7 +167,7 @@ statis=function(Data,Blocks,NameBlocks=NULL,Graph_obj=TRUE, Graph_weights=TRUE, 
   {
     for (i in 1:(nblo-1)) {
       for (j in (i+1):nblo) {
-        RV[i,j]=sum(diag(Wj[,,i]%*%Wj[,,j]))
+        RV[i,j]=sum(diag(tcrossprod(Wj[,,i],Wj[,,j])))
         RV[j,i]=RV[i,j]
       } }
   }
@@ -201,11 +187,11 @@ statis=function(Data,Blocks,NameBlocks=NULL,Graph_obj=TRUE, Graph_weights=TRUE, 
   # error computation
   dw=rep(0,nblo)
   erreur=matrix(0,n,nblo)
-  normW=sum(diag(W%*%t(W)))
+  normW=sum(diag(tcrossprod(W)))
   for (j in 1:nblo) {
     a=Wj[,,j]-(u[j]*W) #difference
-    dw[j]=sum(diag(a%*%t(a))) #error by block
-    erreur[,j]=diag(a%*%t(a))
+    dw[j]=sum(diag(tcrossprod(a))) #error by block
+    erreur[,j]=diag(tcrossprod(a))
   }
   Q=sum(dw) #statis criterion
 
@@ -287,11 +273,11 @@ statis=function(Data,Blocks,NameBlocks=NULL,Graph_obj=TRUE, Graph_weights=TRUE, 
   #RV with the compromise
   rv=NULL
   W_k=as.matrix(W)
-  normW=sqrt(sum(diag(W_k%*%W_k)))
+  normW=sqrt(sum(diag(crossprod(W_k))))
   for ( i in 1:nblo)
   {
     W_i=Wj[,,i]
-    rv=c(rv,sum(diag(W_i%*%W_k))/(normW))
+    rv=c(rv,sum(diag(crossprod(W_i, W_k)))/(normW))
   }
 
   #homogeneity

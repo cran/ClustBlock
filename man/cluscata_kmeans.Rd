@@ -4,8 +4,8 @@
 \alias{cluscata_kmeans}
 \title{Compute the CLUSCATA partitionning algorithm on different blocks of binary variables from a CATA experiment. Can be performed using a multi start strategy or initial partition provided by the user}
 \usage{
-cluscata_kmeans(Data,nblo, clust, nstart=40, rho=0, NameBlocks=NULL, NameVar=NULL,
-               Itermax=30, Graph_groups=TRUE, print_attempt=FALSE)
+cluscata_kmeans(Data,nblo, clust, nstart=100, rho=0, NameBlocks=NULL, NameVar=NULL,
+               Itermax=30, Graph_groups=TRUE, print_attempt=FALSE, Warnings=FALSE)
 }
 \arguments{
 \item{Data}{data frame or matrix where the blocks of binary variables are merged horizontally. If you have a different format, see \code{\link{change_cata_format}}}
@@ -14,7 +14,7 @@ cluscata_kmeans(Data,nblo, clust, nstart=40, rho=0, NameBlocks=NULL, NameVar=NUL
 
 \item{clust}{numerical vector or integer. Initial partition or number of starting partitions if integer. If numerical vector, the numbers must be 1,2,3,...,number of clusters}
 
-\item{nstart}{numerical. Number of starting partitions. Default: 40}
+\item{nstart}{numerical. Number of starting partitions. Default: 100}
 
 \item{rho}{numerical between 0 and 1. Threshold for the noise cluster. If 0, there is no noise cluster. Default: 0}
 
@@ -27,6 +27,8 @@ cluscata_kmeans(Data,nblo, clust, nstart=40, rho=0, NameBlocks=NULL, NameVar=NUL
 \item{Graph_groups}{logical. Should each cluster compromise graphical representation be plotted? Default: TRUE}
 
 \item{print_attempt}{logical. Print the number of remaining attempts in multi-start case? Default: FALSE}
+
+\item{Warnings}{logical. Display warnings about the fact that none of the subjects in some clusters checked an attribute or product? Default: FALSE}
 }
 \value{
 a list with:
@@ -52,7 +54,7 @@ computed by the CATATIS method. Moreover, a noise cluster can be set up.
 \examples{
 data(straw)
 cl_km=cluscata_kmeans(Data=straw[,1:(16*40)], nblo=40, clust=3)
-plot(cl_km, Graph_groups=FALSE)
+plot(cl_km, Graph_groups=FALSE, Graph_weights = TRUE)
 summary(cl_km)
 
 }

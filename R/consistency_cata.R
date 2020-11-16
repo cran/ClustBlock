@@ -121,7 +121,7 @@ consistency_cata=function(Data,nblo, nperm=100, alpha=0.05, printAttrTest=FALSE)
     {
       for (j in (i+1):nblo)
       {
-        S[i,j]=sum(diag(Tabi[,i,k]%*%t(Tabi[,j,k])))
+        S[i,j]=sum(diag(tcrossprod(Tabi[,i,k],Tabi[,j,k])))
         S[j,i]=S[i,j]
       }
       Sarray[,,k]=S
@@ -161,7 +161,7 @@ consistency_cata=function(Data,nblo, nperm=100, alpha=0.05, printAttrTest=FALSE)
       {
         for (j in (i+1):nblo)
         {
-          S_perm[i,j]=sum(diag(Tabi_per[,i,k]%*%t(Tabi_per[,j,k])))
+          S_perm[i,j]=sum(diag(tcrossprod(Tabi_per[,i,k],Tabi_per[,j,k])))
           S_perm[j,i]=S_perm[i,j]
         }
       }

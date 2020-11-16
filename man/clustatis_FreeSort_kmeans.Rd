@@ -4,7 +4,7 @@
 \alias{clustatis_FreeSort_kmeans}
 \title{Compute the CLUSTATIS partitionning algorithm on free sorting data}
 \usage{
-clustatis_FreeSort_kmeans(Data, NameSub=NULL, clust, nstart=40, rho=0,Itermax=30,
+clustatis_FreeSort_kmeans(Data, NameSub=NULL, clust, nstart=100, rho=0,Itermax=30,
 Graph_groups=TRUE, Graph_weights=FALSE,  print_attempt=FALSE)
 }
 \arguments{
@@ -14,7 +14,7 @@ Graph_groups=TRUE, Graph_weights=FALSE,  print_attempt=FALSE)
 
 \item{clust}{numerical vector or integer. Initial partition or number of starting partitions if integer. If numerical vector, the numbers must be 1,2,3,...,number of clusters}
 
-\item{nstart}{integer. Number of starting partitions. Default: 40}
+\item{nstart}{integer. Number of starting partitions. Default: 100}
 
 \item{rho}{numerical between 0 and 1. Threshold for the noise cluster. Default:0}
 

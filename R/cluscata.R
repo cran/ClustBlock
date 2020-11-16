@@ -10,7 +10,7 @@
 ##' @usage
 ##'cluscata(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE,
 ##'         Itermax=30, Graph_dend=TRUE, Graph_bar=TRUE, printlevel=FALSE,
-##'         gpmax=min(6, nblo-2), Testonlyoneclust=TRUE, alpha=0.05, nperm=50)
+##'         gpmax=min(6, nblo-2), Testonlyoneclust=TRUE, alpha=0.05, nperm=50, Warnings=FALSE)
 ##'
 ##' @param Data data frame or matrix where the blocks of binary variables are merged horizontally. If you have a different format, see \code{\link{change_cata_format}}
 ##'
@@ -38,6 +38,7 @@
 ##'
 ##' @param nperm numerical. How many permutations are required to test if there is more than one cluster? Default: 50
 ##'
+##' @param Warnings logical. Display warnings about the fact that none of the subjects in some clusters checked an attribute or product? Default: FALSE
 ##'
 ##'
 ##' @return Each partitionK contains a list for each number of clusters of the partition, K=1 to gpmax with:
@@ -99,7 +100,7 @@
 
 cluscata=function(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE, Itermax=30,
                   Graph_dend=TRUE, Graph_bar=TRUE, printlevel=FALSE,gpmax=min(6, nblo-2),
-                  Testonlyoneclust=TRUE, alpha=0.05, nperm=50){
+                  Testonlyoneclust=TRUE, alpha=0.05, nperm=50, Warnings=FALSE){
 
   #initialisation
   n=nrow(Data)
@@ -116,7 +117,7 @@ cluscata=function(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE
   #rownames, colnames, NameBlocks
   if (is.null(NameBlocks)) NameBlocks=paste("S",1:nblo,sep="-")
   if(is.null(rownames(Data))) rownames(Data)=paste0("X", 1:nrow(Data))
-  if(is.null(colnames(Data))) colnames(Data)=rep(paste0("Y",1:Blocks[1]), nblo)
+  if(is.null(colnames(Data))) colnames(Data)=rep(paste0("Y",1:nvar), nblo)
 
   X=Data
 
@@ -179,7 +180,7 @@ cluscata=function(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE
 
 
   #prepare data
-  Xi=array(0,dim=c(n,Blocks[1],nblo))  # array with all subjects matrices
+  Xi=array(0,dim=c(n,nvar,nblo))  # array with all subjects matrices
   muk=NULL
   for(j in 1:nblo)
   {
@@ -213,7 +214,7 @@ cluscata=function(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE
   diag(S)=rep(1,nblo)
   for (i in 1:(nblo-1)) {
     for (j in (i+1):nblo) {
-      S[i,j]=sum(diag(Xi[,,i]%*%t(Xi[,,j])))
+      S[i,j]=sum(diag(tcrossprod(Xi[,,i],Xi[,,j])))
       S[j,i]=S[i,j]
     } }
 
@@ -241,7 +242,6 @@ cluscata=function(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE
   ncluster=nblo
   #for homogeneity
   quality=NULL
-  eig1=rep(1,nblo)
 
   for (level in 1:(nblo-1)) {
 
@@ -260,8 +260,8 @@ cluscata=function(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE
         for (tab in 1:length(newcluster)) {
           Xj[[tab]]=Xi[,,newcluster[tab]]
         }
-        newcatatis=.crit_cataXj(Xj, newcluster, S)
-        deltacurrent=newcatatis$Q-sum(crit[c(i,j)])
+        newcatatis=.crit_cataXj_fast(Xj, newcluster, S)
+        deltacurrent=newcatatis-sum(crit[c(i,j)])
         # if deltacurrent is smaller than deltamin, the current information is saved:
         if (deltacurrent<deltamin) {
           deltamin=deltacurrent
@@ -286,7 +286,7 @@ cluscata=function(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE
     Q_current=Q_current+deltamin
     mergelist[level,]=merge1
     results[level,1:5]=c(merge, nblo+level, deltamin, Q_current)
-    crit[cl_1]=catatismerge$Q
+    crit[cl_1]=catatismerge
     crit=crit[-cl_2]
     cc[which(cc==cl_2)]=cl_1
     cc[which(cc>cl_2)]=cc[which(cc>cl_2)]-1
@@ -297,14 +297,9 @@ cluscata=function(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE
     hmerge[level,]<-indic
     fusions[which(idgr[ncluster,]==cl_1)]<- level
     ordr <- .order_var(ordr,which(idgr[ncluster,]==cl_1))
-    #homogeneity of each cluster
-    eig1[cl_1]=catatismerge$lambda
-    if(cl_2<=ncluster)
-    {
-      eig1[cl_2:ncluster]=eig1[(cl_2+1):(ncluster+1)]
-    }
-    eig1=eig1[-(ncluster+1)]
-    quality=c(quality, sum(eig1)/nblo)
+    #overall homogeneity
+    quality=c(quality, (nblo-Q_current)/nblo)
+
     if(printlevel==TRUE)
     {
       print(nblo-1-level)
@@ -369,7 +364,7 @@ cluscata=function(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE
     {
       oldgroup=coupe
       #compute the compromises
-      Ck=array(0,dim=c(nrow(Data),Blocks[1],K))
+      Ck=array(0,dim=c(nrow(Data),nvar,K))
       for (i in 1: K)
       {
         cluster=which(oldgroup==i)
@@ -390,9 +385,8 @@ cluscata=function(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE
         for (k in 1:K)
         {
           C_k=as.matrix(Ck[,,k])
-          normC=sum(diag(C_k%*%t(C_k)))
-          X_i=Xi[,,i]
-          a=c(a,sum(diag(X_i%*%t(C_k)))^2/(normC))
+          normC=sum(diag(tcrossprod(C_k)))
+          a=c(a,sum(diag(tcrossprod(Xi[,,i], C_k)))^2/(normC))
         }
         cr[[i]]=sqrt(a)
         if (K>1)
@@ -410,7 +404,7 @@ cluscata=function(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE
     #consolidation
 
     res.consol[[K]]=cluscata_kmeans(Data, nblo, coupe, rho=rho[K], NameBlocks = NameBlocks, NameVar=NameVar, Itermax=Itermax,
-                                    Graph_groups=FALSE)
+                                    Graph_groups=FALSE, Warnings=Warnings)
 
   }
   names(cutree_k)=names(rho)=names(res.consol)=paste0("partition", 1:gpmax)

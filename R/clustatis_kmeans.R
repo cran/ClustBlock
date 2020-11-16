@@ -8,7 +8,7 @@
 ##' computed by the STATIS method. Moreover, a noise cluster can be set up.
 ##'
 ##' @usage
-##' clustatis_kmeans(Data, Blocks, clust, nstart=40, rho=0, NameBlocks=NULL,
+##' clustatis_kmeans(Data, Blocks, clust, nstart=100, rho=0, NameBlocks=NULL,
 ##' Itermax=30,Graph_groups=TRUE, Graph_weights=FALSE,
 ##'  scale=FALSE, print_attempt=FALSE)
 ##'
@@ -19,7 +19,7 @@
 ##'
 ##' @param clust numerical vector or integer. Initial partition or number of starting partitions if integer. If numerical vector, the numbers must be 1,2,3,...,number of clusters
 ##'
-##' @param nstart integer. Number of starting partitions. Default: 40
+##' @param nstart integer. Number of starting partitions. Default: 100
 ##'
 ##' @param rho numerical between 0 and 1. Threshold for the noise cluster. Default:0
 ##'
@@ -95,7 +95,7 @@
 
 
 
-clustatis_kmeans=function(Data,Blocks, clust, nstart=40, rho=0, NameBlocks=NULL,Itermax=30, Graph_groups=TRUE,
+clustatis_kmeans=function(Data,Blocks, clust, nstart=100, rho=0, NameBlocks=NULL,Itermax=30, Graph_groups=TRUE,
                           Graph_weights=FALSE, scale=FALSE, print_attempt=FALSE){
 
   nblo=length(Blocks)
@@ -186,13 +186,13 @@ clustatis_kmeans=function(Data,Blocks, clust, nstart=40, rho=0, NameBlocks=NULL,
   for (i in 1:nblo)
   {
     Xi=as.matrix(Data[,J==i])
-    Wi[,,i]=Xi%*%t(Xi)
-    nor=sqrt(sum(diag(Wi[,,i]%*%Wi[,,i])))
+    Wi[,,i]=tcrossprod(Xi)
+    nor=sqrt(sum(diag(crossprod(Wi[,,i]))))
     if(nor==0)
     {
       stop(paste("Configuration",i,"is constant"))
     }
-    Wi[,,i]=Wi[,,i]/sqrt(sum(diag(Wi[,,i]%*%Wi[,,i])))#standardization
+    Wi[,,i]=Wi[,,i]/nor#standardization
   }
 
   #####RV matrix#####
@@ -203,7 +203,7 @@ clustatis_kmeans=function(Data,Blocks, clust, nstart=40, rho=0, NameBlocks=NULL,
   {
     for (i in 1:(nblo-1)) {
       for (j in (i+1):nblo) {
-        RV[i,j]=sum(diag(Wi[,,i]%*%Wi[,,j]))
+        RV[i,j]=sum(diag(crossprod(Wi[,,i], Wi[,,j])))
         RV[j,i]=RV[i,j]
       } }
   }
@@ -266,9 +266,9 @@ clustatis_kmeans=function(Data,Blocks, clust, nstart=40, rho=0, NameBlocks=NULL,
           for (k in 1: ngroups)
           {
             W_k=as.matrix(Wk[,,k])
-            normW=sum(diag(W_k%*%W_k))
+            normW=sum(diag(crossprod(W_k)))
             W_i=Wi[,,i]
-            a=c(a,sum(diag(W_i%*%W_k))^2/(normW))
+            a=c(a,sum(diag(crossprod(W_i, W_k)))^2/(normW))
           }
           cr[[i]]=sqrt(a)
         }
@@ -372,9 +372,9 @@ clustatis_kmeans=function(Data,Blocks, clust, nstart=40, rho=0, NameBlocks=NULL,
         for (k in 1: ngroups)
         {
           W_k=as.matrix(Wk[,,k])
-          normW=sum(diag(W_k%*%W_k))
+          normW=sum(diag(crossprod(W_k)))
           W_i=Wi[,,i]
-          a=c(a,sum(diag(W_i%*%W_k))^2/(normW))
+          a=c(a,sum(diag(crossprod(W_i, W_k)))^2/(normW))
         }
         cr[[i]]=sqrt(a)
       }
@@ -499,9 +499,9 @@ clustatis_kmeans=function(Data,Blocks, clust, nstart=40, rho=0, NameBlocks=NULL,
     {
       W_k=as.matrix(Wk_bon[,,i])
       W_l=as.matrix(Wk_bon[,,j])
-      normWk=sqrt(sum(diag(W_k%*%W_k)))
-      normWl=sqrt(sum(diag(W_l%*%W_l)))
-      tab4[i,j]=sum(diag(W_l%*%W_k))/(normWl*normWk)
+      normWk=sqrt(sum(diag(crossprod(W_k))))
+      normWl=sqrt(sum(diag(crossprod(W_l))))
+      tab4[i,j]=sum(diag(crossprod(W_l, W_k)))/(normWl*normWk)
     }
   }
 

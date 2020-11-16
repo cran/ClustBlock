@@ -14,8 +14,8 @@
   # Computation of association matrices
   for(j in 1:nblo) {
     Xj=as.matrix(X[,J==j])
-    Wj[,,j]=Xj%*%t(Xj)
-    Wj[,,j]=Wj[,,j]/sqrt(sum(diag(Wj[,,j]%*%Wj[,,j])))  # standardisation so that ||Wj||=1
+    Wj[,,j]=tcrossprod(Xj)
+    Wj[,,j]=Wj[,,j]/sqrt(sum(diag(crossprod(Wj[,,j]))))  # standardisation so that ||Wj||=1
   }
 
   vp=.vp_rv_Wi(Wj)[2]

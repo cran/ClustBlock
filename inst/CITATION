@@ -5,6 +5,6 @@ bibentry(bibtype = "Manual",
                     person("Veronique", "Cariou"),
                     person("El Mostafa", "Qannari")),
 		 year = "2020",
-		 note = "R package version 2.2.1.",
-		 textVersion="Llobell, F., Vigneau, E., Cariou, V., Qannari, E.M. (2020). ClustBlock: Clustering of Datasets. R package version 2.2.1."
+		 note = "R package version 2.3.0",
+		 textVersion="Llobell, F., Vigneau, E., Cariou, V., Qannari, E.M. (2020). ClustBlock: Clustering of Datasets. R package version 2.3.0."
 )
