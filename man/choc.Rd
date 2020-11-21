@@ -17,6 +17,6 @@ data(choc)
 }
 \references{
 Courcoux, P., Qannari, E. M., Taylor, Y., Buck, D., & Greenhoff, K. (2012). Taxonomic free
-sorting. Food Quality and Preference, 23(1), 30–35.
+sorting. Food Quality and Preference, 23(1), 30-35.
 }
 \keyword{datasets}

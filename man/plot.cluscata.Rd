@@ -38,7 +38,7 @@ the CLUSCATA graphs
 This function plots dendrogram, variation of the merging criterion, weights and CATATIS map of each cluster
 }
 \examples{
-\dontrun{
+\donttest{
  data(straw)
  res=cluscata(Data=straw[,1:(16*40)], nblo=40)
  plot(res, ngroups=3, Graph_dend=FALSE)

@@ -42,11 +42,13 @@
 ##'
 ##'
 ##' @examples
-##'
+##' \donttest{
 ##'  data(smoo)
 ##'  NameBlocks=paste0("S",1:24)
 ##'  st=statis(Data=smoo,Blocks=rep(2,24),NameBlocks = NameBlocks)
 ##'  plot(st, axes=c(1,3), Graph_weights=FALSE)
+##'
+##'  }
 ##'
 ##' @seealso \code{\link{statis}}
 ##'

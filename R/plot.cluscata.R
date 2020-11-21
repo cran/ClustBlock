@@ -45,7 +45,7 @@
 ##' @keywords CATA
 ##'
 ##' @examples
-##'\dontrun{
+##'\donttest{
 ##'  data(straw)
 ##'  res=cluscata(Data=straw[,1:(16*40)], nblo=40)
 ##'  plot(res, ngroups=3, Graph_dend=FALSE)

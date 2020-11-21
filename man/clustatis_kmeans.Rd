@@ -65,6 +65,7 @@ computed by the STATIS method. Moreover, a noise cluster can be set up.
  partition=cl$cutree_k$partition3
  cl_km2=clustatis_kmeans(Data=smoo,Blocks=rep(2,24),NameBlocks = NameBlocks,
  clust=partition, Graph_weights=FALSE, Graph_groups=FALSE)
+ graphics.off()
 
 }
 \references{

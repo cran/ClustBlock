@@ -6,7 +6,7 @@
   n=dim(Wi)[1]
   nblo=dim(Wi)[3]
 
-  # % RV matrix:
+  # RV matrix:
   RV=matrix(0,nblo,nblo)
   diag(RV)=rep(1,nblo)
   if(nblo>1)

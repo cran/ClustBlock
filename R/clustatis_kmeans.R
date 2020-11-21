@@ -80,6 +80,7 @@
 ##'  partition=cl$cutree_k$partition3
 ##'  cl_km2=clustatis_kmeans(Data=smoo,Blocks=rep(2,24),NameBlocks = NameBlocks,
 ##'  clust=partition, Graph_weights=FALSE, Graph_groups=FALSE)
+##'  graphics.off()
 ##'
 ##' @seealso   \code{\link{plot.clustatis}}, \code{\link{clustatis}}, \code{\link{summary.clustatis}}, \code{\link{statis}}
 ##'

@@ -37,9 +37,11 @@
 ##' @keywords CATA
 ##'
 ##' @examples
+##'  \donttest{
 ##' data(straw)
 ##' res.cat=catatis(straw, nblo=114)
 ##' plot(res.cat, Graph_weights=FALSE, axes=c(1,3))
+##' }
 ##'
 ##' @seealso   \code{\link{catatis}}
 ##'
