@@ -238,11 +238,14 @@ statis=function(Data,Blocks,NameBlocks=NULL,Graph_obj=TRUE, Graph_weights=TRUE, 
     #inertia of axes
     pouriner=round(e$d/sum(e$d)*100,2)
     pouriner=pouriner[-length(pouriner)]
-    names(pouriner)=paste("Dim", 1:(nrow(Data)-1))
+    vp=e$d[-length(e$d)]
+    names(pouriner)=names(vp)=paste("Dim", 1:(nrow(Data)-1))
 
     #Graphical representation
     if (Graph_obj==TRUE)
     {
+      dev.new()
+      barplot(vp, col="blue", main="Eigenvalues")
       dev.new()
       par(xpd=FALSE)
       plot(C[,1],C[,2],type="n",lwd=5,pch=16,xlab=paste("Dim 1 (",pouriner[1],"%)"), ylab=paste("Dim 2 (",pouriner[2],"%)"),xlim=c(min(C[,1])-0.2,max(C[,1])+0.2),ylim=c(min(C[,2])-0.2,max(C[,2])+0.2))
@@ -264,10 +267,6 @@ statis=function(Data,Blocks,NameBlocks=NULL,Graph_obj=TRUE, Graph_weights=TRUE, 
       title("STATIS")
 
     }
-
-
-
-
 
 
   #RV with the compromise

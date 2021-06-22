@@ -3,8 +3,8 @@
 ##' @title Displays the CATATIS graphs
 ##'
 ##' @usage
-##'  \method{plot}{catatis}(x, Graph=TRUE, Graph_weights=TRUE, axes=c(1,2), tit="CATATIS", cex=1,
-##' col.obj="blue", col.attr="red", ...)
+##'  \method{plot}{catatis}(x, Graph=TRUE, Graph_weights=TRUE, Graph_eig=TRUE,
+##'   axes=c(1,2), tit="CATATIS", cex=1, col.obj="blue", col.attr="red", ...)
 ##'
 ##' @description
 ##' This function plots the CATATIS map and CATATIS weights
@@ -15,6 +15,8 @@
 ##' @param Graph logical. Show the graphical representation? Default: TRUE
 ##'
 ##' @param Graph_weights logical. Should the barplot of the weights be plotted? Default: TRUE
+##'
+##' @param Graph_eig logical. Should the barplot of the eigenvalues be plotted? Only with Graph=TRUE. Default: TRUE
 ##'
 ##' @param axes  numerical vector (length 2). Axes to be plotted
 ##'
@@ -53,7 +55,7 @@
 
 
 
-plot.catatis=function(x, Graph=TRUE, Graph_weights=TRUE, axes=c(1,2), tit="CATATIS", cex=1,
+plot.catatis=function(x, Graph=TRUE, Graph_weights=TRUE, Graph_eig=TRUE, axes=c(1,2), tit="CATATIS", cex=1,
                       col.obj="blue", col.attr="red", ...)
 {
 
@@ -67,6 +69,12 @@ plot.catatis=function(x, Graph=TRUE, Graph_weights=TRUE, axes=c(1,2), tit="CATAT
   #show graphical representation
   if(Graph==TRUE)
   {
+    vp=res.catatis$CA$eig[,1]
+    if (Graph_eig==TRUE)
+    {
+      dev.new()
+      barplot(vp, col="blue", main="Eigenvalues")
+    }
     dev.new()
     print(plot.CA(res.catatis$CA, axes=axes, title=tit, cex=cex, col.row=col.obj, col.col=col.attr))
   }

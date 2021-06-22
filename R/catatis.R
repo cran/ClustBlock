@@ -253,6 +253,8 @@ catatis=function(Data,nblo,NameBlocks=NULL, NameVar=NULL, Graph=TRUE, Graph_weig
   if (Graph==TRUE)
   {
     dev.new()
+    barplot(eigenvalues, col="blue", main="Eigenvalues")
+    dev.new()
     print(plot.CA(e,title=paste("CATATIS")))
   }
 

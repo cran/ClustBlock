@@ -5,7 +5,7 @@
 \title{Displays the STATIS graphs}
 \usage{
 \method{plot}{statis}(x, axes=c(1,2), Graph_obj=TRUE,
-Graph_weights=TRUE, tit="STATIS", col=NULL, cex=1, font=1,
+Graph_weights=TRUE, Graph_eig=TRUE, tit="STATIS", col=NULL, cex=1, font=1,
 xlim=NULL, ylim=NULL, ...)
 }
 \arguments{
@@ -16,6 +16,8 @@ xlim=NULL, ylim=NULL, ...)
 \item{Graph_obj}{logical. Should the compromise graphical representation be plotted? Default: TRUE}
 
 \item{Graph_weights}{logical. Should the barplot of the weights be plotted? Default: TRUE}
+
+\item{Graph_eig}{logical. Should the barplot of the eigenvalues be plotted? Only with Graph_obj=TRUE. Default: TRUE}
 
 \item{tit}{string. Title for the objects graphical representation. Default: 'STATIS'}
 

@@ -4,8 +4,8 @@
 \alias{plot.catatis}
 \title{Displays the CATATIS graphs}
 \usage{
-\method{plot}{catatis}(x, Graph=TRUE, Graph_weights=TRUE, axes=c(1,2), tit="CATATIS", cex=1,
-col.obj="blue", col.attr="red", ...)
+\method{plot}{catatis}(x, Graph=TRUE, Graph_weights=TRUE, Graph_eig=TRUE,
+  axes=c(1,2), tit="CATATIS", cex=1, col.obj="blue", col.attr="red", ...)
 }
 \arguments{
 \item{x}{object of class 'catatis'}
@@ -13,6 +13,8 @@ col.obj="blue", col.attr="red", ...)
 \item{Graph}{logical. Show the graphical representation? Default: TRUE}
 
 \item{Graph_weights}{logical. Should the barplot of the weights be plotted? Default: TRUE}
+
+\item{Graph_eig}{logical. Should the barplot of the eigenvalues be plotted? Only with Graph=TRUE. Default: TRUE}
 
 \item{axes}{numerical vector (length 2). Axes to be plotted}
 

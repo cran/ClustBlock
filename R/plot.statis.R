@@ -6,7 +6,7 @@
 ##'
 ##' @usage
 ##' \method{plot}{statis}(x, axes=c(1,2), Graph_obj=TRUE,
-##' Graph_weights=TRUE, tit="STATIS", col=NULL, cex=1, font=1,
+##' Graph_weights=TRUE, Graph_eig=TRUE, tit="STATIS", col=NULL, cex=1, font=1,
 ##' xlim=NULL, ylim=NULL, ...)
 ##'
 ##' @description
@@ -18,6 +18,8 @@
 ##' @param Graph_obj logical. Should the compromise graphical representation be plotted? Default: TRUE
 ##'
 ##' @param Graph_weights logical. Should the barplot of the weights be plotted? Default: TRUE
+##'
+##' @param Graph_eig logical. Should the barplot of the eigenvalues be plotted? Only with Graph_obj=TRUE. Default: TRUE
 ##'
 ##' @param axes  numerical vector (length 2). Axes to be plotted. Default: c(1,2)
 ##'
@@ -58,8 +60,8 @@
 
 
 
-plot.statis=function(x, axes=c(1,2), Graph_obj=TRUE, Graph_weights=TRUE, tit="STATIS",
-                     col=NULL, cex=1, font=1, xlim=NULL, ylim=NULL, ...)
+plot.statis=function(x, axes=c(1,2), Graph_obj=TRUE, Graph_weights=TRUE, Graph_eig=TRUE,
+                     tit="STATIS", col=NULL, cex=1, font=1, xlim=NULL, ylim=NULL, ...)
 {
 
   res.statis=x
@@ -75,6 +77,12 @@ plot.statis=function(x, axes=c(1,2), Graph_obj=TRUE, Graph_weights=TRUE, tit="ST
     if(is.null(col)==TRUE)
     {
       col=rainbow(nrow(C))
+    }
+    vp=res.statis$eigenvalues
+    if (Graph_eig==TRUE)
+    {
+      dev.new()
+      barplot(vp, col="blue", main="Eigenvalues")
     }
     pouriner=res.statis$inertia
     un=axes[1]

@@ -8,16 +8,16 @@
   \tabular{ll}{
     Package: \tab ClustBlock\cr
     Type: \tab Package\cr
-    Version: \tab 2.2.0\cr
-    First version Date: \tab 2019-11-29\cr
-    Last version Date: \tab 2020-04-23\cr
+    Version: \tab 2.3.1\cr
+    First version Date: \tab 2019-03-06\cr
+    Last version Date: \tab 2020-11-21\cr
   }
 }
 
 \author{
   Fabien Llobell, Evelyne Vigneau, Veronique Cariou, El Mostafa Qannari
 
-  Maintainer: \email{fabien.llobell@oniris-nantes.fr}
+  Maintainer: \email{fllobell@hotmail.fr}
 }
 
 \references{
