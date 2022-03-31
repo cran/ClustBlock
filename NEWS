@@ -1,3 +1,3 @@
-Changes in ClustBlock 2.4.0 (2021-06-22)
-*New function: simil_groups_cata: Testing the difference in perception between two predetermined groups of subjects in a CATA experiment
-* Barplot of eigenvalues in CATATIS and STATIS
+Changes in ClustBlock 2.4.1 (2022-03-31)
+*Set the TestOnlyOneClust parameter to False by default to decrease the computing time
+*Minor changes

@@ -8,9 +8,9 @@
   \tabular{ll}{
     Package: \tab ClustBlock\cr
     Type: \tab Package\cr
-    Version: \tab 2.3.1\cr
+    Version: \tab 2.4.1\cr
     First version Date: \tab 2019-03-06\cr
-    Last version Date: \tab 2020-11-21\cr
+    Last version Date: \tab 2022-03-31\cr
   }
 }
 
@@ -33,4 +33,5 @@ Llobell, F., Giacalone, D., Labenne, A., & Qannari, E. M. (2019). Assessment of 
 \keyword{Projective mapping}
 \keyword{Sensory}
 \keyword{Noise Cluster}
-
+\keyword{CATA}
+\keyword{Cluster analysis}

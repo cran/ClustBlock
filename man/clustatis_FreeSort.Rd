@@ -6,7 +6,7 @@
 \usage{
 clustatis_FreeSort(Data, NameSub=NULL, Noise_cluster=FALSE,Itermax=30,
                            Graph_dend=TRUE, Graph_bar=TRUE, printlevel=FALSE,
-                           gpmax=min(6, ncol(Data)-1), Testonlyoneclust=TRUE,
+                           gpmax=min(6, ncol(Data)-1), Testonlyoneclust=FALSE,
                            alpha=0.05, nperm=50)
 }
 \arguments{
@@ -26,7 +26,7 @@ clustatis_FreeSort(Data, NameSub=NULL, Noise_cluster=FALSE,Itermax=30,
 
 \item{gpmax}{logical. What is maximum number of clusters to consider? Default: min(6, ncol(Data)-1)}
 
-\item{Testonlyoneclust}{logical. Test if there is more than one cluster? Default: TRUE}
+\item{Testonlyoneclust}{logical. Test if there is more than one cluster? Default: FALSE}
 
 \item{alpha}{numerical between 0 and 1. What is the threshold to test if there is more than one cluster? Default: 0.05}
 
