@@ -29,7 +29,7 @@
 print.cluscata=function(x, ...)
 {
   res.cluscata=x
-  if(class(res.cluscata)!="cluscata")
+  if(inherits(res.cluscata, "cluscata")==FALSE)
   {
     stop("The class of the object must be 'cluscata'")
   }

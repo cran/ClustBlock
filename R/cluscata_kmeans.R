@@ -1,7 +1,7 @@
 ##=============================================================================
 
 
-##' @title Compute the CLUSCATA partitionning algorithm on different blocks of binary variables from a CATA experiment. Can be performed using a multi start strategy or initial partition provided by the user
+##' @title Compute the CLUSCATA partitionning algorithm on different blocks from a CATA experiment. Can be performed using a multi start strategy or initial partition provided by the user
 ##'
 ##'
 ##' @description
@@ -60,10 +60,12 @@
 ##' Llobell, F., Giacalone, D., Labenne, A.,  Qannari, E.M. (2019).	Assessment of the agreement and cluster analysis of the respondents in a CATA experiment.	Food Quality and Preference, 77, 184-190.
 ##'
 ##' @examples
+##' \donttest{
 ##' data(straw)
 ##' cl_km=cluscata_kmeans(Data=straw[,1:(16*40)], nblo=40, clust=3)
-##' plot(cl_km, Graph_groups=FALSE, Graph_weights = TRUE)
+##' #plot(cl_km, Graph_groups=FALSE, Graph_weights = TRUE)
 ##' summary(cl_km)
+##'}
 ##'
 ##' @seealso   \code{\link{plot.cluscata}} , \code{\link{summary.cluscata}}, \code{\link{catatis}}, \code{\link{cluscata}}, \code{\link{change_cata_format}}
 ##'
@@ -124,12 +126,6 @@ cluscata_kmeans=function(Data,nblo, clust, nstart=100, rho=0, NameBlocks=NULL, N
     }
   }
 
-  #parapet for binary Data
-  if ((sum(Data==0)+sum(Data==1))!=(dim(Data)[1]*dim(Data)[2]))
-  {
-    stop("only binary Data is accepted (0 or 1)")
-  }
-
   #parapet for number of objects
   if(n<3)
   {
@@ -164,7 +160,7 @@ cluscata_kmeans=function(Data,nblo, clust, nstart=100, rho=0, NameBlocks=NULL, N
   for (i in 1:nblo)
   {
     Ai=as.matrix(X[,J==i])
-    nor=sqrt(sum(Ai==1))
+    nor=sqrt(sum(diag(tcrossprod(Ai,Ai))))
     if(nor==0)
     {
       stop(paste("error: the subject",NameBlocks[i], "has only 0"))

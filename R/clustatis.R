@@ -86,7 +86,7 @@
 ##'  data(smoo)
 ##'  NameBlocks=paste0("S",1:24)
 ##'  cl=clustatis(Data=smoo,Blocks=rep(2,24),NameBlocks = NameBlocks)
-##'  plot(cl, ngroups=3, Graph_dend=FALSE)
+##'  #plot(cl, ngroups=3, Graph_dend=FALSE)
 ##'  summary(cl)
 ##'  #with noise cluster
 ##'  cl2=clustatis(Data=smoo,Blocks=rep(2,24),NameBlocks = NameBlocks,

@@ -1,11 +1,12 @@
 ##=============================================================================
 
 
-##' @title Perform a cluster analysis of blocks of binary variables from a CATA experiment
+##' @title Perform a cluster analysis of blocks from a CATA experiment
 ##'
 ##' @description
-##' Hierarchical clustering of blocks of binary data from a CATA experiment. Each cluster of blocks is associated with a compromise
-##' computed by the CATATIS method. The hierarchical clustering is followed by a partitioning algorithm (consolidation)
+##' Hierarchical clustering of blocks from a CATA experiment. Each cluster of blocks is associated with a compromise
+##' computed by the CATATIS method. The hierarchical clustering is followed by a partitioning algorithm (consolidation).
+##' Non-binary data are accepted.
 ##'
 ##' @usage
 ##'cluscata(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE,
@@ -80,16 +81,22 @@
 ##' data(straw)
 ##' #with 40 subjects
 ##' res=cluscata(Data=straw[,1:(16*40)], nblo=40)
-##' plot(res, ngroups=3, Graph_dend=FALSE)
+##' #plot(res, ngroups=3, Graph_dend=FALSE)
 ##' summary(res, ngroups=3)
 ##' #With noise cluster
 ##' res2=cluscata(Data=straw[,1:(16*40)], nblo=40, Noise_cluster=TRUE,
 ##' Graph_dend=FALSE, Graph_bar=FALSE)
 ##' #with all subjects
 ##' res=cluscata(Data=straw, nblo=114, printlevel=TRUE)
+##'
+##'
+##' #Vertical format
+##' Data=PB_tuna[1:66,2:30]
+##' chang2=change_cata_format2(Data, nprod= 6, nattr= 27, nsub = 11, nsess= 1)
+##' res3=cluscata(Data= chang2$Datafinal, nblo = 11, NameBlocks =  chang2$NameSub)
 ##' }
 ##'
-##' @seealso   \code{\link{plot.cluscata}}, \code{\link{summary.cluscata}} , \code{\link{catatis}}, \code{\link{cluscata_kmeans}}, \code{\link{change_cata_format}}
+##' @seealso   \code{\link{plot.cluscata}}, \code{\link{summary.cluscata}} , \code{\link{catatis}}, \code{\link{cluscata_kmeans}}, \code{\link{change_cata_format}}, \code{\link{change_cata_format2}}
 ##'
 ##' @export
 
@@ -138,13 +145,7 @@ cluscata=function(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE
     }
   }
 
-  #parapet for binary Data
-  if ((sum(Data==0)+sum(Data==1))!=(dim(Data)[1]*dim(Data)[2]))
-  {
-    stop("only binary Data is accepted (0 or 1)")
-  }
-
-  #parapet for number of objects
+    #parapet for number of objects
   if(n<3)
   {
     stop("At least 3 products are required")
@@ -186,7 +187,7 @@ cluscata=function(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE
   for(j in 1:nblo)
   {
     Aj=as.matrix(X[,J==j])
-    normXi=sqrt(sum(Aj==1))
+    normXi=sqrt(sum(diag(tcrossprod(Aj,Aj))))
     muk[j]=normXi
     if(normXi==0)
     {

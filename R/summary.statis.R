@@ -42,7 +42,7 @@
 summary.statis=function(object, ...)
 {
   res.statis=object
-  if(class(res.statis)!="statis")
+  if(inherits(res.statis, "statis")==FALSE)
   {
     stop("The class of the object must be 'statis'")
   }

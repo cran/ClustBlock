@@ -46,13 +46,12 @@
 ##' consistency_cata(Data=straw, nblo=114, printAttrTest=TRUE)
 ##'}
 ##'
-##' @seealso   \code{\link{consistency_cata_panel}}, \code{\link{change_cata_format}}
+##' @seealso   \code{\link{consistency_cata_panel}}, \code{\link{change_cata_format}}, \code{\link{change_cata_format2}}
 ##'
 ##' @export
 
 
 ##=============================================================================
-
 
 consistency_cata=function(Data,nblo, nperm=100, alpha=0.05, printAttrTest=FALSE)
 {
@@ -70,12 +69,6 @@ consistency_cata=function(Data,nblo, nperm=100, alpha=0.05, printAttrTest=FALSE)
     {
       stop(paste("The data must be numeric (column",i,")"))
     }
-  }
-
-  #parapet for binary Data
-  if ((sum(Data==0)+sum(Data==1))!=(dim(Data)[1]*dim(Data)[2]))
-  {
-    stop("only binary Data is accepted (0 or 1)")
   }
 
   #no NA
@@ -100,7 +93,7 @@ consistency_cata=function(Data,nblo, nperm=100, alpha=0.05, printAttrTest=FALSE)
   {
     for (k in 1:nblo)
     {
-      normk=sqrt(sum(Xi[,j,k]))
+      normk=sqrt(sum(diag(tcrossprod(Xi[,j,k],Xi[,j,k]))))
       if(normk>0)
       {
         Tabi[,k,j]=Xi[,j,k]/normk
@@ -140,8 +133,7 @@ consistency_cata=function(Data,nblo, nperm=100, alpha=0.05, printAttrTest=FALSE)
   names(l1)=colnames(Data[,1:nattr])
   hom=(l1/nblo)*100
 
-  # with permutations:
-
+  # Permutations:
   res_perm2=matrix(0, nperm, nattr)
   for (k in 1:nattr)
   {

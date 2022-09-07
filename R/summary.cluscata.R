@@ -46,7 +46,7 @@
 summary.cluscata=function(object, ngroups=NULL, ...)
 {
   res.cluscata=object
-  if(class(res.cluscata)!="cluscata")
+  if(inherits(res.cluscata, "cluscata")==FALSE)
   {
     stop("The class of the object must be 'cluscata'")
   }

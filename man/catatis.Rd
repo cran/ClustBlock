@@ -2,14 +2,15 @@
 % Please edit documentation in R/catatis.R
 \name{catatis}
 \alias{catatis}
-\title{Perform the CATATIS method on different blocks of binary data from a CATA experiment}
+\title{Perform the CATATIS method on different blocks from a CATA experiment}
 \usage{
-catatis(Data,nblo,NameBlocks=NULL, NameVar=NULL, Graph=TRUE, Graph_weights=TRUE)
+catatis(Data,nblo,NameBlocks=NULL, NameVar=NULL, Graph=TRUE, Graph_weights=TRUE,
+ Test_weights=FALSE, nperm=100)
 }
 \arguments{
 \item{Data}{data frame or matrix where the blocks of binary variables are merged horizontally. If you have a different format, see \code{\link{change_cata_format}}}
 
-\item{nblo}{numerical. Number of blocks (subjects).}
+\item{nblo}{integer. Number of blocks (subjects).}
 
 \item{NameBlocks}{string vector. Name of each block (subject). Length must be equal to the number of blocks. If NULL, the names are S1,...Sm. Default: NULL}
 
@@ -18,6 +19,10 @@ catatis(Data,nblo,NameBlocks=NULL, NameVar=NULL, Graph=TRUE, Graph_weights=TRUE)
 \item{Graph}{logical. Show the graphical representation? Default: TRUE}
 
 \item{Graph_weights}{logical. Should the barplot of the weights be plotted? Default: TRUE}
+
+\item{Test_weights}{logical. Should the the weights be tested? Default: FALSE}
+
+\item{nperm}{integer. Number of permutation for the weight tests. Default: 100}
 }
 \value{
 a list with:
@@ -25,6 +30,7 @@ a list with:
          \item S: the S matrix: a matrix with the similarity coefficient among the subjects
          \item compromise: a matrix which is the compromise of the subjects (akin to a weighted average)
          \item weights: the weights associated with the subjects to build the compromise
+         \item weights_tests: the weights tests results
          \item lambda:  the first eigenvalue of the S matrix
          \item overall error: the error for the CATATIS criterion
          \item error_by_sub: the error by subject (CATATIS criterion)
@@ -40,18 +46,30 @@ a list with:
          }
 }
 \description{
-CATATIS method on binary blocks. Additional outputs are also computed
+CATATIS method. Additional outputs are also computed. Non-binary data are accepted and weights can be tested.
 }
 \examples{
 data(straw)
 res.cat=catatis(straw, nblo=114)
 summary(res.cat)
+plot(res.cat)
+
+#Vertical format with sessions
+data("PB_tuna")
+chang=change_cata_format2(PB_tuna, nprod= 6, nattr= 27, nsub = 12, nsess= 3)
+res.cat2=catatis(Data= chang$Datafinal, nblo = 12, NameBlocks =  chang$NameSub, Test_weights=TRUE)
+
+#Vertical format without sessions
+Data=PB_tuna[1:66,2:30]
+chang2=change_cata_format2(Data, nprod= 6, nattr= 27, nsub = 11, nsess= 1)
+res.cat3=catatis(Data= chang2$Datafinal, nblo = 11, NameBlocks =  chang2$NameSub)
 
 }
 \references{
 Llobell, F., Cariou, V., Vigneau, E., Labenne, A., & Qannari, E. M. (2019). A new approach for the analysis of data and the clustering of subjects in a CATA experiment. Food Quality and Preference, 72, 31-39.
+Bonnet, L., Ferney, T., Riedel, T., Qannari, E.M., Llobell, F. (September 14, 2022) .Using CATA for sensory profiling: assessment of the panel performance. Eurosense, Turku, Finland.
 }
 \seealso{
-\code{\link{plot.catatis}}, \code{\link{summary.catatis}}, \code{\link{cluscata}}, \code{\link{change_cata_format}}
+\code{\link{plot.catatis}}, \code{\link{summary.catatis}}, \code{\link{cluscata}}, \code{\link{change_cata_format}}, \code{\link{change_cata_format2}}
 }
 \keyword{CATA}

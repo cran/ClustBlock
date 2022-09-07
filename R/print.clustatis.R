@@ -30,7 +30,7 @@
 print.clustatis=function(x, ...)
 {
   res.clustatis=x
-  if(class(res.clustatis)!="clustatis")
+  if(inherits(res.clustatis, "clustatis")==FALSE)
   {
     stop("The class of the object must be 'clustatis'")
   }

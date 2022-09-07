@@ -47,7 +47,7 @@
 summary.clustatis=function(object, ngroups=NULL, ...)
 {
   res.clustatis=object
-  if(class(res.clustatis)!="clustatis")
+  if(inherits(res.clustatis, "clustatis")==FALSE)
   {
     stop("The class of the object must be 'clustatis'")
   }

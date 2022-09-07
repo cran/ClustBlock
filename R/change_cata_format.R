@@ -6,10 +6,12 @@
 ##' change_cata_format(Data, nprod, nattr, nsub, format=1, NameProds=NULL, NameAttr=NULL)
 ##'
 ##' @description
-##' CATATIS and CLUSCATA operate on data where the blocks of binary variables are merged horizontally.
+##' CATATIS and CLUSCATA operate on data where the blocksvariables are merged horizontally.
 ##' If you have a different format, you can use this function to change the format.
-##' Format=1 is for data merged vertically with the dataset of the first subject, then the second,...
-##' Format=2 is for data merged vertically with the dataset for the first product, then the second...
+##' Format=1 is for data merged vertically with the dataset of the first subject, then the second,... with products in same order
+##' Format=2 is for data merged vertically with the dataset for the first product, then the second... with subjects in same order
+##'
+##' Unlike change_cata_format2, you don't need to specify products and subjects, just make sure they are in the right order.
 ##'
 ##' @param Data data frame or matrix. Correspond to your data
 ##'
@@ -33,7 +35,7 @@
 ##'
 ##' @keywords CATA
 ##'
-##' @seealso   \code{\link{catatis}}, \code{\link{cluscata}}
+##' @seealso   \code{\link{catatis}}, \code{\link{cluscata}}, \code{\link{change_cata_format2}}
 ##'
 ##' @export
 

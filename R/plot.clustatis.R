@@ -66,7 +66,7 @@ plot.clustatis=function(x, ngroups=NULL, Graph_groups=TRUE, Graph_dend=TRUE,
                         cex=1,font=1, ...)
 {
   res.clustatis=x
-  if(class(res.clustatis)!="clustatis")
+  if(inherits(res.clustatis, "clustatis")==FALSE)
   {
     stop("The class of the object must be 'clustatis'")
   }

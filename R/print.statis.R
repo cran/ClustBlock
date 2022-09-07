@@ -31,7 +31,7 @@
 print.statis=function(x, ...)
 {
   res.statis=x
-  if(class(res.statis)!="statis")
+  if(inherits(res.statis, "statis")==FALSE)
   {
     stop("The class of the object must be 'statis'")
   }

@@ -67,7 +67,7 @@ plot.cluscata=function(x, ngroups=NULL, Graph_groups=TRUE, Graph_dend=TRUE,
                        col.obj="blue", col.attr="red", ...)
 {
   res.cluscata=x
-  if(class(res.cluscata)!="cluscata")
+  if(inherits(res.cluscata, "cluscata")==FALSE)
   {
     stop("The class of the object must be 'cluscata'")
   }

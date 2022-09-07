@@ -41,7 +41,7 @@
 summary.catatis=function(object, ...)
 {
   res.catatis=object
-  if(class(res.catatis)!="catatis")
+  if(inherits(res.catatis, "catatis")==FALSE)
   {
     stop("The class of the object must be 'catatis'")
   }

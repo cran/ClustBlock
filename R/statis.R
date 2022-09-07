@@ -64,6 +64,7 @@
 ##'  data(smoo)
 ##'  NameBlocks=paste0("S",1:24)
 ##'  st=statis(Data=smoo, Blocks=rep(2,24),NameBlocks = NameBlocks)
+##'  #plot(st, axes=c(1,3))
 ##'  summary(st)
 ##'  #with variables scaling
 ##'  st2=statis(Data=smoo, Blocks=rep(2,24),NameBlocks = NameBlocks, Graph_weights=FALSE, scale=TRUE)

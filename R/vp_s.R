@@ -15,7 +15,7 @@
   for(j in 1:nblo)
   {
     Aj=as.matrix(X[,J==j])
-    normXj=sqrt(sum(Aj==1))
+    normXj=sqrt(sum(diag(tcrossprod(Aj,Aj))))
     muk[j]=normXj
     if(normXj==0)
     {

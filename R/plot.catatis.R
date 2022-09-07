@@ -60,7 +60,7 @@ plot.catatis=function(x, Graph=TRUE, Graph_weights=TRUE, Graph_eig=TRUE, axes=c(
 {
 
   res.catatis=x
-  if(class(res.catatis)!="catatis")
+  if(inherits(res.catatis, "catatis")==FALSE)
   {
     stop("The class of the object must be 'catatis'")
   }

@@ -24,6 +24,7 @@
 ##'         \itemize{
 ##'          \item answer: the answer of the test
 ##'          \item pval: pvalue of the test
+##'          \item dis: distance between the homogeneity and the median of the permutations
 ##'          }
 ##'
 ##'
@@ -32,7 +33,7 @@
 ##'
 ##' @references
 ##' Llobell, F., Giacalone, D., Labenne, A.,  Qannari, E.M. (2019).	Assessment of the agreement and cluster analysis of the respondents in a CATA experiment.	Food Quality and Preference, 77, 184-190.
-##'
+##' Bonnet, L., Ferney, T., Riedel, T., Qannari, E.M., Llobell, F. (September 14, 2022) .Using CATA for sensory profiling: assessment of the panel performance. Eurosense, Turku, Finland.
 ##'
 ##' @examples
 ##'\donttest{
@@ -41,13 +42,12 @@
 ##' consistency_cata_panel(Data=straw, nblo=114)
 ##'}
 ##'
-##' @seealso   \code{\link{consistency_cata}}, \code{\link{change_cata_format}}
+##' @seealso   \code{\link{consistency_cata}}, \code{\link{change_cata_format}}, \code{\link{change_cata_format2}}
 ##'
 ##' @export
 
 
 ##=============================================================================
-
 consistency_cata_panel=function(Data,nblo, nperm=100, alpha=0.05)
 {
   nprod=nrow(Data)
@@ -66,11 +66,11 @@ consistency_cata_panel=function(Data,nblo, nperm=100, alpha=0.05)
     }
   }
 
-  #parapet for binary Data
-  if ((sum(Data==0)+sum(Data==1))!=(dim(Data)[1]*dim(Data)[2]))
-  {
-    stop("only binary Data is accepted (0 or 1)")
-  }
+  # #parapet for binary Data
+  # if ((sum(Data==0)+sum(Data==1))!=(dim(Data)[1]*dim(Data)[2]))
+  # {
+  #   stop("only binary Data is accepted (0 or 1)")
+  # }
 
   #no NA
   if(sum(is.na(Data))>0)
@@ -87,7 +87,7 @@ consistency_cata_panel=function(Data,nblo, nperm=100, alpha=0.05)
   for(j in 1:nblo)
   {
     Aj=as.matrix(X[,J==j])
-    normXj=sqrt(sum(Aj==1))
+    normXj=sqrt(sum(diag(tcrossprod(Aj, Aj))))
     muk[j]=normXj
     if(normXj==0)
     {
@@ -120,19 +120,14 @@ consistency_cata_panel=function(Data,nblo, nperm=100, alpha=0.05)
 
     for(j in 1:nblo)
     {
-      Aj_perm=Aj=as.matrix(X[,J==j])
-      normXj=sqrt(sum(Aj_perm==1))
+      Aj_perm=Aj=as.matrix(Xj[,,j])
       tirage=sample(1:nrow(X))
       for (i in 1:nrow(X))
       {
         Aj_perm[i,]=Aj[tirage[i],]
       }
 
-      if(normXj==0)
-      {
-        stop(paste("error: the subject", j, "has only 0 or only 1"))  #parapet for constant configurations
-      }
-      Xj[,,j]=Aj_perm/normXj #standardization
+      Xj[,,j]=Aj_perm
     }
 
 
@@ -160,5 +155,7 @@ consistency_cata_panel=function(Data,nblo, nperm=100, alpha=0.05)
     consist="the panel is not consistent"
   }
 
-  return(list(answer= consist, pval=pval))
+  dis=hom-median(hom_perm)
+
+  return(list(answer= consist, pval=pval, dis=dis))
 }

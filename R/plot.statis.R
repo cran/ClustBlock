@@ -65,7 +65,7 @@ plot.statis=function(x, axes=c(1,2), Graph_obj=TRUE, Graph_weights=TRUE, Graph_e
 {
 
   res.statis=x
-  if(class(res.statis)!="statis")
+  if(inherits(res.statis, "statis")==FALSE)
   {
     stop("The class of the object must be 'statis'")
   }

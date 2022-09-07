@@ -20,6 +20,7 @@ a list with:
         \itemize{
          \item answer: the answer of the test
          \item pval: pvalue of the test
+         \item dis: distance between the homogeneity and the median of the permutations
          }
 }
 \description{
@@ -35,8 +36,9 @@ consistency_cata_panel(Data=straw, nblo=114)
 }
 \references{
 Llobell, F., Giacalone, D., Labenne, A.,  Qannari, E.M. (2019).	Assessment of the agreement and cluster analysis of the respondents in a CATA experiment.	Food Quality and Preference, 77, 184-190.
+Bonnet, L., Ferney, T., Riedel, T., Qannari, E.M., Llobell, F. (September 14, 2022) .Using CATA for sensory profiling: assessment of the panel performance. Eurosense, Turku, Finland.
 }
 \seealso{
-\code{\link{consistency_cata}}, \code{\link{change_cata_format}}
+\code{\link{consistency_cata}}, \code{\link{change_cata_format}}, \code{\link{change_cata_format2}}
 }
 \keyword{CATA}
