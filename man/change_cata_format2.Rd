@@ -29,12 +29,12 @@ Unlike change_cata_format function, you can enter data with sessions and/or mixe
 \examples{
 
 #Vertical format with sessions
-data("PB_tuna")
-chang=change_cata_format2(PB_tuna, nprod= 6, nattr= 27, nsub = 12, nsess= 3)
+data("fish")
+chang=change_cata_format2(fish, nprod= 6, nattr= 27, nsub = 12, nsess= 3)
 res.cat2=catatis(Data= chang$Datafinal, nblo = 12, NameBlocks =  chang$NameSub)
 
 #Vertical format without sessions
-Data=PB_tuna[1:66,2:30]
+Data=fish[1:66,2:30]
 chang2=change_cata_format2(Data, nprod= 6, nattr= 27, nsub = 11, nsess= 1)
 res.cat3=catatis(Data= chang2$Datafinal, nblo = 11, NameBlocks =  chang2$NameSub)
 res.clu3=cluscata(Data= chang2$Datafinal, nblo = 11, NameBlocks =  chang2$NameSub)
@@ -44,3 +44,4 @@ res.clu3=cluscata(Data= chang2$Datafinal, nblo = 11, NameBlocks =  chang2$NameSu
 \code{\link{catatis}}, \code{\link{cluscata}}, \code{\link{change_cata_format}}
 }
 \keyword{CATA}
+\keyword{RATA}

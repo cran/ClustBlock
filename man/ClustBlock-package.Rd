@@ -3,14 +3,14 @@
 \alias{ClustBlock}
 \docType{package}
 \title{Clustering of Datasets}
-\description{ Hierarchical and partitioning algorithms of blocks of variables.The CLUSTATIS method and the CLUSCATA method are the core of this package. The CATATIS methods allows to compute some indices and tests to control the quality of CATA data. Multivariate analysis and clustering of subjects for quantitative multiblock data, CATA, Free Sorting and JAR experiments are available.}
+\description{ Hierarchical and partitioning algorithms of blocks of variables.The CLUSTATIS method and the CLUSCATA method are the core of this package. The CATATIS methods allows to compute some indices and tests to control the quality of CATA data. Multivariate analysis and clustering of subjects for quantitative multiblock data, CATA, RATA, Free Sorting and JAR experiments are available.}
 \details{
   \tabular{ll}{
     Package: \tab ClustBlock\cr
     Type: \tab Package\cr
-    Version: \tab 3.0.0\cr
+    Version: \tab 3.1.0\cr
     First version Date: \tab 2019-03-06\cr
-    Last version Date: \tab 2022-09-07\cr
+    Last version Date: \tab 2023-03-03\cr
   }
 }
 
@@ -41,3 +41,5 @@ Llobell, F. (2020). Classification de tableaux de données, applications en anal
 \keyword{Free Sorting}
 \keyword{Just About Right}
 \keyword{JAR}
+\keyword{RATE-All-That-Apply}
+\keyword{RATA}

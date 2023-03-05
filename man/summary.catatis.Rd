@@ -27,3 +27,4 @@ This function shows the CATATIS results
 \code{\link{catatis}}
 }
 \keyword{CATA}
+\keyword{RATA}

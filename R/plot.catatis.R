@@ -36,7 +36,7 @@
 ##' @return the CATATIS map
 ##'
 ##'
-##' @keywords CATA
+##' @keywords CATA RATA
 ##'
 ##' @examples
 ##'  \donttest{

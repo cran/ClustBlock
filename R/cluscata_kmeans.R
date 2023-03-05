@@ -1,12 +1,11 @@
 ##=============================================================================
 
 
-##' @title Compute the CLUSCATA partitionning algorithm on different blocks from a CATA experiment. Can be performed using a multi start strategy or initial partition provided by the user
+##' @title Compute the CLUSCATA partitioning algorithm on different blocks from a CATA experiment. Can be performed using a multi-start strategy or initial partition provided by the user.
 ##'
 ##'
 ##' @description
-##' Partitionning of binary Blocks from a CATA experiment. Each cluster is associated with a compromise
-##' computed by the CATATIS method. Moreover, a noise cluster can be set up.
+##' Partitioning of binary Blocks from a CATA experiment. Each cluster is associated with a compromise computed by the CATATIS method. Moreover, a noise cluster can be set up.
 ##'
 ##' @usage
 ##'cluscata_kmeans(Data,nblo, clust, nstart=100, rho=0, NameBlocks=NULL, NameVar=NULL,

@@ -4,8 +4,10 @@
 \name{smoo}
 \alias{smoo}
 \title{smoothies data}
-\format{Projective mapping (or Napping) data. A data frame with 8 rows (the number of smoothies) and 48 columns (the number of consumers * 2).
- For each consumer, we have the coordinates of the products on the sheet of paper.}
+\format{
+Projective mapping (or Napping) data. A data frame with 8 rows (the number of smoothies) and 48 columns (the number of consumers * 2).
+ For each consumer, we have the coordinates of the products on the sheet of paper.
+}
 \usage{
 data(smoo)
 }

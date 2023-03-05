@@ -24,7 +24,7 @@
 ##'          }
 ##'
 ##'
-##' @keywords CATA
+##' @keywords CATA RATA
 ##'
 ##'
 ##' @seealso   \code{\link{catatis}}

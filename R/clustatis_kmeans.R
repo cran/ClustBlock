@@ -1,11 +1,10 @@
 ##=============================================================================
 
-##' @title Compute the CLUSTATIS partitionning algorithm on different blocks of quantitative variables. Can be performed using a multi start strategy or initial partition provided by the user
+##' @title Compute the CLUSTATIS partitioning algorithm on different blocks of quantitative variables. Can be performed using a multi-start strategy or initial partition provided by the user.
 ##'
 ##'
 ##' @description
-##' Partitionning algorithm for quantitative variables. Each cluster is associated with a compromise
-##' computed by the STATIS method. Moreover, a noise cluster can be set up.
+##' Partitioning algorithm for quantitative variables. Each cluster is associated with a compromise computed by the STATIS method. Moreover, a noise cluster can be set up.
 ##'
 ##' @usage
 ##' clustatis_kmeans(Data, Blocks, clust, nstart=100, rho=0, NameBlocks=NULL,

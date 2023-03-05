@@ -18,3 +18,4 @@ Print the CATATIS results
 \code{\link{catatis}}
 }
 \keyword{CATA}
+\keyword{RATA}

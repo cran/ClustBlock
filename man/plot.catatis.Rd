@@ -46,3 +46,4 @@ plot(res.cat, Graph_weights=FALSE, axes=c(1,3))
 \code{\link{catatis}}
 }
 \keyword{CATA}
+\keyword{RATA}

@@ -85,7 +85,8 @@ res=cluscata(Data=straw, nblo=114, printlevel=TRUE)
 
 
 #Vertical format
-Data=PB_tuna[1:66,2:30]
+data("fish")
+Data=fish[1:66,2:30]
 chang2=change_cata_format2(Data, nprod= 6, nattr= 27, nsub = 11, nsess= 1)
 res3=cluscata(Data= chang2$Datafinal, nblo = 11, NameBlocks =  chang2$NameSub)
 }

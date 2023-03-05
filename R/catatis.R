@@ -47,10 +47,10 @@
 ##'
 ##'
 ##'
-##' @keywords CATA
+##' @keywords CATA RATA
 ##'
 ##' @references
-##' Llobell, F., Cariou, V., Vigneau, E., Labenne, A., & Qannari, E. M. (2019). A new approach for the analysis of data and the clustering of subjects in a CATA experiment. Food Quality and Preference, 72, 31-39.
+##' Llobell, F., Cariou, V., Vigneau, E., Labenne, A., & Qannari, E. M. (2019). A new approach for the analysis of data and the clustering of subjects in a CATA experiment. Food Quality and Preference, 72, 31-39.\cr
 ##' Bonnet, L., Ferney, T., Riedel, T., Qannari, E.M., Llobell, F. (September 14, 2022) .Using CATA for sensory profiling: assessment of the panel performance. Eurosense, Turku, Finland.
 ##'
 ##' @importFrom FactoMineR CA
@@ -67,14 +67,25 @@
 ##' plot(res.cat)
 ##'
 ##' #Vertical format with sessions
-##' data("PB_tuna")
-##' chang=change_cata_format2(PB_tuna, nprod= 6, nattr= 27, nsub = 12, nsess= 3)
+##' data("fish")
+##' chang=change_cata_format2(fish, nprod= 6, nattr= 27, nsub = 12, nsess= 3)
 ##' res.cat2=catatis(Data= chang$Datafinal, nblo = 12, NameBlocks =  chang$NameSub, Test_weights=TRUE)
 ##'
 ##' #Vertical format without sessions
-##' Data=PB_tuna[1:66,2:30]
+##' Data=fish[1:66,2:30]
 ##' chang2=change_cata_format2(Data, nprod= 6, nattr= 27, nsub = 11, nsess= 1)
 ##' res.cat3=catatis(Data= chang2$Datafinal, nblo = 11, NameBlocks =  chang2$NameSub)
+##'
+##' #RATA data with session
+##' data(RATAchoc)
+##' chang2=change_cata_format2(RATAchoc, nprod= 12, nattr= 13, nsub = 9, nsess= 3)
+##' res.cat4=catatis(Data= chang2$Datafinal, nblo = 9, NameBlocks =  chang2$NameSub)
+##'
+##' #RATA data without session
+##' Data=RATAchoc[1:108,2:16]
+##' chang2=change_cata_format2(Data, nprod= 12, nattr= 13, nsub = 9, nsess = 1)
+##' res.cat5=catatis(Data= chang2$Datafinal, nblo = 9, NameBlocks =  chang2$NameSub)
+##' graphics.off()
 ##'
 ##' @seealso   \code{\link{plot.catatis}}, \code{\link{summary.catatis}}, \code{\link{cluscata}}, \code{\link{change_cata_format}}, \code{\link{change_cata_format2}}
 ##'

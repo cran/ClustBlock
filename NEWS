@@ -1,7 +1,4 @@
-Changes in ClustBlock 3.0.0 (2022-09-05)
-*Giving the possibility to use no binary data in CATA functions
-*Adding Weights tests in catatis
-*Adding change_cata_format2 for sessions and other vertical data formats
-*Adding catatis_jar function for multivariate analysis of JAR data
-*Adding cluscata_jar and cluscata_kmeans_jar functions for clustering of subjects in a JAR expermiment.
+Changes in ClustBlock 3.1.0 (2023-03-03)
+*Giving the possibility to use RATA data in CATATIS functions
+*Add a RATA dataset
 *Minor changes

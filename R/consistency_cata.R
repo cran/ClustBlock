@@ -31,7 +31,7 @@
 ##'
 ##'
 ##'
-##' @keywords CATA
+##' @keywords CATA RATA
 ##'
 ##' @references
 ##' Llobell, F., Giacalone, D., Labenne, A.,  Qannari, E.M. (2019).	Assessment of the agreement and cluster analysis of the respondents in a CATA experiment.	Food Quality and Preference, 77, 184-190.

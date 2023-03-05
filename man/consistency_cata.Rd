@@ -45,3 +45,4 @@ Llobell, F., Giacalone, D., Labenne, A.,  Qannari, E.M. (2019).	Assessment of th
 \code{\link{consistency_cata_panel}}, \code{\link{change_cata_format}}, \code{\link{change_cata_format2}}
 }
 \keyword{CATA}
+\keyword{RATA}
