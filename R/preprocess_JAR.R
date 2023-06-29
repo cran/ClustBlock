@@ -114,7 +114,7 @@ preprocess_JAR= function(Data,  nprod, nsub, levelsJAR=3, beta=0.1)
   }
 
   #use beta
-  for (j in seq(1, ncol(JAR)-2, 3))
+  for (j in seq(1, ncol(CATAData)-2, 3))
   {
     for (i in 1:nrow(CATAData))
     {

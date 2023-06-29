@@ -296,23 +296,25 @@ catatis=function(Data,nblo,NameBlocks=NULL, NameVar=NULL, Graph=TRUE, Graph_weig
       Weightsperm=c(Weightsperm, sum(diag(t(C)%*%Matpermut))/den)
     }
     valcrit=t.test(Weightsperm, alternative = "l")$conf.int[2]
+    meanperm=mean(Weightsperm)
 
-    Matrep=matrix(0, nrow=nblo, ncol=4)
+    Matrep=matrix(0, nrow=nblo, ncol=5)
     Matrep=as.data.frame(Matrep)
     Matrep[,1]=round(u,3)
-    Matrep[,2]=rep(round(valcrit,3), nblo)
+    Matrep[,2]=rep(round(meanperm,3), nblo)
+    Matrep[,3]=rep(round(valcrit,3), nblo)
     for (l in 1:nblo)
     {
       if (u[l]>valcrit)
       {
-        Matrep[l,3]=round(u[l]-valcrit, 3)
-        Matrep[l,4]="Yes"
+        Matrep[l,4]=round(u[l]-valcrit, 3)
+        Matrep[l,5]="Yes"
       }else{
-        Matrep[l,3]=NA
-        Matrep[l,4]="No"
+        Matrep[l,4]=NA
+        Matrep[l,5]="No"
       }
     }
-    colnames(Matrep)=c("Weights", "Critical value", "Dist with CV", "Signif")
+    colnames(Matrep)=c("Weights", "Random mean", "Critical value", "Dist with CV", "Signif")
     rownames(Matrep)= NameBlocks
   }else{
     Matrep=NULL

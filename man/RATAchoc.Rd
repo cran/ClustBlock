@@ -5,7 +5,7 @@
 \alias{RATAchoc}
 \title{RATA data on chocolates}
 \format{
-RATA data with sessions. A data frame with the sessions, the panelists, the products and RATA attributes.
+RATA data with sessions. A data frame with 3 sessions, 9 panelists, 12 products and 27 RATA attributes.
 }
 \usage{
 data(RATAchoc)

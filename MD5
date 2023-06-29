@@ -1,8 +1,8 @@
-3934cdbf4b25a0b5a0b62403a8471f48 *DESCRIPTION
+bf018f822e1a629bb1e018bcb7eaa037 *DESCRIPTION
 3d3259a159b5655f273d756faae15d81 *NAMESPACE
 16f08c0e977ae2375a1e639a0a10fa5e *NEWS
-07b4541f77ab4c291c3c9dfa8df8eab5 *R/RATAchoc.R
-2886474dacc5de60817856756b2f1507 *R/catatis.R
+599f87950de8a3ff33edd81109d8742d *R/RATAchoc.R
+b382e6f8f07d83d3d553b40296522fdf *R/catatis.R
 9d6684858dab4eb9c8dff5a4966115fd *R/catatis_jar.R
 8b871cf29004bcdf379e6ce2b7a67241 *R/change_cata_format.R
 dc4eddae6c65c4a0fcfdd393edcceae2 *R/change_cata_format2.R
@@ -32,7 +32,7 @@ e921aa3ad096df1971f12cdd654d6b32 *R/one_cluster_or_more_cata.R
 9f462ab1440198aa8e2a9edeec5ee5e1 *R/plot.clustatis.R
 a399ecbf4ad913b2e264d8d309859ca1 *R/plot.statis.R
 38179d8e175c6c79ca74d7a59596a629 *R/preprocess_FreeSort.R
-707f63e3c2376dd3fc3e0a5fa993b80a *R/preprocess_JAR.R
+c1fcecde7ba41cf297eb920f6722acae *R/preprocess_JAR.R
 ae0f2b404b7b2b63229c46e6e367052d *R/print.catatis.R
 7e1c1fe105523554230e2f509e559e03 *R/print.cluscata.R
 35e6228dbb2b68ddecfecb02c0fce66a *R/print.clustatis.R
@@ -56,9 +56,9 @@ b301cbdd104a26e64ee43443a2064349 *data/choc.RData
 1bd2c6cb89be1be23e4b75cc277b7f90 *data/fish.rda
 7a57a3c84307e41bcdf0c2b0466b3bd8 *data/smoo.RData
 4e73aa845144c9f918fd2036cfa35f59 *data/straw.rda
-51776aa1e8f55c4b7a9bb1b4b84aaf3f *inst/CITATION
-3b215bd3e04c8b27bb8f26ddc3c821f0 *man/ClustBlock-package.Rd
-f6b2d62fd67f0a185614331925826b13 *man/RATAchoc.Rd
+199020145a35c1b083de4e62236eb7ad *inst/CITATION
+4201f6249564e49c627b6b1e0d60fb13 *man/ClustBlock-package.Rd
+045dbae3a432137ae9b51b202760873d *man/RATAchoc.Rd
 0c1ec359d7321ae370560de29350e848 *man/catatis.Rd
 4133a534b76755d96ee73709ee8a8ffa *man/catatis_jar.Rd
 91cc00bde184a94ca7c56fcac9edbbb6 *man/change_cata_format.Rd
