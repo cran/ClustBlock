@@ -5,7 +5,7 @@
 \alias{cheese}
 \title{cheese Just About Right data}
 \format{
-JAR data. A data frame with Assessors, Products and JAR attributes. 10 products, 9 attributes and 72 subjects.
+JAR data. A data frame with Assessors, Products and JAR attributes. 8 products, 9 attributes and 72 subjects.
 }
 \usage{
 data(cheese)

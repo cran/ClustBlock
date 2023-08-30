@@ -564,11 +564,12 @@ cluscata_kmeans=function(Data,nblo, clust, nstart=100, rho=0, NameBlocks=NULL, N
 
     AFC[[i]]=e
 
-    #graphical reprensation of each cluster
+    #graphical representation of each cluster
     if (Graph_groups==TRUE)
     {
 
       dev.new()
+      options(ggrepel.max.overlaps = Inf)
       print(plot.CA(e,title=paste("Cluster",i)))
     }
   }

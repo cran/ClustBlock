@@ -37,8 +37,8 @@ a list with:
          \item error_by_prod: the error by product (CATATIS criterion)
          \item s_with_compromise: the similarity coefficient of each subject with the compromise
          \item homogeneity: homogeneity of the subjects (in percentage)
-         \item CA: the results of correspondance analysis performed on the compromise dataset
-         \item eigenvalues: the eigenvalues associated to the correspondance analysis
+         \item CA: the results of correspondence analysis performed on the compromise dataset
+         \item eigenvalues: the eigenvalues associated to the correspondence analysis
          \item inertia: the percentage of total variance explained by each axis of the CA
          \item scalefactors: the scaling factors of each subject
          \item nb_1: the number of 1 in each block, i.e. the number of checked attributes by subject.
@@ -64,16 +64,6 @@ Data=fish[1:66,2:30]
 chang2=change_cata_format2(Data, nprod= 6, nattr= 27, nsub = 11, nsess= 1)
 res.cat3=catatis(Data= chang2$Datafinal, nblo = 11, NameBlocks =  chang2$NameSub)
 
-#RATA data with session
-data(RATAchoc)
-chang2=change_cata_format2(RATAchoc, nprod= 12, nattr= 13, nsub = 9, nsess= 3)
-res.cat4=catatis(Data= chang2$Datafinal, nblo = 9, NameBlocks =  chang2$NameSub)
-
-#RATA data without session
-Data=RATAchoc[1:108,2:16]
-chang2=change_cata_format2(Data, nprod= 12, nattr= 13, nsub = 9, nsess = 1)
-res.cat5=catatis(Data= chang2$Datafinal, nblo = 9, NameBlocks =  chang2$NameSub)
-graphics.off()
 
 }
 \references{
@@ -84,4 +74,3 @@ Bonnet, L., Ferney, T., Riedel, T., Qannari, E.M., Llobell, F. (September 14, 20
 \code{\link{plot.catatis}}, \code{\link{summary.catatis}}, \code{\link{cluscata}}, \code{\link{change_cata_format}}, \code{\link{change_cata_format2}}
 }
 \keyword{CATA}
-\keyword{RATA}

@@ -1,15 +1,15 @@
 ##=============================================================================
-##' @title Perform the CATATIS method on different blocks from a CATA experiment
+##' @title Perform the CATATIS method on different blocks from a RATA experiment
 ##'
 ##' @usage
-##' catatis(Data,nblo,NameBlocks=NULL, NameVar=NULL, Graph=TRUE, Graph_weights=TRUE,
+##' catatis_rata(Data,nblo,NameBlocks=NULL, NameVar=NULL, Graph=TRUE, Graph_weights=TRUE,
 ##'  Test_weights=FALSE, nperm=100)
 ##'
 ##' @description
-##' CATATIS method. Additional outputs are also computed. Non-binary data are accepted and weights can be tested.
+##' CATATIS method for RATA data. Additional outputs are also computed. Non-binary data are accepted and weights can be tested.
 ##'
 ##'
-##' @param Data data frame or matrix where the blocks of binary variables are merged horizontally. If you have a different format, see \code{\link{change_cata_format}}
+##' @param Data data frame or matrix where the blocks of variables are merged horizontally. If you have a different format, see \code{\link{change_cata_format}}
 ##'
 ##' @param nblo integer. Number of blocks (subjects).
 ##'
@@ -41,50 +41,42 @@
 ##'          \item eigenvalues: the eigenvalues associated to the correspondence analysis
 ##'          \item inertia: the percentage of total variance explained by each axis of the CA
 ##'          \item scalefactors: the scaling factors of each subject
-##'          \item nb_1: the number of 1 in each block, i.e. the number of checked attributes by subject.
 ##'          \item param: parameters called
 ##'          }
 ##'
 ##'
 ##'
-##' @keywords CATA
+##' @keywords RATA
 ##'
 ##' @references
 ##' Llobell, F., Cariou, V., Vigneau, E., Labenne, A., & Qannari, E. M. (2019). A new approach for the analysis of data and the clustering of subjects in a CATA experiment. Food Quality and Preference, 72, 31-39.\cr
-##' Bonnet, L., Ferney, T., Riedel, T., Qannari, E.M., Llobell, F. (September 14, 2022) .Using CATA for sensory profiling: assessment of the panel performance. Eurosense, Turku, Finland.
+##' Bonnet, L., Ferney, T., Riedel, T., Qannari, E.M., Llobell, F. (September 14, 2022) .Using CATA for sensory profiling: assessment of the panel performance. Eurosense, Turku, Finland.\cr
+##' Bonnet, L., Llobell, F., Qannari, E.M. (Pangborn 2023). Assessment of the panel performance in a RATA experiment.
 ##'
-##' @importFrom FactoMineR CA
-##' @importFrom stats var
-##' @importFrom stats quantile
-##' @importFrom stats t.test
-##' @importFrom stats median
 ##'
 ##'
 ##' @examples
-##' data(straw)
-##' res.cat=catatis(straw, nblo=114)
-##' summary(res.cat)
-##' plot(res.cat)
+##' #RATA data with session
+##' data(RATAchoc)
+##' chang2=change_cata_format2(RATAchoc, nprod= 12, nattr= 13, nsub = 9, nsess= 3)
+##' res.cat4=catatis_rata(Data= chang2$Datafinal, nblo = 9, NameBlocks =  chang2$NameSub)
+##' summary(res.cat4)
 ##'
-##' #Vertical format with sessions
-##' data("fish")
-##' chang=change_cata_format2(fish, nprod= 6, nattr= 27, nsub = 12, nsess= 3)
-##' res.cat2=catatis(Data= chang$Datafinal, nblo = 12, NameBlocks =  chang$NameSub, Test_weights=TRUE)
+##' #RATA data without session
+##' Data=RATAchoc[1:108,2:16]
+##' chang2=change_cata_format2(Data, nprod= 12, nattr= 13, nsub = 9, nsess = 1)
+##' res.cat5=catatis_rata(Data= chang2$Datafinal, nblo = 9, NameBlocks =  chang2$NameSub)
+##' summary(res.cat5)
+##' graphics.off()
 ##'
-##' #Vertical format without sessions
-##' Data=fish[1:66,2:30]
-##' chang2=change_cata_format2(Data, nprod= 6, nattr= 27, nsub = 11, nsess= 1)
-##' res.cat3=catatis(Data= chang2$Datafinal, nblo = 11, NameBlocks =  chang2$NameSub)
-##'
-##'
-##' @seealso   \code{\link{plot.catatis}}, \code{\link{summary.catatis}}, \code{\link{cluscata}}, \code{\link{change_cata_format}}, \code{\link{change_cata_format2}}
+##' @seealso   \code{\link{catatis}}, \code{\link{plot.catatis}}, \code{\link{summary.catatis}}, \code{\link{change_cata_format}}, \code{\link{change_cata_format2}}
 ##'
 ##' @export
 
 ##=============================================================================
 
 
-catatis=function(Data,nblo,NameBlocks=NULL, NameVar=NULL, Graph=TRUE, Graph_weights=TRUE, Test_weights=FALSE, nperm=100){
+catatis_rata=function(Data,nblo,NameBlocks=NULL, NameVar=NULL, Graph=TRUE, Graph_weights=TRUE, Test_weights=FALSE, nperm=100){
 
   #initialisation
   n=nrow(Data)
@@ -153,11 +145,9 @@ catatis=function(Data,nblo,NameBlocks=NULL, NameVar=NULL, Graph=TRUE, Graph_weig
 
   Xj=array(0,dim=c(n,nvar,nblo))  # array with all subjects matrices
   muk=NULL
-  nb1=NULL
   for(j in 1:nblo)
   {
     Aj=as.matrix(X[,J==j])
-    nb1[j]=sum(Aj)
     normXj=sqrt(sum(diag(tcrossprod(Aj,Aj))))
     muk[j]=normXj
     if(normXj==0)
@@ -313,7 +303,7 @@ catatis=function(Data,nblo,NameBlocks=NULL, NameVar=NULL, Graph=TRUE, Graph_weig
 
 
 
-  names(u)=names(s)=rownames(S)=colnames(S)= names(dw)=names(muk)=names(facteurech)=names(nb1)=NameBlocks
+  names(u)=names(s)=rownames(S)=colnames(S)= names(dw)=names(muk)=names(facteurech)=NameBlocks
 
 
   if(Graph_weights==TRUE)
@@ -327,7 +317,7 @@ catatis=function(Data,nblo,NameBlocks=NULL, NameVar=NULL, Graph=TRUE, Graph_weig
   #results
   res=list(S=round(S,2),compromise=round(C,2),weights=round(u,5), weights_tests= Matrep, lambda=round(lambda,2),overall_error=round(Q,2),
            error_by_sub=round(dw,2), error_by_prod=round(obj,2), s_with_compromise=round(s,2), homogeneity=homogeneity, CA=e, eigenvalues=eigenvalues,
-           inertia=pouriner, scalefactors=round(facteurech,2), nb_1=nb1, param=list(n=n, nblo=nblo, nvar=nvar))
+           inertia=pouriner, scalefactors=round(facteurech,2), param=list(n=n, nblo=nblo, nvar=nvar))
   class(res)="catatis"
 
 

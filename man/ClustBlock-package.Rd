@@ -8,9 +8,9 @@
   \tabular{ll}{
     Package: \tab ClustBlock\cr
     Type: \tab Package\cr
-    Version: \tab 3.1.1\cr
+    Version: \tab 3.2.0\cr
     First version Date: \tab 2019-03-06\cr
-    Last version Date: \tab 2023-06-29\cr
+    Last version Date: \tab 2023-08-30\cr
   }
 }
 
@@ -41,5 +41,5 @@ Llobell, F. (2020). Classification de tableaux de données, applications en anal
 \keyword{Free Sorting}
 \keyword{Just About Right}
 \keyword{JAR}
-\keyword{RATE-All-That-Apply}
+\keyword{Rate-All-That-Apply}
 \keyword{RATA}

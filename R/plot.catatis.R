@@ -76,6 +76,7 @@ plot.catatis=function(x, Graph=TRUE, Graph_weights=TRUE, Graph_eig=TRUE, axes=c(
       barplot(vp, col="blue", main="Eigenvalues")
     }
     dev.new()
+    options(ggrepel.max.overlaps = Inf)
     print(plot.CA(res.catatis$CA, axes=axes, title=tit, cex=cex, col.row=col.obj, col.col=col.attr))
   }
 

@@ -1,4 +1,2 @@
-Changes in ClustBlock 3.1.0 (2023-03-03)
-*Giving the possibility to use RATA data in CATATIS functions
-*Add a RATA dataset
-*Minor changes
+Changes in ClustBlock 3.2.0 (2023-08-30)
+*catatis_rata function
