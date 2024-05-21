@@ -6,8 +6,8 @@
 \usage{
 cluscata_jar(Data, nprod, nsub, levelsJAR=3, beta=0.1,  Noise_cluster=FALSE,
         Itermax=30, Graph_dend=TRUE, Graph_bar=TRUE, printlevel=FALSE,
-        gpmax=min(6, nsub-2), Testonlyoneclust=FALSE, alpha=0.05,
-        nperm=50, Warnings=FALSE)
+        gpmax=min(6, nsub-2), rhoparam=NULL,
+        Testonlyoneclust=FALSE, alpha=0.05, nperm=50, Warnings=FALSE)
 }
 \arguments{
 \item{Data}{data frame where the first column is the Assessors, the second is the products and all other columns the JAR attributes with numbers (1 to 3 or 1 to 5, see levelsJAR)}
@@ -31,6 +31,8 @@ cluscata_jar(Data, nprod, nsub, levelsJAR=3, beta=0.1,  Noise_cluster=FALSE,
 \item{printlevel}{logical. Print the number of remaining levels during the hierarchical clustering algorithm? Default: FALSE}
 
 \item{gpmax}{logical. What is maximum number of clusters to consider? Default: min(6, nblo-2)}
+
+\item{rhoparam}{numerical. What is the threshold for the noise cluster? Between 0 and 1, high value can imply lot of blocks set aside. If NULL, automatic threshold is computed.}
 
 \item{Testonlyoneclust}{logical. Test if there is more than one cluster? Default: FALSE}
 

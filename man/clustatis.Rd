@@ -6,8 +6,8 @@
 \usage{
 clustatis(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE,scale=FALSE,
   Itermax=30, Graph_dend=TRUE, Graph_bar=TRUE,
-  printlevel=FALSE, gpmax=min(6, length(Blocks)-2), Testonlyoneclust=FALSE,
-  alpha=0.05, nperm=50)
+  printlevel=FALSE, gpmax=min(6, length(Blocks)-2),  rhoparam=NULL,
+  Testonlyoneclust=FALSE, alpha=0.05, nperm=50)
 }
 \arguments{
 \item{Data}{data frame or matrix. Correspond to all the blocks of variables merged horizontally}
@@ -28,7 +28,9 @@ clustatis(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE,scale=FALSE,
 
 \item{printlevel}{logical. Print the number of remaining levels during the hierarchical clustering algorithm? Default: FALSE}
 
-\item{gpmax}{logical. What is maximum number of clusters to consider? Default: min(6, length(Blocks)-2)}
+\item{gpmax}{logical. What is maximum number of clusters to consider? Default:  min(6, number of blocks -2)}
+
+\item{rhoparam}{numerical. What is the threshold for the noise cluster? Between 0 and 1, high value can imply lot of blocks set aside. If NULL, automatic threshold is computed.}
 
 \item{Testonlyoneclust}{logical. Test if there is more than one cluster? Default: FALSE}
 
@@ -40,7 +42,7 @@ clustatis(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE,scale=FALSE,
 Each partitionK contains a list for each number of clusters of the partition, K=1 to gpmax with:
         \itemize{
          \item group: the clustering partition of datasets after consolidation. If Noise_cluster=TRUE, some blocks could be in the noise cluster ("K+1")
-         \item rho: the threshold for the noise cluster
+         \item rho: the threshold for the noise cluster (computed or input parameter)
          \item homogeneity: homogeneity index (%) of each cluster and the overall homogeneity index (%) of the partition
          \item rv_with_compromise: RV coefficient of each block with its cluster compromise
          \item weights: weight associated with each block in its cluster
@@ -78,6 +80,9 @@ computed by the STATIS method. Moreover, a noise cluster can be set up.
  #with noise cluster
  cl2=clustatis(Data=smoo,Blocks=rep(2,24),NameBlocks = NameBlocks,
  Noise_cluster=TRUE, Graph_dend=FALSE, Graph_bar=FALSE)
+ #with noise cluster and defined rho threshold
+ cl3=clustatis(Data=smoo,Blocks=rep(2,24),NameBlocks = NameBlocks,
+ Noise_cluster=TRUE, Graph_dend=FALSE, Graph_bar=FALSE, rhoparam=0.5)
 
 }
 \references{

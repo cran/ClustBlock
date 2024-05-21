@@ -6,8 +6,8 @@
 \usage{
 clustatis_FreeSort(Data, NameSub=NULL, Noise_cluster=FALSE,Itermax=30,
                            Graph_dend=TRUE, Graph_bar=TRUE, printlevel=FALSE,
-                           gpmax=min(6, ncol(Data)-1), Testonlyoneclust=FALSE,
-                           alpha=0.05, nperm=50)
+                           gpmax=min(6, ncol(Data)-1),rhoparam=NULL,
+                           Testonlyoneclust=FALSE, alpha=0.05, nperm=50)
 }
 \arguments{
 \item{Data}{data frame or matrix. Corresponds to all variables that contain subjects results. Each column corresponds to a subject and gives the groups to which the products (rows) are assigned}
@@ -24,7 +24,9 @@ clustatis_FreeSort(Data, NameSub=NULL, Noise_cluster=FALSE,Itermax=30,
 
 \item{printlevel}{logical. Print the number of remaining levels during the hierarchical clustering algorithm? Default: FALSE}
 
-\item{gpmax}{logical. What is maximum number of clusters to consider? Default: min(6, ncol(Data)-1)}
+\item{gpmax}{logical. What is maximum number of clusters to consider? Default: min(6, number of subjects -1)}
+
+\item{rhoparam}{numerical. What is the threshold for the noise cluster? Between 0 and 1, high value can imply lot of blocks set aside. If NULL, automatic threshold is computed.}
 
 \item{Testonlyoneclust}{logical. Test if there is more than one cluster? Default: FALSE}
 

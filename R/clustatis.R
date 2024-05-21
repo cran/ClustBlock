@@ -10,8 +10,8 @@
 ##' @usage
 ##'  clustatis(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE,scale=FALSE,
 ##'   Itermax=30, Graph_dend=TRUE, Graph_bar=TRUE,
-##'   printlevel=FALSE, gpmax=min(6, length(Blocks)-2), Testonlyoneclust=FALSE,
-##'   alpha=0.05, nperm=50)
+##'   printlevel=FALSE, gpmax=min(6, length(Blocks)-2),  rhoparam=NULL,
+##'   Testonlyoneclust=FALSE, alpha=0.05, nperm=50)
 ##'
 ##'
 ##' @param Data data frame or matrix. Correspond to all the blocks of variables merged horizontally
@@ -32,7 +32,9 @@
 ##'
 ##' @param printlevel logical. Print the number of remaining levels during the hierarchical clustering algorithm? Default: FALSE
 ##'
-##' @param gpmax logical. What is maximum number of clusters to consider? Default: min(6, length(Blocks)-2)
+##' @param gpmax logical. What is maximum number of clusters to consider? Default:  min(6, number of blocks -2)
+##'
+##' @param rhoparam numerical. What is the threshold for the noise cluster? Between 0 and 1, high value can imply lot of blocks set aside. If NULL, automatic threshold is computed.
 ##'
 ##' @param Testonlyoneclust logical. Test if there is more than one cluster? Default: FALSE
 ##'
@@ -45,7 +47,7 @@
 ##' @return Each partitionK contains a list for each number of clusters of the partition, K=1 to gpmax with:
 ##'         \itemize{
 ##'          \item group: the clustering partition of datasets after consolidation. If Noise_cluster=TRUE, some blocks could be in the noise cluster ("K+1")
-##'          \item rho: the threshold for the noise cluster
+##'          \item rho: the threshold for the noise cluster (computed or input parameter)
 ##'          \item homogeneity: homogeneity index (%) of each cluster and the overall homogeneity index (%) of the partition
 ##'          \item rv_with_compromise: RV coefficient of each block with its cluster compromise
 ##'          \item weights: weight associated with each block in its cluster
@@ -91,6 +93,9 @@
 ##'  #with noise cluster
 ##'  cl2=clustatis(Data=smoo,Blocks=rep(2,24),NameBlocks = NameBlocks,
 ##'  Noise_cluster=TRUE, Graph_dend=FALSE, Graph_bar=FALSE)
+##'  #with noise cluster and defined rho threshold
+##'  cl3=clustatis(Data=smoo,Blocks=rep(2,24),NameBlocks = NameBlocks,
+##'  Noise_cluster=TRUE, Graph_dend=FALSE, Graph_bar=FALSE, rhoparam=0.5)
 ##'
 ##' @seealso   \code{\link{plot.clustatis}}, \code{\link{summary.clustatis}} , \code{\link{clustatis_kmeans}}, \code{\link{statis}}
 ##'
@@ -105,8 +110,8 @@
 
 clustatis=function(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE, scale=FALSE,
                    Itermax=30, Graph_dend=TRUE, Graph_bar=TRUE,
-                   printlevel=FALSE, gpmax=min(6, length(Blocks)-2), Testonlyoneclust=FALSE,
-                   alpha=0.05, nperm=50){
+                   printlevel=FALSE, gpmax=min(6, length(Blocks)-2), rhoparam=NULL,
+                   Testonlyoneclust=FALSE, alpha=0.05, nperm=50){
 
 
   nblo=length(Blocks)
@@ -371,42 +376,47 @@ clustatis=function(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE, scale=FALSE,
     cutree_k[[K]]=coupe
     if (Noise_cluster==TRUE)
     {
-      oldgroup=coupe
-      #compute the compromises
-      Wk=array(0,dim=c(nrow(Data),nrow(Data),K))
-      for (i in 1: K)
+      if (is.null(rhoparam)==TRUE)
       {
-        cluster=which(oldgroup==i)
-        Wj=list()
-        for (tab in 1:length(cluster)) {
-          Wj[[tab]]=Wi[,,cluster[tab]]
+        oldgroup=coupe
+        #compute the compromises
+        Wk=array(0,dim=c(nrow(Data),nrow(Data),K))
+        for (i in 1: K)
+        {
+          cluster=which(oldgroup==i)
+          Wj=list()
+          for (tab in 1:length(cluster)) {
+            Wj[[tab]]=Wi[,,cluster[tab]]
+          }
+          statisk=.crit_statisWj(Wj, cluster, RV)
+          Wk[,,i]=statisk$W
         }
-        statisk=.crit_statisWj(Wj, cluster, RV)
-        Wk[,,i]=statisk$W
-      }
 
-      #compute the criterions
-      cr=list()
-      cr2=list()
-      for ( i in 1:nblo)
-      {
-        a=NULL
-        for (k in 1:K)
+        #compute the criterions
+        cr=list()
+        cr2=list()
+        for ( i in 1:nblo)
         {
-          W_k=as.matrix(Wk[,,k])
-          normW=sum(diag(crossprod(W_k)))
-          W_i=Wi[,,i]
-          a=c(a,sum(diag(crossprod(W_i, W_k)))^2/(normW))
+          a=NULL
+          for (k in 1:K)
+          {
+            W_k=as.matrix(Wk[,,k])
+            normW=sum(diag(crossprod(W_k)))
+            W_i=Wi[,,i]
+            a=c(a,sum(diag(crossprod(W_i, W_k)))^2/(normW))
+          }
+          cr[[i]]=sqrt(a)
+          if (K>1)
+          {
+            cr2[[i]]=sort(sqrt(a), decreasing = TRUE)[1:2]
+          }else{
+            cr2[[i]]=sqrt(a)
+          }
         }
-        cr[[i]]=sqrt(a)
-        if (K>1)
-        {
-          cr2[[i]]=sort(sqrt(a), decreasing = TRUE)[1:2]
-        }else{
-          cr2[[i]]=sqrt(a)
-        }
+        rho[K]=mean(unlist(cr2))
+      } else{
+        rho[K]=rhoparam
       }
-      rho[K]=mean(unlist(cr2))
     } else{
       rho[K]=0
     }

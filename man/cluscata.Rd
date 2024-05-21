@@ -2,11 +2,11 @@
 % Please edit documentation in R/cluscata.R
 \name{cluscata}
 \alias{cluscata}
-\title{Perform a cluster analysis of blocks from a CATA experiment}
+\title{Perform a cluster analysis of subjects from a CATA experiment}
 \usage{
 cluscata(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE,
         Itermax=30, Graph_dend=TRUE, Graph_bar=TRUE, printlevel=FALSE,
-        gpmax=min(6, nblo-2), Testonlyoneclust=FALSE, alpha=0.05,
+        gpmax=min(6, nblo-2), rhoparam=NULL, Testonlyoneclust=FALSE, alpha=0.05,
         nperm=50, Warnings=FALSE)
 }
 \arguments{
@@ -29,6 +29,8 @@ cluscata(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE,
 \item{printlevel}{logical. Print the number of remaining levels during the hierarchical clustering algorithm? Default: FALSE}
 
 \item{gpmax}{logical. What is maximum number of clusters to consider? Default: min(6, nblo-2)}
+
+\item{rhoparam}{numerical. What is the threshold for the noise cluster? Between 0 and 1, high value can imply lot of blocks set aside. If NULL, automatic threshold is computed.}
 
 \item{Testonlyoneclust}{logical. Test if there is more than one cluster? Default: FALSE}
 
@@ -66,7 +68,7 @@ Each partitionK contains a list for each number of clusters of the partition, K=
          }
 }
 \description{
-Hierarchical clustering of blocks from a CATA experiment. Each cluster of blocks is associated with a compromise
+Clustering of subjects (blocks) from a CATA experiment. Each cluster of blocks is associated with a compromise
 computed by the CATATIS method. The hierarchical clustering is followed by a partitioning algorithm (consolidation).
 Non-binary data are accepted.
 }
@@ -80,6 +82,11 @@ summary(res, ngroups=3)
 #With noise cluster
 res2=cluscata(Data=straw[,1:(16*40)], nblo=40, Noise_cluster=TRUE,
 Graph_dend=FALSE, Graph_bar=FALSE)
+#With noise cluster and defined rho threshold
+#(high threshold for this example, you can put low threshold
+#(ex: 0.2 or 0.3) to avoid set aside lot of respondents)
+res3=cluscata(Data=straw[,1:(16*40)], nblo=40, Noise_cluster=TRUE,
+Graph_dend=FALSE, Graph_bar=FALSE, rhoparam=0.6)
 #with all subjects
 res=cluscata(Data=straw, nblo=114, printlevel=TRUE)
 

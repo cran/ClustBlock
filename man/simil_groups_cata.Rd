@@ -35,11 +35,11 @@ a list with:
 Test adapted to CATA data to determine whether two predetermined groups of subjects have a different perception or not. For example, men and women.
 }
 \examples{
-
+\donttest{
  data(straw)
  groups=sample(1:2, 114, replace=TRUE)
  simil_groups_cata(straw, groups, one=1, two=2)
-
+}
 }
 \references{
 Llobell, F., Giacalone, D., Jaeger, S.R. & Qannari, E. M. (2021). CATA data: Are there differences in perception? JSM conference.\cr

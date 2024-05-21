@@ -44,11 +44,11 @@
 ##'
 ##'
 ##' @examples
-##'
+##'\donttest{
 ##'  data(straw)
 ##'  groups=sample(1:2, 114, replace=TRUE)
 ##'  simil_groups_cata(straw, groups, one=1, two=2)
-##'
+##'}
 ##' @export
 
 

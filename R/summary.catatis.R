@@ -46,8 +46,6 @@ summary.catatis=function(object, ...)
     stop("The class of the object must be 'catatis'")
   }
 
-  NameBlocks=names(res.catatis$weights)
-
 
   res=list(homogeneity=res.catatis$homog, weights=res.catatis$weights,
            eigenvalues=res.catatis$eigenvalues, inertia=res.catatis$inertia)

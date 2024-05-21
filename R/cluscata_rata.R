@@ -1,27 +1,25 @@
 ##=============================================================================
 
 
-##' @title Perform a cluster analysis of subjects in a JAR experiment.
+##' @title Perform a cluster analysis of subjects from a RATA experiment
 ##'
 ##' @description
-##' Hierarchical clustering of subjects from a JAR experiment. Each cluster of subjects is associated with a compromise
+##' Hierarchical clustering of subjects (blocks) from a RATA experiment. Each cluster of blocks is associated with a compromise
 ##' computed by the CATATIS method. The hierarchical clustering is followed by a partitioning algorithm (consolidation).
 ##'
 ##' @usage
-##'cluscata_jar(Data, nprod, nsub, levelsJAR=3, beta=0.1,  Noise_cluster=FALSE,
+##'cluscata_rata(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE,
 ##'         Itermax=30, Graph_dend=TRUE, Graph_bar=TRUE, printlevel=FALSE,
-##'         gpmax=min(6, nsub-2), rhoparam=NULL,
-##'         Testonlyoneclust=FALSE, alpha=0.05, nperm=50, Warnings=FALSE)
+##'         gpmax=min(6, nblo-2), rhoparam=NULL, Testonlyoneclust=FALSE, alpha=0.05,
+##'         nperm=50, Warnings=FALSE)
 ##'
-##' @param Data data frame where the first column is the Assessors, the second is the products and all other columns the JAR attributes with numbers (1 to 3 or 1 to 5, see levelsJAR)
+##' @param Data data frame or matrix where the blocks of binary variables are merged horizontally. If you have a different format, see \code{\link{change_cata_format}}
 ##'
-##' @param nprod integer. Number of products.
+##' @param nblo  numerical. Number of blocks (subjects).
 ##'
-##' @param nsub integer. Number of subjects.
+##' @param NameBlocks string vector. Name of each block (subject). Length must be equal to the number of blocks. If NULL, the names are S1,...Sm. Default: NULL
 ##'
-##' @param levelsJAR integer. 3 or 5 levels. If 5, the data will be transformed in 3 levels.
-##'
-##' @param beta numerical. Parameter for agreement between JAR and other answers. Between 0 and 0.5.
+##' @param NameVar string vector. Name of each variable (attribute, the same names for each subject). Length must be equal to the number of attributes. If NULL, the colnames of the first block are taken. Default: NULL
 ##'
 ##' @param Noise_cluster logical. Should a noise cluster be computed? Default: FALSE
 ##'
@@ -73,40 +71,47 @@
 ##'          }
 ##'
 ##'
-##' @keywords JAR
-##'
+##' @keywords RATA
 ##'
 ##' @references
-##' Llobell, F., Vigneau, E. & Qannari, E. M. ((September 14, 2022). Multivariate data analysis and clustering of subjects in a Just about right task. Eurosense, Turku, Finland.
-##'
+##' Llobell, F., Cariou, V., Vigneau, E., Labenne, A., & Qannari, E. M. (2019). A new approach for the analysis of data and the clustering of subjects in a CATA experiment. Food Quality and Preference, 72, 31-39.\cr
+##' Llobell, F., Giacalone, D., Labenne, A.,  Qannari, E.M. (2019).	Assessment of the agreement and cluster analysis of the respondents in a CATA experiment.	Food Quality and Preference, 77, 184-190.
+##' Conference to come (Eurosense 2024)
 ##'
 ##' @examples
-##' \donttest{
-##' data(cheese)
-##' res=cluscata_jar(Data=cheese, nprod=8, nsub=72, levelsJAR=5)
-##' #plot(res, ngroups=4, Graph_dend=FALSE)
-##' summary(res, ngroups=4)
-##'}
 ##'
-##' @seealso   \code{\link{plot.cluscata}}, \code{\link{summary.cluscata}} , \code{\link{catatis_jar}}, \code{\link{preprocess_JAR}}, \code{\link{cluscata_kmeans_jar}}
+##' #RATA data without session
+##' data(RATAchoc)
+##' Data=RATAchoc[1:108,2:16]
+##' chang2=change_cata_format2(Data, nprod= 12, nattr= 13, nsub = 9, nsess = 1)
+##' res.clus=cluscata_rata(Data= chang2$Datafinal, nblo = 9, NameBlocks =  chang2$NameSub)
+##' summary(res.clus)
+##' plot(res.clus)
+##'
+##'
+##' @seealso   \code{\link{plot.cluscata}}, \code{\link{summary.cluscata}} , \code{\link{catatis_rata}}, \code{\link{change_cata_format}}, \code{\link{change_cata_format2}}
 ##'
 ##' @export
 
 
 ##=============================================================================
 
-cluscata_jar=function(Data, nprod, nsub, levelsJAR=3, beta=0.1, Noise_cluster=FALSE,
-                      Itermax=30, Graph_dend=TRUE, Graph_bar=TRUE, printlevel=FALSE,
-                      gpmax=min(6, nsub-2), rhoparam=NULL,
-                      Testonlyoneclust=FALSE, alpha=0.05,nperm=50, Warnings=FALSE)
-{
-  #preprocessing
-  prepro=preprocess_JAR(Data, nprod, nsub, levelsJAR, beta)
-  #catatis
-  clu=cluscata(prepro$Datafinal, nsub, NameBlocks = prepro$NameSub, Noise_cluster=Noise_cluster,
-               Itermax=Itermax, Graph_dend=Graph_dend, Graph_bar=Graph_bar, printlevel=printlevel,
-               gpmax=gpmax, rhoparam=rhoparam, Testonlyoneclust=Testonlyoneclust, alpha=alpha,
-               nperm=nperm, Warnings=Warnings)
-  return (clu)
+
+
+
+cluscata_rata=function(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE, Itermax=30,
+                  Graph_dend=TRUE, Graph_bar=TRUE, printlevel=FALSE,
+                  gpmax=min(6, nblo-2), rhoparam=NULL,
+                  Testonlyoneclust=FALSE, alpha=0.05, nperm=50, Warnings=FALSE){
+
+
+
+  #results
+  res=cluscata(Data, nblo, NameBlocks, NameVar, Noise_cluster, Itermax,
+               Graph_dend, Graph_bar, printlevel,
+               gpmax, rhoparam,
+               Testonlyoneclust, alpha, nperm, Warnings)
+
+  return(res)
 
 }

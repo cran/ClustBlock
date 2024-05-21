@@ -1,2 +1,5 @@
-Changes in ClustBlock 3.2.0 (2023-08-30)
-*catatis_rata function
+Changes in ClustBlock 4.0.0 (2024-05-21)
+*Possibility to choose the noise cluster threshold in CLUSTATIS and CLUSCATA
+*Cluster analysis of subjects in a RATA experiment method (cluscata_rata)
+*Clustering of rows in a multi-block context (products in sensory analysis) via 2 methods: ClusMB and ClustRowsOnStatisAxes
+*Insighful new indices about this last cluster analysis methods in indicesclusters function

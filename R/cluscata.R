@@ -1,17 +1,17 @@
 ##=============================================================================
 
 
-##' @title Perform a cluster analysis of blocks from a CATA experiment
+##' @title Perform a cluster analysis of subjects from a CATA experiment
 ##'
 ##' @description
-##' Hierarchical clustering of blocks from a CATA experiment. Each cluster of blocks is associated with a compromise
+##' Clustering of subjects (blocks) from a CATA experiment. Each cluster of blocks is associated with a compromise
 ##' computed by the CATATIS method. The hierarchical clustering is followed by a partitioning algorithm (consolidation).
 ##' Non-binary data are accepted.
 ##'
 ##' @usage
 ##'cluscata(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE,
 ##'         Itermax=30, Graph_dend=TRUE, Graph_bar=TRUE, printlevel=FALSE,
-##'         gpmax=min(6, nblo-2), Testonlyoneclust=FALSE, alpha=0.05,
+##'         gpmax=min(6, nblo-2), rhoparam=NULL, Testonlyoneclust=FALSE, alpha=0.05,
 ##'         nperm=50, Warnings=FALSE)
 ##'
 ##' @param Data data frame or matrix where the blocks of binary variables are merged horizontally. If you have a different format, see \code{\link{change_cata_format}}
@@ -33,6 +33,8 @@
 ##' @param printlevel logical. Print the number of remaining levels during the hierarchical clustering algorithm? Default: FALSE
 ##'
 ##' @param gpmax logical. What is maximum number of clusters to consider? Default: min(6, nblo-2)
+##'
+##' @param rhoparam numerical. What is the threshold for the noise cluster? Between 0 and 1, high value can imply lot of blocks set aside. If NULL, automatic threshold is computed.
 ##'
 ##' @param Testonlyoneclust logical. Test if there is more than one cluster? Default: FALSE
 ##'
@@ -86,6 +88,11 @@
 ##' #With noise cluster
 ##' res2=cluscata(Data=straw[,1:(16*40)], nblo=40, Noise_cluster=TRUE,
 ##' Graph_dend=FALSE, Graph_bar=FALSE)
+##' #With noise cluster and defined rho threshold
+##' #(high threshold for this example, you can put low threshold
+##' #(ex: 0.2 or 0.3) to avoid set aside lot of respondents)
+##' res3=cluscata(Data=straw[,1:(16*40)], nblo=40, Noise_cluster=TRUE,
+##' Graph_dend=FALSE, Graph_bar=FALSE, rhoparam=0.6)
 ##' #with all subjects
 ##' res=cluscata(Data=straw, nblo=114, printlevel=TRUE)
 ##'
@@ -108,7 +115,8 @@
 
 
 cluscata=function(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE, Itermax=30,
-                  Graph_dend=TRUE, Graph_bar=TRUE, printlevel=FALSE,gpmax=min(6, nblo-2),
+                  Graph_dend=TRUE, Graph_bar=TRUE, printlevel=FALSE,
+                  gpmax=min(6, nblo-2), rhoparam=NULL,
                   Testonlyoneclust=FALSE, alpha=0.05, nperm=50, Warnings=FALSE){
 
   #initialisation
@@ -365,41 +373,46 @@ cluscata=function(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE
     cutree_k[[K]]=coupe
     if (Noise_cluster==TRUE)
     {
-      oldgroup=coupe
-      #compute the compromises
-      Ck=array(0,dim=c(nrow(Data),nvar,K))
-      for (i in 1: K)
+      if (is.null(rhoparam)==TRUE)
       {
-        cluster=which(oldgroup==i)
-        Xj=list()
-        for (tab in 1:length(cluster)) {
-          Xj[[tab]]=Xi[,,cluster[tab]]
+        oldgroup=coupe
+        #compute the compromises
+        Ck=array(0,dim=c(nrow(Data),nvar,K))
+        for (i in 1: K)
+        {
+          cluster=which(oldgroup==i)
+          Xj=list()
+          for (tab in 1:length(cluster)) {
+            Xj[[tab]]=Xi[,,cluster[tab]]
+          }
+          catatisk=.crit_cataXj(Xj, cluster, S)
+          Ck[,,i]=catatisk$C
         }
-        catatisk=.crit_cataXj(Xj, cluster, S)
-        Ck[,,i]=catatisk$C
-      }
 
-      #compute the criterions
-      cr=list()
-      cr2=list()
-      for ( i in 1:nblo)
-      {
-        a=NULL
-        for (k in 1:K)
+        #compute the criterions
+        cr=list()
+        cr2=list()
+        for ( i in 1:nblo)
         {
-          C_k=as.matrix(Ck[,,k])
-          normC=sum(diag(tcrossprod(C_k)))
-          a=c(a,sum(diag(tcrossprod(Xi[,,i], C_k)))^2/(normC))
+          a=NULL
+          for (k in 1:K)
+          {
+            C_k=as.matrix(Ck[,,k])
+            normC=sum(diag(tcrossprod(C_k)))
+            a=c(a,sum(diag(tcrossprod(Xi[,,i], C_k)))^2/(normC))
+          }
+          cr[[i]]=sqrt(a)
+          if (K>1)
+          {
+            cr2[[i]]=sort(sqrt(a), decreasing = TRUE)[1:2]
+          }else{
+            cr2[[i]]=sqrt(a)
+          }
         }
-        cr[[i]]=sqrt(a)
-        if (K>1)
-        {
-          cr2[[i]]=sort(sqrt(a), decreasing = TRUE)[1:2]
-        }else{
-          cr2[[i]]=sqrt(a)
-        }
+        rho[K]=mean(unlist(cr2))
+      }else{
+        rho[K]=rhoparam
       }
-      rho[K]=mean(unlist(cr2))
     } else{
       rho[K]=0
     }
