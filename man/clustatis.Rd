@@ -4,7 +4,8 @@
 \alias{clustatis}
 \title{Perform a cluster analysis of blocks of quantitative variables}
 \usage{
-clustatis(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE,scale=FALSE,
+clustatis(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE,
+  Unique_threshold=TRUE,scale=FALSE,
   Itermax=30, Graph_dend=TRUE, Graph_bar=TRUE,
   printlevel=FALSE, gpmax=min(6, length(Blocks)-2),  rhoparam=NULL,
   Testonlyoneclust=FALSE, alpha=0.05, nperm=50)
@@ -18,6 +19,8 @@ clustatis(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE,scale=FALSE,
 
 \item{Noise_cluster}{logical. Should a noise cluster be computed? Default: FALSE}
 
+\item{Unique_threshold}{logical. Use same rho for every cluster? Default: TRUE}
+
 \item{scale}{logical. Should the data variables be scaled? Default: FALSE}
 
 \item{Itermax}{numerical. Maximum of iteration for the partitioning algorithm. Default: 30}
@@ -30,7 +33,7 @@ clustatis(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE,scale=FALSE,
 
 \item{gpmax}{logical. What is maximum number of clusters to consider? Default:  min(6, number of blocks -2)}
 
-\item{rhoparam}{numerical. What is the threshold for the noise cluster? Between 0 and 1, high value can imply lot of blocks set aside. If NULL, automatic threshold is computed.}
+\item{rhoparam}{numerical or vector. What is the threshold for the noise cluster? Between 0 and 1, high value can imply lot of blocks set aside. If NULL, automatic threshold is computed. Can be different for each group (in this case, provide a vector)}
 
 \item{Testonlyoneclust}{logical. Test if there is more than one cluster? Default: FALSE}
 
@@ -42,7 +45,7 @@ clustatis(Data,Blocks,NameBlocks=NULL,Noise_cluster=FALSE,scale=FALSE,
 Each partitionK contains a list for each number of clusters of the partition, K=1 to gpmax with:
         \itemize{
          \item group: the clustering partition of datasets after consolidation. If Noise_cluster=TRUE, some blocks could be in the noise cluster ("K+1")
-         \item rho: the threshold for the noise cluster (computed or input parameter)
+         \item rho: the threshold(s) for the noise cluster (computed or input parameter)
          \item homogeneity: homogeneity index (%) of each cluster and the overall homogeneity index (%) of the partition
          \item rv_with_compromise: RV coefficient of each block with its cluster compromise
          \item weights: weight associated with each block in its cluster
@@ -83,11 +86,16 @@ computed by the STATIS method. Moreover, a noise cluster can be set up.
  #with noise cluster and defined rho threshold
  cl3=clustatis(Data=smoo,Blocks=rep(2,24),NameBlocks = NameBlocks,
  Noise_cluster=TRUE, Graph_dend=FALSE, Graph_bar=FALSE, rhoparam=0.5)
+ #different Noise cluster thresholds
+ cl4=clustatis(Data=smoo,Blocks=rep(2,24),NameBlocks = NameBlocks,
+ Noise_cluster=TRUE, Graph_dend=FALSE, Graph_bar=FALSE, Unique_threshold= FALSE,
+ rhoparam=c(0.6, 0.5,0.4))
 
 }
 \references{
 Llobell, F., Cariou, V., Vigneau, E., Labenne, A., & Qannari, E. M. (2018). Analysis and clustering of multiblock datasets by means of the STATIS and CLUSTATIS methods. Application to sensometrics. Food Quality and Preference, in Press.\cr
 Llobell, F., Vigneau, E., Qannari, E. M. (2019). Clustering datasets by means of CLUSTATIS with identification of atypical datasets. Application to sensometrics. Food Quality and Preference, 75, 97-104.
+Llobell, F., & Qannari, E. M. (2020). CLUSTATIS: Cluster analysis of blocks of variables. Electronic Journal of Applied Statistical Analysis, 13(2).
 }
 \seealso{
 \code{\link{plot.clustatis}}, \code{\link{summary.clustatis}} , \code{\link{clustatis_kmeans}}, \code{\link{statis}}

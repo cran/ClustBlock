@@ -1,22 +1,20 @@
-.crit_statisWj_fast=function(Wj, index, RVtot){
-  #Wj list
+.crit_statisWj_fast <- function(Wj, index, RVtot) {
+  # Wj list
 
-  n=nrow(Wj[[1]])
-  nblo=length(Wj)
+  n <- nrow(Wj[[1]])
+  nblo <- length(Wj)
 
-  RV=RVtot[index, index]
+  RV <- RVtot[index, index]
 
-  if (length(index)>1)
-  {
-    ressvd=svd(RV)
-    lambda=ressvd$d[1]
-  }else{
-    lambda=1
+  if (length(index) > 1) {
+    ressvd <- svd(RV)
+    lambda <- ressvd$d[1]
+  } else {
+    lambda <- 1
   }
 
 
-  Q=nblo-lambda
+  Q <- nblo - lambda
 
   return(Q)
-
 }

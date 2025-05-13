@@ -8,9 +8,9 @@
   \tabular{ll}{
     Package: \tab ClustBlock\cr
     Type: \tab Package\cr
-    Version: \tab 4.0.0\cr
+    Version: \tab 4.1.0\cr
     First version Date: \tab 2019-03-06\cr
-    Last version Date: \tab 2024-05-21\cr
+    Last version Date: \tab 2025-05-13\cr
   }
 }
 
@@ -22,12 +22,14 @@
 
 \references{
 \tabular{l}{
-Llobell, F., Cariou, V., Vigneau, E., Labenne, A., & Qannari, E. M. (2020). Analysis and clustering of multiblock datasets\cr by means of the STATIS and CLUSTATIS methods. Application to sensometrics. Food\cr Quality and Preference, 79, 103520.\cr
+Llobell, F., Cariou, V., Vigneau, E., Labenne, A., & Qannari, E. M. (2020). Analysis and clustering of multiblock datasets\cr by means of the STATIS and CLUSTATIS methods. Application to sensometrics. Food Quality and Preference,\cr 79, 103520.\cr
 Llobell, F., Vigneau, E., & Qannari, E. M. (2019). Clustering datasets by means of CLUSTATIS with identification\cr of atypical datasets. Application to sensometrics. Food Quality and Preference, 75, 97-104.\cr
 Llobell, F., Cariou, V., Vigneau, E., Labenne, A., & Qannari, E. M. (2019). A new approach for the analysis of data \cr and the clustering of subjects in a CATA experiment. Food quality and preference, 72, 31-39.\cr
 Llobell, F., Giacalone, D., Labenne, A., & Qannari, E. M. (2019). Assessment of the agreement and cluster analysis of\cr  the respondents in a CATA experiment. Food Quality and Preference, 77, 184-190.\cr
 Llobell, F., & Qannari, E. M. (2020). CLUSTATIS: Cluster analysis of blocks of variables. Electronic\cr Journal of Applied Statistical Analysis, 13(2), 436-453.\cr
-Llobell, F. (2020). Classification de tableaux de données, applications en analyse sensorielle (Doctoral\cr dissertation, Nantes, Ecole nationale vétérinaire).}}
+Llobell, F. (2020). Classification de tableaux de donnees, applications en analyse sensorielle (Doctoral\cr dissertation, Nantes, Ecole nationale veterinaire).\cr
+Llobell, F., Bonnet, L., & Giacalone, D. (2024). Assessment of panel performance in CATA and RATA experiment. \cr Journal of Sensory Studies, 39(4), e12941.\cr
+Llobell, F., & Giacalone, D. (2025). Two Methods for Clustering Products in a Sensory Study: STATIS and ClusMB. \cr Journal of Sensory Studies, 40(1), e70024.}}
 
 \keyword{Clustering}
 \keyword{Blocks}

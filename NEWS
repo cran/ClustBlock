@@ -1,5 +1,6 @@
-Changes in ClustBlock 4.0.0 (2024-05-21)
-*Possibility to choose the noise cluster threshold in CLUSTATIS and CLUSCATA
-*Cluster analysis of subjects in a RATA experiment method (cluscata_rata)
-*Clustering of rows in a multi-block context (products in sensory analysis) via 2 methods: ClusMB and ClustRowsOnStatisAxes
-*Insighful new indices about this last cluster analysis methods in indicesclusters function
+Changes in ClustBlock 4.1.0 (2025-05-13)
+*New possibility: have a noise cluster per group
+*Automatic computation or manual available
+*clusMB method graphs improvement
+*Clustering on STATIS axes graphs improvement
+*Help improvement

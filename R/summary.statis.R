@@ -1,4 +1,4 @@
-##=============================================================================
+## =============================================================================
 
 
 ##' @title Show the STATIS results
@@ -33,24 +33,24 @@
 ##' @export
 
 
-##=============================================================================
+## =============================================================================
 
 
 
 
 
-summary.statis=function(object, ...)
-{
-  res.statis=object
-  if(inherits(res.statis, "statis")==FALSE)
-  {
+summary.statis <- function(object, ...) {
+  res.statis <- object
+  if (inherits(res.statis, "statis") == FALSE) {
     stop("The class of the object must be 'statis'")
   }
 
-  NameBlocks=names(res.statis$weights)
+  NameBlocks <- names(res.statis$weights)
 
 
-  res=list(homogeneity=res.statis$homogeneity, weights=res.statis$weights,
-            eigenvalues=res.statis$eigenvalues, inertia=res.statis$inertia)
+  res <- list(
+    homogeneity = res.statis$homogeneity, weights = res.statis$weights,
+    eigenvalues = res.statis$eigenvalues, inertia = res.statis$inertia
+  )
   return(res)
 }

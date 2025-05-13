@@ -1,4 +1,4 @@
-##=============================================================================
+## =============================================================================
 
 
 ##' @title Perform a cluster analysis of free sorting data
@@ -8,7 +8,8 @@
 ##' computed by the STATIS method. Moreover, a noise cluster can be set up.
 ##'
 ##' @usage
-##'clustatis_FreeSort(Data, NameSub=NULL, Noise_cluster=FALSE,Itermax=30,
+##' clustatis_FreeSort(Data, NameSub=NULL, Noise_cluster=FALSE,
+##'                            Unique_threshold = TRUE, Itermax=30,
 ##'                            Graph_dend=TRUE, Graph_bar=TRUE, printlevel=FALSE,
 ##'                            gpmax=min(6, ncol(Data)-1),rhoparam=NULL,
 ##'                            Testonlyoneclust=FALSE, alpha=0.05, nperm=50)
@@ -20,6 +21,8 @@
 ##'
 ##' @param Noise_cluster logical. Should a noise cluster be computed? Default: FALSE
 ##'
+##' @param Unique_threshold logical. Use same rho for every cluster? Default: TRUE
+##'
 ##' @param Itermax numerical. Maximum of iteration for the partitioning algorithm. Default: 30
 ##'
 ##' @param Graph_dend logical. Should the dendrogram be plotted? Default: TRUE
@@ -30,7 +33,7 @@
 ##'
 ##' @param gpmax logical. What is maximum number of clusters to consider? Default: min(6, number of subjects -1)
 ##'
-##' @param rhoparam numerical. What is the threshold for the noise cluster? Between 0 and 1, high value can imply lot of blocks set aside. If NULL, automatic threshold is computed.
+##' @param rhoparam numerical or vector. What is the threshold for the noise cluster? Between 0 and 1, high value can imply lot of blocks set aside. If NULL, automatic threshold is computed. Can be different for each group (in this case, provide a vector)
 ##'
 ##' @param Testonlyoneclust logical. Test if there is more than one cluster? Default: FALSE
 ##'
@@ -46,7 +49,7 @@
 ##' @return Each partitionK contains a list for each number of clusters of the partition, K=1 to gpmax with:
 ##'         \itemize{
 ##'          \item group: the clustering partition of subjects after consolidation. If Noise_cluster=TRUE, some subjects could be in the noise cluster ("K+1")
-##'          \item rho: the threshold for the noise cluster
+##'          \item rho: the threshold(s) for the noise cluster
 ##'          \item homogeneity: homogeneity index (%) of each cluster and the overall homogeneity index (%) of the partition
 ##'          \item rv_with_compromise: RV coefficient of each block with its cluster compromise
 ##'          \item weights: weight associated with each subject in its cluster
@@ -80,31 +83,33 @@
 ##'
 ##'
 ##' @examples
-##'data(choc)
-##'res.clu=clustatis_FreeSort(choc)
-##'plot(res.clu, Graph_dend=FALSE)
-##'summary(res.clu)
+##' data(choc)
+##' res.clu=clustatis_FreeSort(choc)
+##' plot(res.clu, Graph_dend=FALSE)
+##' summary(res.clu)
 ##'
 ##' @seealso   \code{\link{clustatis}}, \code{\link{preprocess_FreeSort}}, \code{\link{summary.clustatis}}, , \code{\link{plot.clustatis}}
 ##'
 ##' @export
 
 
-##=============================================================================
+## =============================================================================
 
 
-clustatis_FreeSort=function(Data,NameSub=NULL, Noise_cluster=FALSE,Itermax=30,
-                        Graph_dend=TRUE, Graph_bar=TRUE, printlevel=FALSE,
-                        gpmax=min(6, ncol(Data)-1),rhoparam=NULL,
-                        Testonlyoneclust=FALSE, alpha=0.05, nperm=50)
-{
+clustatis_FreeSort <- function(Data, NameSub = NULL, Noise_cluster = FALSE,
+                               Unique_threshold = TRUE, Itermax = 30,
+                               Graph_dend = TRUE, Graph_bar = TRUE, printlevel = FALSE,
+                               gpmax = min(6, ncol(Data) - 1), rhoparam = NULL,
+                               Testonlyoneclust = FALSE, alpha = 0.05, nperm = 50) {
+  prepro <- preprocess_FreeSort(Data, NameSub = NameSub)
 
-  prepro=preprocess_FreeSort(Data, NameSub = NameSub)
-
-  a=clustatis(Data=prepro$new_Data,Blocks= prepro$Blocks,NameBlocks= prepro$NameBlocks,
-              Noise_cluster=Noise_cluster, scale=FALSE, Itermax=Itermax,
-              Graph_dend=Graph_dend, Graph_bar=Graph_bar, printlevel=printlevel,
-              gpmax=gpmax, rhoparam=rhoparam,
-              Testonlyoneclust=Testonlyoneclust, alpha=alpha, nperm=nperm)
+  a <- clustatis(
+    Data = prepro$new_Data, Blocks = prepro$Blocks, NameBlocks = prepro$NameBlocks,
+    Noise_cluster = Noise_cluster, Unique_threshold = Unique_threshold,
+    scale = FALSE, Itermax = Itermax,
+    Graph_dend = Graph_dend, Graph_bar = Graph_bar, printlevel = printlevel,
+    gpmax = gpmax, rhoparam = rhoparam,
+    Testonlyoneclust = Testonlyoneclust, alpha = alpha, nperm = nperm
+  )
   return(a)
 }

@@ -1,4 +1,3 @@
-
 ##' @title Perform a cluster analysis of rows in a Multi-block context with the ClusMB method
 ##'
 ##' @description
@@ -39,9 +38,9 @@
 ##' @keywords quantitative CATA RATA
 ##'
 ##' @references
+##' Llobell, F., & Giacalone, D. (2025). Two Methods for Clustering Products in a Sensory Study: STATIS and ClusMB. Journal of Sensory Studies, 40(1), e70024.\cr
 ##' Llobell, F., Qannari, E.M. (June 10, 2022). Cluster analysis in a multi-bloc setting. SMTDA, Athens, Greece.\cr
 ##' Llobell, F., Giacalone, D., Qannari, E. M. (Pangborn 2021). Cluster Analysis of products in CATA experiments.\cr
-##' Paper submitted
 ##'
 ##' @examples
 ##'
@@ -64,161 +63,152 @@
 ##' @export
 
 
-##=============================================================================
+## =============================================================================
 
 
-ClusMB= function(Data, Blocks, NameBlocks=NULL, scale=FALSE, center=TRUE,
-                 nclust=NULL, gpmax=6)
-{
-  nblo=length(Blocks)
-  n=nrow(Data)
-  if (is.null(NameBlocks)) NameBlocks=paste("B",1:nblo,sep="-")
-  if(is.null(rownames(Data))) rownames(Data)=paste0("X", 1:nrow(Data))
-  if(is.null(colnames(Data))) colnames(Data)=paste0("Y",1:ncol(Data))
+ClusMB <- function(Data, Blocks, NameBlocks = NULL, scale = FALSE, center = TRUE,
+                   nclust = NULL, gpmax = 6) {
+  nblo <- length(Blocks)
+  n <- nrow(Data)
+  if (is.null(NameBlocks)) NameBlocks <- paste("B", 1:nblo, sep = "-")
+  if (is.null(rownames(Data))) rownames(Data) <- paste0("X", 1:nrow(Data))
+  if (is.null(colnames(Data))) colnames(Data) <- paste0("Y", 1:ncol(Data))
 
-  #parapet for numerical Data
-  for (i in 1: ncol(Data))
+  # parapet for numerical Data
+  for (i in 1:ncol(Data))
   {
-    if (is.numeric(Data[,i])==FALSE)
-    {
-      stop(paste("The data must be numeric (column",i,")"))
+    if (is.numeric(Data[, i]) == FALSE) {
+      stop(paste("The data must be numeric (column", i, ")"))
     }
   }
 
-  #parapet for number of objects
-  if(n<3)
-  {
+  # parapet for number of objects
+  if (n < 3) {
     stop("At least 3 objects are required")
   }
 
-  #parapet for number of blocks
-  if(nblo<2)
-  {
+  # parapet for number of blocks
+  if (nblo < 2) {
     stop("At least 2 blocks are required")
   }
 
 
-  #parapet for Blocks
-  if(sum(Blocks)!=ncol(Data))
-  {
+  # parapet for Blocks
+  if (sum(Blocks) != ncol(Data)) {
     stop("Error with Blocks")
   }
 
-  #Parapet for NameBlocks
-  if(length(NameBlocks)!=nblo)
-  {
+  # Parapet for NameBlocks
+  if (length(NameBlocks) != nblo) {
     stop("Error with the length of NameBlocks")
   }
 
 
-  #parapet for scale: no constant variable
-  if(scale==TRUE)
-  {
+  # parapet for scale: no constant variable
+  if (scale == TRUE) {
     for (i in 1:ncol(Data))
     {
-      if (sd(Data[,i])==0)
-      {
+      if (sd(Data[, i]) == 0) {
         stop(paste("Column", i, "is constant"))
       }
     }
   }
 
-  #no NA
-  if(sum(is.na(Data))>0)
-  {
+  # no NA
+  if (sum(is.na(Data)) > 0) {
     print("NA detected:")
-    tabna=which(is.na(Data), arr.ind = TRUE)
+    tabna <- which(is.na(Data), arr.ind = TRUE)
     print(tabna)
     stop(paste("NA are not accepted"))
   }
 
 
-  #centering and scaling if necessary
-  Data=scale(Data,center=center,scale=scale)
+  # centering and scaling if necessary
+  Data <- scale(Data, center = center, scale = scale)
 
-  J=rep(1:nblo , times = Blocks) # indicates which block each variable belongs to
+  J <- rep(1:nblo, times = Blocks) # indicates which block each variable belongs to
 
-  X=NULL
-  Xj=list()
+  X <- NULL
+  Xj <- list()
   for (i in 1:nblo)
   {
-    Xi=as.matrix(Data[,J==i])
-    normXi=sqrt(sum(diag(Xi%*%t(Xi))))
-    if(normXi==0)
-    {
-      stop(paste("error: the block",NameBlocks[i], "is constant"))  #parapet for constant configurations
+    Xi <- as.matrix(Data[, J == i])
+    normXi <- sqrt(sum(diag(Xi %*% t(Xi))))
+    if (normXi == 0) {
+      stop(paste("error: the block", NameBlocks[i], "is constant")) # parapet for constant configurations
     }
-    Xi=Xi/normXi #standardization
-    X=cbind(X, Xi)
-    Xj[[i]]=Xi
+    Xi <- Xi / normXi # standardization
+    X <- cbind(X, Xi)
+    Xj[[i]] <- Xi
   }
 
-  d=dist(X)
-  resh=hclust(d, method="ward.D2")
-  res2=resh
-  res2$height=(resh$height/sqrt(2))**2
+  d <- dist(X)
+  resh <- hclust(d, method = "ward.D2")
+  res2 <- resh
+  res2$height <- (resh$height / sqrt(2))**2
   dev.new()
-  plot(res2, hang=-1,  main="ClusMB Dendrogram", axes=TRUE,ylab="Height", sub="", xlab="" )
+  plot(res2, hang = -1, main = "ClusMB Dendrogram", axes = TRUE, ylab = "Height", sub = "", xlab = "")
 
-  #number of clusters advised by hartigan
-  criter=sort(cumsum(res2$height),decreasing = TRUE)
-  H=NULL
-  for (k in 1:min(gpmax,n-2))
+  # number of clusters advised by hartigan
+  criter <- sort(cumsum(res2$height), decreasing = TRUE)
+  H <- NULL
+  for (k in 1:min(gpmax, n - 2))
   {
-    H[k]=(criter[k]/criter[k+1]-1)*(n-k-1)
+    H[k] <- (criter[k] / criter[k + 1] - 1) * (n - k - 1)
   }
-  nbgroup_hart=which.max(H[-(min(gpmax,n-2))]-H[-1])+1
-  cat(paste("Recommended number of clusters =", nbgroup_hart),"\n")
+  nbgroup_hart <- which.max(H[-(min(gpmax, n - 2))] - H[-1]) + 1
+  cat(paste("Recommended number of clusters =", nbgroup_hart), "\n")
 
-  #number of clusters advised by Calinsi Harabasz
-  bgss=NULL
+  # number of clusters advised by Calinsi Harabasz
+  bgss <- NULL
   for (i in 1:gpmax)
   {
-    bgss[i]=nblo-criter[i]
+    bgss[i] <- nblo - criter[i]
   }
 
-  CH=NULL
-  CH[1]=0
+  CH <- NULL
+  CH[1] <- 0
   for (k in 2:gpmax)
   {
-    num=(bgss[k]/(k-1))
-    den=(criter[k])/(n-k)
-    CH[k]=num/den
+    num <- (bgss[k] / (k - 1))
+    den <- (criter[k]) / (n - k)
+    CH[k] <- num / den
   }
-  nbgroup_ch=which.max(CH)
+  nbgroup_ch <- which.max(CH)
 
-  #take the number of clusters suggested by Hartigan if not privided
-  if (is.null(nclust))
-  {
-    nclust=nbgroup_hart
+  # take the number of clusters suggested by Hartigan if not privided
+  if (is.null(nclust)) {
+    nclust <- nbgroup_hart
   }
 
-  cutree_k=list()
+  cutree_k <- list()
   for (K in 1:gpmax)
   {
-    coupe=cutree(res2,K)
-    cutree_k[[K]]=coupe
+    coupe <- cutree(res2, K)
+    cutree_k[[K]] <- coupe
   }
-  names(cutree_k)=paste0("partition", 1:gpmax)
+  names(cutree_k) <- paste0("partition", 1:gpmax)
 
-  clust=cutree(res2, nclust)
-  #consolidation
-  centers=matrix(0, nclust, ncol(X))
-  for (i in 1:nclust)
-    if (sum(clust==i)>1)
-    {
-      centers[i,]=apply(X[cutree(res2,nclust)==i,],2, mean)
-    }else{
-      centers[i,]=X[cutree(res2,nclust)==i,]
+  clust <- cutree(res2, nclust)
+  # consolidation
+  centers <- matrix(0, nclust, ncol(X))
+  for (i in 1:nclust) {
+    if (sum(clust == i) > 1) {
+      centers[i, ] <- apply(X[cutree(res2, nclust) == i, ], 2, mean)
+    } else {
+      centers[i, ] <- X[cutree(res2, nclust) == i, ]
     }
+  }
 
-  res=kmeans(X, centers, iter.max = 100)
+  res <- kmeans(X, centers, iter.max = 100)
 
-  resClusMB=list(group = res$cluster, nbgH=nbgroup_hart,
-                   nbgCH=nbgroup_ch, cutree_k= cutree_k, dend=res2,
-                 param=list(nblo=nblo, gpmax=gpmax, n=n),
-                 type="ClusMB")
-  class(resClusMB)="clusRows"
+  resClusMB <- list(
+    group = res$cluster, nbgH = nbgroup_hart,
+    nbgCH = nbgroup_ch, cutree_k = cutree_k, dend = res2,
+    param = list(nblo = nblo, gpmax = gpmax, n = n),
+    type = "ClusMB"
+  )
+  class(resClusMB) <- "clusRows"
 
   return(resClusMB)
 }

@@ -55,7 +55,7 @@ indicesClusters(Data= chang2$Datafinal, Blocks= rep(27, 11),cut = res2$group, ce
 
 }
 \references{
-Paper submitted
+Llobell, F., & Giacalone, D. (2025). Two Methods for Clustering Products in a Sensory Study: STATIS and ClusMB. Journal of Sensory Studies, 40(1), e70024.\cr
 }
 \seealso{
 \code{\link{indicesClusters}}, \code{\link{summary.clusRows}} , \code{\link{ClusMB}}

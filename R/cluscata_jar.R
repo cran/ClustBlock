@@ -1,4 +1,4 @@
-##=============================================================================
+## =============================================================================
 
 
 ##' @title Perform a cluster analysis of subjects in a JAR experiment.
@@ -8,9 +8,9 @@
 ##' computed by the CATATIS method. The hierarchical clustering is followed by a partitioning algorithm (consolidation).
 ##'
 ##' @usage
-##'cluscata_jar(Data, nprod, nsub, levelsJAR=3, beta=0.1,  Noise_cluster=FALSE,
-##'         Itermax=30, Graph_dend=TRUE, Graph_bar=TRUE, printlevel=FALSE,
-##'         gpmax=min(6, nsub-2), rhoparam=NULL,
+##' cluscata_jar(Data, nprod, nsub, levelsJAR=3, beta=0.1,  Noise_cluster=FALSE,
+##'         Unique_threshold=TRUE, Itermax=30, Graph_dend=TRUE, Graph_bar=TRUE,
+##'          printlevel=FALSE, gpmax=min(6, nsub-2), rhoparam=NULL,
 ##'         Testonlyoneclust=FALSE, alpha=0.05, nperm=50, Warnings=FALSE)
 ##'
 ##' @param Data data frame where the first column is the Assessors, the second is the products and all other columns the JAR attributes with numbers (1 to 3 or 1 to 5, see levelsJAR)
@@ -25,6 +25,8 @@
 ##'
 ##' @param Noise_cluster logical. Should a noise cluster be computed? Default: FALSE
 ##'
+##' @param Unique_threshold logical. Use same rho for every cluster? Default: TRUE
+##'
 ##' @param Itermax numerical. Maximum of iteration for the partitioning algorithm. Default:30
 ##'
 ##' @param Graph_dend logical. Should the dendrogram be plotted? Default: TRUE
@@ -35,7 +37,7 @@
 ##'
 ##' @param gpmax logical. What is maximum number of clusters to consider? Default: min(6, nblo-2)
 ##'
-##' @param rhoparam numerical. What is the threshold for the noise cluster? Between 0 and 1, high value can imply lot of blocks set aside. If NULL, automatic threshold is computed.
+##' @param rhoparam numerical or vector. What is the threshold for the noise cluster? Between 0 and 1, high value can imply lot of blocks set aside. If NULL, automatic threshold is computed. Can be different for each group (in this case, provide a vector)
 ##'
 ##' @param Testonlyoneclust logical. Test if there is more than one cluster? Default: FALSE
 ##'
@@ -49,7 +51,7 @@
 ##' @return Each partitionK contains a list for each number of clusters of the partition, K=1 to gpmax with:
 ##'         \itemize{
 ##'          \item group: the clustering partition after consolidation. If Noise_cluster=TRUE, some subjects could be in the noise cluster ("K+1")
-##'          \item rho: the threshold for the noise cluster
+##'          \item rho: the threshold(s) for the noise cluster
 ##'          \item homogeneity: homogeneity index (%) of each cluster and the overall homogeneity index (%) of the partition
 ##'          \item s_with_compromise: similarity coefficient of each subject with its cluster compromise
 ##'          \item weights: weight associated with each subject in its cluster
@@ -86,27 +88,28 @@
 ##' res=cluscata_jar(Data=cheese, nprod=8, nsub=72, levelsJAR=5)
 ##' #plot(res, ngroups=4, Graph_dend=FALSE)
 ##' summary(res, ngroups=4)
-##'}
+##' }
 ##'
 ##' @seealso   \code{\link{plot.cluscata}}, \code{\link{summary.cluscata}} , \code{\link{catatis_jar}}, \code{\link{preprocess_JAR}}, \code{\link{cluscata_kmeans_jar}}
 ##'
 ##' @export
 
 
-##=============================================================================
+## =============================================================================
 
-cluscata_jar=function(Data, nprod, nsub, levelsJAR=3, beta=0.1, Noise_cluster=FALSE,
-                      Itermax=30, Graph_dend=TRUE, Graph_bar=TRUE, printlevel=FALSE,
-                      gpmax=min(6, nsub-2), rhoparam=NULL,
-                      Testonlyoneclust=FALSE, alpha=0.05,nperm=50, Warnings=FALSE)
-{
-  #preprocessing
-  prepro=preprocess_JAR(Data, nprod, nsub, levelsJAR, beta)
-  #catatis
-  clu=cluscata(prepro$Datafinal, nsub, NameBlocks = prepro$NameSub, Noise_cluster=Noise_cluster,
-               Itermax=Itermax, Graph_dend=Graph_dend, Graph_bar=Graph_bar, printlevel=printlevel,
-               gpmax=gpmax, rhoparam=rhoparam, Testonlyoneclust=Testonlyoneclust, alpha=alpha,
-               nperm=nperm, Warnings=Warnings)
-  return (clu)
-
+cluscata_jar <- function(Data, nprod, nsub, levelsJAR = 3, beta = 0.1, Noise_cluster = FALSE,
+                         Unique_threshold = TRUE, Itermax = 30,
+                         Graph_dend = TRUE, Graph_bar = TRUE, printlevel = FALSE,
+                         gpmax = min(6, nsub - 2), rhoparam = NULL,
+                         Testonlyoneclust = FALSE, alpha = 0.05, nperm = 50, Warnings = FALSE) {
+  # preprocessing
+  prepro <- preprocess_JAR(Data, nprod, nsub, levelsJAR, beta)
+  # catatis
+  clu <- cluscata(prepro$Datafinal, nsub,
+    NameBlocks = prepro$NameSub, Noise_cluster = Noise_cluster,
+    Unique_threshold = Unique_threshold, Itermax = Itermax, Graph_dend = Graph_dend, Graph_bar = Graph_bar, printlevel = printlevel,
+    gpmax = gpmax, rhoparam = rhoparam, Testonlyoneclust = Testonlyoneclust, alpha = alpha,
+    nperm = nperm, Warnings = Warnings
+  )
+  return(clu)
 }

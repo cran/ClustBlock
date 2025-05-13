@@ -2,7 +2,7 @@
 % Please edit documentation in R/cluscata_kmeans.R
 \name{cluscata_kmeans}
 \alias{cluscata_kmeans}
-\title{Compute the CLUSCATA partitioning algorithm on different blocks from a CATA experiment. Can be performed using a multi-start strategy or initial partition provided by the user.}
+\title{Compute the CLUSCATA partitioning algorithm on different blocks from a CATA experiment}
 \usage{
 cluscata_kmeans(Data,nblo, clust, nstart=100, rho=0, NameBlocks=NULL, NameVar=NULL,
                Itermax=30, Graph_groups=TRUE, print_attempt=FALSE, Warnings=FALSE)
@@ -16,13 +16,13 @@ cluscata_kmeans(Data,nblo, clust, nstart=100, rho=0, NameBlocks=NULL, NameVar=NU
 
 \item{nstart}{numerical. Number of starting partitions. Default: 100}
 
-\item{rho}{numerical between 0 and 1. Threshold for the noise cluster. If 0, there is no noise cluster. Default: 0}
+\item{rho}{numerical or vector between 0 and 1. Threshold for the noise cluster. Default:0. If you want a different threshold for each cluster, you can provide a vector.}
 
 \item{NameBlocks}{string vector. Name of each block. Length must be equal to the number of blocks. If NULL, the names are S1,...Sm. Default: NULL}
 
 \item{NameVar}{string vector. Name of each variable (attribute, the same names for each subject). Length must be equal to the number of attributes. If NULL, the colnames of the first block are taken. Default: NULL}
 
-\item{Itermax}{numerical. Maximum of iterations by partitionning algorithm. Default: 30}
+\item{Itermax}{numerical. Maximum of iterations by partitioning algorithm. Default: 30}
 
 \item{Graph_groups}{logical. Should each cluster compromise graphical representation be plotted? Default: TRUE}
 
@@ -48,7 +48,7 @@ a list with:
          }
 }
 \description{
-Partitioning of binary Blocks from a CATA experiment. Each cluster is associated with a compromise computed by the CATATIS method. Moreover, a noise cluster can be set up.
+Partitioning of binary Blocks from a CATA experiment. Each cluster is associated with a compromise computed by the CATATIS method. Can be performed using a multi-start strategy or initial partition provided by the user. Moreover, a noise cluster can be set up.
 }
 \examples{
 \donttest{

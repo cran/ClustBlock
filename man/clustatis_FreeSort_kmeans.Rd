@@ -2,7 +2,7 @@
 % Please edit documentation in R/clustatis_FreeSort_kmeans.R
 \name{clustatis_FreeSort_kmeans}
 \alias{clustatis_FreeSort_kmeans}
-\title{Compute the CLUSTATIS partitionning algorithm on free sorting data}
+\title{Compute the CLUSTATIS partitioning algorithm on free sorting data}
 \usage{
 clustatis_FreeSort_kmeans(Data, NameSub=NULL, clust, nstart=100, rho=0,Itermax=30,
 Graph_groups=TRUE, Graph_weights=FALSE,  print_attempt=FALSE)
@@ -16,9 +16,9 @@ Graph_groups=TRUE, Graph_weights=FALSE,  print_attempt=FALSE)
 
 \item{nstart}{integer. Number of starting partitions. Default: 100}
 
-\item{rho}{numerical between 0 and 1. Threshold for the noise cluster. Default:0}
+\item{rho}{numerical or vector between 0 and 1. Threshold for the noise cluster. Default:0. If you want a different threshold for each cluster, you can provide a vector.}
 
-\item{Itermax}{numerical. Maximum of iterations by partitionning algorithm. Default: 30}
+\item{Itermax}{numerical. Maximum of iterations by partitioning algorithm. Default: 30}
 
 \item{Graph_groups}{logical. Should each cluster compromise be plotted? Default: TRUE}
 
@@ -30,7 +30,7 @@ Graph_groups=TRUE, Graph_weights=FALSE,  print_attempt=FALSE)
 a list with:
         \itemize{
          \item group: the clustering partition. If rho>0, some subjects could be in the noise cluster ("K+1")
-         \item rho: the threshold for the noise cluster
+         \item rho: the threshold(s) for the noise cluster
          \item homogeneity: percentage of homogeneity of the subjects in each cluster and the overall homogeneity
          \item rv_with_compromise: RV coefficient of each subject with its cluster compromise
          \item weights: weight associated with each subject in its cluster
@@ -45,7 +45,7 @@ a list with:
          }
 }
 \description{
-Partitionning algorithm for Free Sorting data. Each cluster is associated with a compromise
+partitioning algorithm for Free Sorting data. Each cluster is associated with a compromise
 computed by the STATIS method. Moreover, a noise cluster can be set up.
 }
 \examples{

@@ -5,9 +5,9 @@
 \title{Perform a cluster analysis of subjects from a CATA experiment}
 \usage{
 cluscata(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE,
-        Itermax=30, Graph_dend=TRUE, Graph_bar=TRUE, printlevel=FALSE,
-        gpmax=min(6, nblo-2), rhoparam=NULL, Testonlyoneclust=FALSE, alpha=0.05,
-        nperm=50, Warnings=FALSE)
+        Unique_threshold=TRUE, Itermax=30, Graph_dend=TRUE, Graph_bar=TRUE,
+         printlevel=FALSE, gpmax=min(6, nblo-2), rhoparam=NULL,
+         Testonlyoneclust=FALSE, alpha=0.05, nperm=50, Warnings=FALSE)
 }
 \arguments{
 \item{Data}{data frame or matrix where the blocks of binary variables are merged horizontally. If you have a different format, see \code{\link{change_cata_format}}}
@@ -20,6 +20,8 @@ cluscata(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE,
 
 \item{Noise_cluster}{logical. Should a noise cluster be computed? Default: FALSE}
 
+\item{Unique_threshold}{logical. Use same rho for every cluster? Default: TRUE}
+
 \item{Itermax}{numerical. Maximum of iteration for the partitioning algorithm. Default:30}
 
 \item{Graph_dend}{logical. Should the dendrogram be plotted? Default: TRUE}
@@ -30,7 +32,7 @@ cluscata(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE,
 
 \item{gpmax}{logical. What is maximum number of clusters to consider? Default: min(6, nblo-2)}
 
-\item{rhoparam}{numerical. What is the threshold for the noise cluster? Between 0 and 1, high value can imply lot of blocks set aside. If NULL, automatic threshold is computed.}
+\item{rhoparam}{numerical or vector. What is the threshold for the noise cluster? Between 0 and 1, high value can imply lot of blocks set aside. If NULL, automatic threshold is computed. Can be different for each group (in this case, provide a vector)}
 
 \item{Testonlyoneclust}{logical. Test if there is more than one cluster? Default: FALSE}
 
@@ -87,6 +89,10 @@ Graph_dend=FALSE, Graph_bar=FALSE)
 #(ex: 0.2 or 0.3) to avoid set aside lot of respondents)
 res3=cluscata(Data=straw[,1:(16*40)], nblo=40, Noise_cluster=TRUE,
 Graph_dend=FALSE, Graph_bar=FALSE, rhoparam=0.6)
+#different Noise cluster thresholds
+res3=cluscata(Data=straw[,1:(16*40)], nblo=40, Noise_cluster=TRUE,
+Graph_dend=FALSE, Graph_bar=FALSE, Unique_threshold= FALSE,
+ rhoparam=c(0.6, 0.5,0.4))
 #with all subjects
 res=cluscata(Data=straw, nblo=114, printlevel=TRUE)
 

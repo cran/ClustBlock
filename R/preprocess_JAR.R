@@ -1,4 +1,4 @@
-##=============================================================================
+## =============================================================================
 
 
 ##' @title Preprocessing for Just About Right Data
@@ -42,101 +42,85 @@
 ##' @export
 
 
-##=============================================================================
+## =============================================================================
 
-preprocess_JAR= function(Data,  nprod, nsub, levelsJAR=3, beta=0.1)
-{
-  NameSub=unique(Data[,1])
-  NameProd=unique(Data[,2])
-  JAR=Data
-  #subject by subject
+preprocess_JAR <- function(Data, nprod, nsub, levelsJAR = 3, beta = 0.1) {
+  NameSub <- unique(Data[, 1])
+  NameProd <- unique(Data[, 2])
+  JAR <- Data
+  # subject by subject
   for (i in 1:nsub)
   {
-    JAR[((i-1)*nprod+1):(i*nprod),]=Data[Data[,1]==NameSub[i],]
+    JAR[((i - 1) * nprod + 1):(i * nprod), ] <- Data[Data[, 1] == NameSub[i], ]
   }
-  #put data in same order of products
+  # put data in same order of products
   for (i in 1:nprod)
   {
-    JAR[seq(i,nsub*nprod+(i-1),nprod),]=Data[Data[,2]==NameProd[i],]
+    JAR[seq(i, nsub * nprod + (i - 1), nprod), ] <- Data[Data[, 2] == NameProd[i], ]
   }
-  JAR=JAR[,-c(1:2)]
+  JAR <- JAR[, -c(1:2)]
 
-  #Use only three levels
-  if (levelsJAR!=3 && levelsJAR!=5)
-  {
+  # Use only three levels
+  if (levelsJAR != 3 && levelsJAR != 5) {
     stop("levelsJAR parameter must be 3 or 5")
   }
-  if (levelsJAR==5)
-  {
+  if (levelsJAR == 5) {
     for (i in 1:nrow(JAR))
     {
-      for (j in 1: ncol(JAR))
-        if (JAR[i,j]==5 || JAR[i,j]==4)
-        {
-          JAR[i,j]=3
+      for (j in 1:ncol(JAR)) {
+        if (JAR[i, j] == 5 || JAR[i, j] == 4) {
+          JAR[i, j] <- 3
+        } else if (JAR[i, j] == 2) {
+          JAR[i, j] <- 1
+        } else if (JAR[i, j] == 3) {
+          JAR[i, j] <- 2
         }
-      else if (JAR[i,j]==2)
-      {
-        JAR[i,j]=1
-      }
-      else if (JAR[i,j]==3)
-      {
-        JAR[i,j]=2
       }
     }
   }
 
 
-  #rename the levels
-  NameAttr=colnames(JAR)
+  # rename the levels
+  NameAttr <- colnames(JAR)
   for (i in 1:nrow(JAR))
   {
-    for (j in 1: ncol(JAR))
-      if (JAR[i,j]==1)
-      {
-        JAR[i,j]=paste0(NameAttr[j], "_too_little")
+    for (j in 1:ncol(JAR)) {
+      if (JAR[i, j] == 1) {
+        JAR[i, j] <- paste0(NameAttr[j], "_too_little")
+      } else if (JAR[i, j] == 2) {
+        JAR[i, j] <- paste0(NameAttr[j], "_jar")
+      } else if (JAR[i, j] == 3) {
+        JAR[i, j] <- paste0(NameAttr[j], "_too_much")
       }
-    else if (JAR[i,j]==2)
-    {
-      JAR[i,j]=paste0(NameAttr[j], "_jar")
-    }
-    else if (JAR[i,j]==3)
-    {
-      JAR[i,j]=paste0(NameAttr[j], "_too_much")
     }
   }
 
-  #transform data in CATA data
-  CATAData=NULL
+  # transform data in CATA data
+  CATAData <- NULL
   for (j in 1:ncol(JAR))
   {
-    CATAData=cbind(CATAData, tab.disjonctif(JAR[,j]))
+    CATAData <- cbind(CATAData, tab.disjonctif(JAR[, j]))
   }
 
-  #use beta
-  for (j in seq(1, ncol(CATAData)-2, 3))
+  # use beta
+  for (j in seq(1, ncol(CATAData) - 2, 3))
   {
     for (i in 1:nrow(CATAData))
     {
-      if (CATAData[i, j]==1)
-      {
-        CATAData[i, c(j+1, j+2)] =beta/2
-        CATAData[i,j]=1-beta
-      }
-      else if (CATAData[i, j+1]==1)
-      {
-        CATAData[i, j] =beta
-        CATAData[i,j+1]=1-beta
-      }
-      else if (CATAData[i, j+2]==1)
-      {
-        CATAData[i, j] =beta
-        CATAData[i,j+2]=1-beta
+      if (CATAData[i, j] == 1) {
+        CATAData[i, c(j + 1, j + 2)] <- beta / 2
+        CATAData[i, j] <- 1 - beta
+      } else if (CATAData[i, j + 1] == 1) {
+        CATAData[i, j] <- beta
+        CATAData[i, j + 1] <- 1 - beta
+      } else if (CATAData[i, j + 2] == 1) {
+        CATAData[i, j] <- beta
+        CATAData[i, j + 2] <- 1 - beta
       }
     }
   }
 
-  #Pass in horizontal format
-  JAR2=change_cata_format(CATAData, nprod, ncol(CATAData), nsub = nsub, 1, NameProds = NameProd, NameAttr = colnames(CATAData))
-  return(list(Datafinal=JAR2, NameSub= NameSub))
+  # Pass in horizontal format
+  JAR2 <- change_cata_format(CATAData, nprod, ncol(CATAData), nsub = nsub, 1, NameProds = NameProd, NameAttr = colnames(CATAData))
+  return(list(Datafinal = JAR2, NameSub = NameSub))
 }

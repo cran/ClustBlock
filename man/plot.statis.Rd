@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.statis.R
 \name{plot.statis}
 \alias{plot.statis}
-\title{Displays the STATIS graphs}
+\title{Display the STATIS charts}
 \usage{
 \method{plot}{statis}(x, axes=c(1,2), Graph_obj=TRUE,
 Graph_weights=TRUE, Graph_eig=TRUE, tit="STATIS", col=NULL, cex=1, font=1,

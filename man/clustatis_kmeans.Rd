@@ -2,7 +2,7 @@
 % Please edit documentation in R/clustatis_kmeans.R
 \name{clustatis_kmeans}
 \alias{clustatis_kmeans}
-\title{Compute the CLUSTATIS partitioning algorithm on different blocks of quantitative variables. Can be performed using a multi-start strategy or initial partition provided by the user.}
+\title{Compute the CLUSTATIS partitioning algorithm on different blocks of quantitative variables}
 \usage{
 clustatis_kmeans(Data, Blocks, clust, nstart=100, rho=0, NameBlocks=NULL,
 Itermax=30,Graph_groups=TRUE, Graph_weights=FALSE,
@@ -17,11 +17,11 @@ Itermax=30,Graph_groups=TRUE, Graph_weights=FALSE,
 
 \item{nstart}{integer. Number of starting partitions. Default: 100}
 
-\item{rho}{numerical between 0 and 1. Threshold for the noise cluster. Default:0}
+\item{rho}{numerical or vector between 0 and 1. Threshold for the noise cluster. Default:0. If you want a different threshold for each cluster, you can provide a vector.}
 
 \item{NameBlocks}{string vector. Name of each block. Length must be equal to the length of Blocks vector. If NULL, the names are B1,...Bm. Default: NULL}
 
-\item{Itermax}{numerical. Maximum of iterations by partitionning algorithm. Default: 30}
+\item{Itermax}{numerical. Maximum of iterations by partitioning algorithm. Default: 30}
 
 \item{Graph_groups}{logical. Should each cluster compromise be plotted? Default: TRUE}
 
@@ -35,7 +35,7 @@ Itermax=30,Graph_groups=TRUE, Graph_weights=FALSE,
 a list with:
         \itemize{
          \item group: the clustering partition. If rho>0, some blocks could be in the noise cluster ("K+1")
-         \item rho: the threshold for the noise cluster
+         \item rho: the threshold(s) for the noise cluster
          \item homogeneity: percentage of homogeneity of the blocks in each cluster and the overall homogeneity
          \item rv_with_compromise: RV coefficient of each block with its cluster compromise
          \item weights: weight associated with each block in its cluster
@@ -50,7 +50,7 @@ a list with:
          }
 }
 \description{
-Partitioning algorithm for quantitative variables. Each cluster is associated with a compromise computed by the STATIS method. Moreover, a noise cluster can be set up.
+Partitioning algorithm for quantitative variables. Each cluster is associated with a compromise computed by the STATIS method. Can be performed using a multi-start strategy or initial partition provided by the user. Moreover, a noise cluster can be set up.
 }
 \examples{
 

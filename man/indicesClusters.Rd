@@ -48,12 +48,12 @@ indicesClusters(Data= chang2$Datafinal, Blocks= rep(27, 11),cut = res2$group, ce
 
 }
 \references{
+Llobell, F., & Giacalone, D. (2025). Two Methods for Clustering Products in a Sensory Study: STATIS and ClusMB. Journal of Sensory Studies, 40(1), e70024.\cr
 Llobell, F., Qannari, E.M. (June 10, 2022). Cluster analysis in a multi-bloc setting. SMTDA, Athens, Greece.\cr
 Llobell, F., Giacalone, D., Qannari, E. M. (Pangborn 2021). Cluster Analysis of products in CATA experiments.\cr
-Paper submitted
 }
 \seealso{
-\code{\link{clustRowsOnStatisAxes}}, , \code{\link{ClusMB}}
+\code{\link{clustRowsOnStatisAxes}}, \code{\link{ClusMB}}
 }
 \keyword{CATA}
 \keyword{RATA}

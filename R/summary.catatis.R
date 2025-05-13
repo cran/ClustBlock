@@ -1,4 +1,4 @@
-##=============================================================================
+## =============================================================================
 
 
 ##' @title Show the CATATIS results
@@ -32,22 +32,22 @@
 ##' @export
 
 
-##=============================================================================
+## =============================================================================
 
 
 
 
 
-summary.catatis=function(object, ...)
-{
-  res.catatis=object
-  if(inherits(res.catatis, "catatis")==FALSE)
-  {
+summary.catatis <- function(object, ...) {
+  res.catatis <- object
+  if (inherits(res.catatis, "catatis") == FALSE) {
     stop("The class of the object must be 'catatis'")
   }
 
 
-  res=list(homogeneity=res.catatis$homog, weights=res.catatis$weights,
-           eigenvalues=res.catatis$eigenvalues, inertia=res.catatis$inertia)
+  res <- list(
+    homogeneity = res.catatis$homog, weights = res.catatis$weights,
+    eigenvalues = res.catatis$eigenvalues, inertia = res.catatis$inertia
+  )
   return(res)
 }

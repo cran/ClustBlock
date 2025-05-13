@@ -1,4 +1,4 @@
-#'RATA data on chocolates
+#' RATA data on chocolates
 #'
 #' @docType data
 #'
@@ -12,4 +12,3 @@
 #' @examples
 #' data(RATAchoc)
 "RATAchoc"
-

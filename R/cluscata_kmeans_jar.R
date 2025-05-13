@@ -1,9 +1,7 @@
-##=============================================================================
-##' @title Perform a cluster analysis of subjects in a JAR experiment.
-##'
-##'
+## =============================================================================
+##' @title Perform a cluster analysis of subjects in a JAR experiment
 ##' @description
-##' Partitionning of subject from a JAR experiment. Each cluster is associated with a compromise
+##' Partitioning of subject from a JAR experiment. Each cluster is associated with a compromise
 ##' computed by the CATATIS method. Moreover, a noise cluster can be set up.
 ##'
 ##' @usage
@@ -24,9 +22,9 @@
 ##'
 ##' @param nstart numerical. Number of starting partitions. Default: 100
 ##'
-##' @param rho numerical between 0 and 1. Threshold for the noise cluster. If 0, there is no noise cluster. Default: 0
+##' @param rho numerical or vector between 0 and 1. Threshold for the noise cluster. Default:0. If you want a different threshold for each cluster, you can provide a vector.
 ##'
-##' @param Itermax numerical. Maximum of iterations by partitionning algorithm. Default: 30
+##' @param Itermax numerical. Maximum of iterations by partitioning algorithm. Default: 30
 ##'
 ##' @param Graph_groups logical. Should each cluster compromise graphical representation be plotted? Default: TRUE
 ##'
@@ -37,7 +35,7 @@
 ##' @return a list with:
 ##'         \itemize{
 ##'          \item group: the clustering partition. If rho>0, some subjects could be in the noise cluster ("K+1")
-##'          \item rho: the threshold for the noise cluster
+##'          \item rho: the threshold(s) for the noise cluster
 ##'          \item homogeneity: percentage of homogeneity of the subjects in each cluster and the overall homogeneity
 ##'          \item s_with_compromise: Similarity coefficient of each subject with its cluster compromise
 ##'          \item weights: weight associated with each subject in its cluster
@@ -65,23 +63,23 @@
 ##' res=cluscata_kmeans_jar(Data=cheese, nprod=8, nsub=72, levelsJAR=5, clust=4)
 ##' #plot(res)
 ##' summary(res)
-##'}
+##' }
 ##'
 ##' @seealso   \code{\link{plot.cluscata}}, \code{\link{summary.cluscata}} , \code{\link{catatis_jar}}, \code{\link{preprocess_JAR}}, \code{\link{cluscata_jar}}
 ##'
 ##' @export
 
 
-##=============================================================================
+## =============================================================================
 
-cluscata_kmeans_jar=function(Data, nprod, nsub, levelsJAR=3, beta=0.1, clust, nstart=100, rho=0, Itermax=30,
-                             Graph_groups=TRUE, print_attempt=FALSE, Warnings=FALSE)
-{
-  #preprocessing
-  prepro=preprocess_JAR(Data, nprod, nsub, levelsJAR, beta)
-  #catatis
-  clu=cluscata_kmeans(prepro$Datafinal, nsub,  clust=clust, nstart=nstart, rho=rho, NameBlocks=prepro$NameSub, Itermax=Itermax,
-                      Graph_groups=Graph_groups, print_attempt=print_attempt, Warnings=Warnings)
-  return (clu)
-
+cluscata_kmeans_jar <- function(Data, nprod, nsub, levelsJAR = 3, beta = 0.1, clust, nstart = 100, rho = 0, Itermax = 30,
+                                Graph_groups = TRUE, print_attempt = FALSE, Warnings = FALSE) {
+  # preprocessing
+  prepro <- preprocess_JAR(Data, nprod, nsub, levelsJAR, beta)
+  # catatis
+  clu <- cluscata_kmeans(prepro$Datafinal, nsub,
+    clust = clust, nstart = nstart, rho = rho, NameBlocks = prepro$NameSub, Itermax = Itermax,
+    Graph_groups = Graph_groups, print_attempt = print_attempt, Warnings = Warnings
+  )
+  return(clu)
 }

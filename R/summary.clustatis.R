@@ -1,4 +1,4 @@
-##=============================================================================
+## =============================================================================
 
 
 ##' @title Show the CLUSTATIS results
@@ -38,57 +38,52 @@
 ##' @export
 
 
-##=============================================================================
+## =============================================================================
 
 
 
 
 
-summary.clustatis=function(object, ngroups=NULL, ...)
-{
-  res.clustatis=object
-  if(inherits(res.clustatis, "clustatis")==FALSE)
-  {
+summary.clustatis <- function(object, ngroups = NULL, ...) {
+  res.clustatis <- object
+  if (inherits(res.clustatis, "clustatis") == FALSE) {
     stop("The class of the object must be 'clustatis'")
   }
 
-  if(is.null(ngroups) | res.clustatis$type=="K")
-  {
-    ngroups=res.clustatis$param$ng
+  if (is.null(ngroups) | res.clustatis$type == "K") {
+    ngroups <- res.clustatis$param$ng
   }
 
-  if(res.clustatis$type=="H+C")
-  {
-    if(ngroups>res.clustatis$param$gpmax)
-    {
+  if (res.clustatis$type == "H+C") {
+    if (ngroups > res.clustatis$param$gpmax) {
       stop("ngroups>gpmax")
     }
   }
 
 
-  if(res.clustatis$type=="H+C")
-  {
-    test_one_cluster=res.clustatis$test_one_cluster
-    res.clustatis=res.clustatis[[ngroups]]
-  }else{
-    test_one_cluster="No test"
+  if (res.clustatis$type == "H+C") {
+    test_one_cluster <- res.clustatis$test_one_cluster
+    res.clustatis <- res.clustatis[[ngroups]]
+  } else {
+    test_one_cluster <- "No test"
   }
-  NameBlocks=rownames(res.clustatis$group)
+  NameBlocks <- rownames(res.clustatis$group)
 
-  liste_groups=list()
+  liste_groups <- list()
   for (i in 1:ngroups)
   {
-    liste_groups[[i]]=NameBlocks[res.clustatis$group==i]
+    liste_groups[[i]] <- NameBlocks[res.clustatis$group == i]
   }
-  names(liste_groups)=paste("Cluster", 1:ngroups)
-  if (res.clustatis$rho>0)
-  {
-    liste_groups[[ngroups+1]]=NameBlocks[res.clustatis$group=="K+1"]
-    names(liste_groups)[ngroups+1]="Noise cluster (K+1)"
+  names(liste_groups) <- paste("Cluster", 1:ngroups)
+  if (sum(res.clustatis$rho) > 0) {
+    liste_groups[[ngroups + 1]] <- NameBlocks[res.clustatis$group == "K+1"]
+    names(liste_groups)[ngroups + 1] <- "Noise cluster (K+1)"
   }
 
-    res=list(groups=liste_groups, homogeneity=res.clustatis$homogeneity,
-             weights=res.clustatis$weights, rho=res.clustatis$rho, test_one_cluster=test_one_cluster)
+  res <- list(
+    groups = liste_groups, homogeneity = res.clustatis$homogeneity,
+    weights = res.clustatis$weights, rho = res.clustatis$rho
+  )
 
 
   return(res)

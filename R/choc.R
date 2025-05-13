@@ -1,4 +1,4 @@
-#'chocolates data
+#' chocolates data
 #'
 #' @docType data
 #'

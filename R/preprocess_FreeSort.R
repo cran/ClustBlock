@@ -1,4 +1,4 @@
-##=============================================================================
+## =============================================================================
 
 
 ##' @title Preprocessing for Free Sorting Data
@@ -33,54 +33,52 @@
 ##'
 ##'
 ##' @examples
-##'data(choc)
-##'prepro=preprocess_FreeSort(choc)
+##' data(choc)
+##' prepro=preprocess_FreeSort(choc)
 ##'
 ##' @seealso   \code{\link{clustatis}}, \code{\link{clustatis_FreeSort}}
 ##'
 ##' @export
 
 
-##=============================================================================
+## =============================================================================
 
 
-preprocess_FreeSort=function(Data, NameSub=NULL)
-{
-  p=ncol(Data)
-  n=nrow(Data)
+preprocess_FreeSort <- function(Data, NameSub = NULL) {
+  p <- ncol(Data)
+  n <- nrow(Data)
 
-  if(is.null(colnames(Data))) colnames(Data)=paste0("S",1:ncol(Data))
-  if (is.null(NameSub)) NameSub=paste("S",1:p)
+  if (is.null(colnames(Data))) colnames(Data) <- paste0("S", 1:ncol(Data))
+  if (is.null(NameSub)) NameSub <- paste("S", 1:p)
 
-  #parapet for Namesub
-  if(length(NameSub)!=p)
-  {
+  # parapet for Namesub
+  if (length(NameSub) != p) {
     stop("Namesub must have the length of ncol(Data)")
   }
 
 
-  Yi=list()
+  Yi <- list()
   for (i in 1:p)
   {
-    Data[,i]=factor(Data[,i])
-    Yi[[i]]=as.matrix(tab.disjonctif(Data[,i]))
-    a=apply(Yi[[i]],2,mean)
-    Yi[[i]]=Yi[[i]]%*%diag(1/sqrt(a))#standardization
-    colnames(Yi[[i]])=paste0(NameSub[i],"g",1:ncol(Yi[[i]]))
+    Data[, i] <- factor(Data[, i])
+    Yi[[i]] <- as.matrix(tab.disjonctif(Data[, i]))
+    a <- apply(Yi[[i]], 2, mean)
+    Yi[[i]] <- Yi[[i]] %*% diag(1 / sqrt(a)) # standardization
+    colnames(Yi[[i]]) <- paste0(NameSub[i], "g", 1:ncol(Yi[[i]]))
   }
 
-  dat=NULL
+  dat <- NULL
   for (i in 1:p)
   {
-    dat=cbind(dat,Yi[[i]])
+    dat <- cbind(dat, Yi[[i]])
   }
-  rownames(dat)=rownames(Data)
-  Blocks=rep(0,p)
+  rownames(dat) <- rownames(Data)
+  Blocks <- rep(0, p)
   for (i in 1:p)
   {
-    Blocks[i]=nlevels(as.factor(Data[,i]))
+    Blocks[i] <- nlevels(as.factor(Data[, i]))
   }
 
 
-  return(list(new_Data=dat, Blocks=Blocks,NameBlocks=NameSub))
+  return(list(new_Data = dat, Blocks = Blocks, NameBlocks = NameSub))
 }

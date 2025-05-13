@@ -1,4 +1,4 @@
-#'smoothies data
+#' smoothies data
 #'
 #' @docType data
 #'

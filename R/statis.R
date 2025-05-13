@@ -1,5 +1,4 @@
-
-##=============================================================================
+## =============================================================================
 
 
 ##' @title Performs the STATIS method on different blocks of quantitative variables
@@ -51,7 +50,7 @@
 ##' \itemize{
 ##' \item Lavit, C., Escoufier, Y., Sabatier, R., Traissac, P. (1994). The act (statis method). Computational 462 Statistics & Data Analysis, 18 (1), 97-119.\\
 ##' \item Llobell, F., Cariou, V., Vigneau, E., Labenne, A., & Qannari, E. M. (2018). Analysis and clustering of multiblock datasets by means of the STATIS and CLUSTATIS methods.Application to sensometrics. Food Quality and Preference, in Press.
-##'}
+##' }
 ##' @importFrom grDevices dev.new rainbow
 ##' @importFrom graphics abline arrows barplot par plot points text title
 ##' @importFrom stats sd
@@ -73,256 +72,245 @@
 ##'
 ##' @export
 
-##=============================================================================
+## =============================================================================
 
 
-statis=function(Data,Blocks,NameBlocks=NULL,Graph_obj=TRUE, Graph_weights=TRUE, scale=FALSE){
+statis <- function(Data, Blocks, NameBlocks = NULL, Graph_obj = TRUE, Graph_weights = TRUE, scale = FALSE) {
   # Data size (n, all the var)
   # Blocks vector given the nb of var of each block
 
-  #initialisation
-  n=nrow(Data)
-  nblo=length(Blocks)
-  J=rep(1:nblo , times =  Blocks )
+  # initialisation
+  n <- nrow(Data)
+  nblo <- length(Blocks)
+  J <- rep(1:nblo, times = Blocks)
 
-  #rownames, colnames, NameBlocks
-  if (is.null(NameBlocks)) NameBlocks=paste("B",1:nblo,sep="-")
-  if(is.null(rownames(Data))) rownames(Data)=paste0("X", 1:nrow(Data))
-  if(is.null(colnames(Data))) colnames(Data)=paste0("Y",1:ncol(Data))
+  # rownames, colnames, NameBlocks
+  if (is.null(NameBlocks)) NameBlocks <- paste("B", 1:nblo, sep = "-")
+  if (is.null(rownames(Data))) rownames(Data) <- paste0("X", 1:nrow(Data))
+  if (is.null(colnames(Data))) colnames(Data) <- paste0("Y", 1:ncol(Data))
 
-  #parapet for numerical Data
-  for (i in 1: ncol(Data))
+  # parapet for numerical Data
+  for (i in 1:ncol(Data))
   {
-    if (is.numeric(Data[,i])==FALSE)
-    {
-      stop(paste("Error: the data must be numeric (column",i,")"))
+    if (is.numeric(Data[, i]) == FALSE) {
+      stop(paste("Error: the data must be numeric (column", i, ")"))
     }
   }
 
-  #parapet for number of objects
-  if(n<3)
-  {
+  # parapet for number of objects
+  if (n < 3) {
     stop("At least 3 objects are required")
   }
 
 
-  #parapet for Blocks
-  if(sum(Blocks)!=ncol(Data))
-  {
+  # parapet for Blocks
+  if (sum(Blocks) != ncol(Data)) {
     stop("Error with Blocks")
   }
 
-  #Parapet for NameBlocks
-  if(length(NameBlocks)!=nblo)
-  {
+  # Parapet for NameBlocks
+  if (length(NameBlocks) != nblo) {
     stop("Error with the length of NameBlocks")
   }
 
-  #parapet for scale: no constant variable
-  if(scale==TRUE)
-  {
+  # parapet for scale: no constant variable
+  if (scale == TRUE) {
     for (i in 1:ncol(Data))
     {
-      if (sd(Data[,i])==0)
-      {
+      if (sd(Data[, i]) == 0) {
         stop(paste("Error: Column", i, "is constant"))
       }
     }
   }
 
-  #no NA
-  if(sum(is.na(Data))>0)
-  {
+  # no NA
+  if (sum(is.na(Data)) > 0) {
     print("NA detected:")
-    tabna=which(is.na(Data), arr.ind = TRUE)
+    tabna <- which(is.na(Data), arr.ind = TRUE)
     print(tabna)
     stop(paste("NA are not accepted"))
   }
 
 
-  X=scale(Data,center=TRUE,scale=scale) #X contains the centered (and scaled if necessary) data tables
-  Wj=array(0,dim=c(n,n,nblo));             # association matrices
+  X <- scale(Data, center = TRUE, scale = scale) # X contains the centered (and scaled if necessary) data tables
+  Wj <- array(0, dim = c(n, n, nblo)) # association matrices
 
   # globally standardization of each data matrix
   # Computation of association matrices
-  muk=NULL
-  for(j in 1:nblo) {
-    Xj=as.matrix(X[,J==j])
-    Wj[,,j]=tcrossprod(Xj)
-    nor=sqrt(sum(diag(tcrossprod(Wj[,,j]))))
-    muk[j]=nor
-    if(nor==0)
-    {
-      stop(paste("Configuration",j,"is constant"))
+  muk <- NULL
+  for (j in 1:nblo) {
+    Xj <- as.matrix(X[, J == j])
+    Wj[, , j] <- tcrossprod(Xj)
+    nor <- sqrt(sum(diag(tcrossprod(Wj[, , j]))))
+    muk[j] <- nor
+    if (nor == 0) {
+      stop(paste("Configuration", j, "is constant"))
     }
-    Wj[,,j]=Wj[,,j]/nor  # standardisation so that ||Wj||=1
+    Wj[, , j] <- Wj[, , j] / nor # standardisation so that ||Wj||=1
   }
 
-  mu=mean(muk)
-  facteurech=mu/muk
+  mu <- mean(muk)
+  facteurech <- mu / muk
 
   # RV matrix:
-  RV=matrix(0,nblo,nblo)
-  diag(RV)=rep(1,nblo)
-  if(nblo>1)
-  {
-    for (i in 1:(nblo-1)) {
-      for (j in (i+1):nblo) {
-        RV[i,j]=sum(diag(tcrossprod(Wj[,,i],Wj[,,j])))
-        RV[j,i]=RV[i,j]
-      } }
+  RV <- matrix(0, nblo, nblo)
+  diag(RV) <- rep(1, nblo)
+  if (nblo > 1) {
+    for (i in 1:(nblo - 1)) {
+      for (j in (i + 1):nblo) {
+        RV[i, j] <- sum(diag(tcrossprod(Wj[, , i], Wj[, , j])))
+        RV[j, i] <- RV[i, j]
+      }
+    }
   }
 
 
-  #first eigenvector and eigenvalue of RV matrix
-  ressvd=svd(RV)
-  u=ressvd$u[,1]
-  u=u*sign(u[1])
-  lambda=ressvd$d[1]
+  # first eigenvector and eigenvalue of RV matrix
+  ressvd <- svd(RV)
+  u <- ressvd$u[, 1]
+  u <- u * sign(u[1])
+  lambda <- ressvd$d[1]
 
   # the compromise W:
-  W=matrix(0,n,n)
-  for (j in 1:nblo) { W=W+(u[j]*Wj[,,j]) }
+  W <- matrix(0, n, n)
+  for (j in 1:nblo) {
+    W <- W + (u[j] * Wj[, , j])
+  }
 
 
   # error computation
-  dw=rep(0,nblo)
-  erreur=matrix(0,n,nblo)
-  normW=sum(diag(tcrossprod(W)))
+  dw <- rep(0, nblo)
+  erreur <- matrix(0, n, nblo)
+  normW <- sum(diag(tcrossprod(W)))
   for (j in 1:nblo) {
-    a=Wj[,,j]-(u[j]*W) #difference
-    dw[j]=sum(diag(tcrossprod(a))) #error by block
-    erreur[,j]=diag(tcrossprod(a))
+    a <- Wj[, , j] - (u[j] * W) # difference
+    dw[j] <- sum(diag(tcrossprod(a))) # error by block
+    erreur[, j] <- diag(tcrossprod(a))
   }
-  Q=sum(dw) #statis criterion
+  Q <- sum(dw) # statis criterion
 
-  #error by object
-  obj=rep(0,n)
+  # error by object
+  obj <- rep(0, n)
   for (i in 1:n)
   {
-    obj[i]=sum(erreur[i,])
+    obj[i] <- sum(erreur[i, ])
   }
 
-  #coordinates
-  e=svd(W)
-  C=e$u%*%sqrt(diag(abs(e$d)))
+  # coordinates
+  e <- svd(W)
+  C <- e$u %*% sqrt(diag(abs(e$d)))
 
 
-  #projection of each object of each block
-  configs=array(0,c(n,n,nblo))
-  if(nblo>1)
-  {
+  # projection of each object of each block
+  configs <- array(0, c(n, n, nblo))
+  if (nblo > 1) {
     for (l in 1:nblo)
     {
-      configs[,,l]=Wj[,,l]%*%(e$u%*%diag(c(sqrt(1/e$d[-n]),0)))*sqrt(lambda)
+      configs[, , l] <- Wj[, , l] %*% (e$u %*% diag(c(sqrt(1 / e$d[-n]), 0))) * sqrt(lambda)
     }
   }
 
 
-  #compute the presentation by object
-  objects=array(0,c(nblo,n,n))
-  if (nblo>1)
-  {
+  # compute the presentation by object
+  objects <- array(0, c(nblo, n, n))
+  if (nblo > 1) {
     for (r in 1:nblo)
     {
       for (i in 1:n)
       {
         for (j in 1:n)
         {
-          objects[ r, j, i] = configs[ i, j, r]
+          objects[r, j, i] <- configs[i, j, r]
         }
       }
     }
   }
 
 
-    #inertia of axes
-    pouriner=round(e$d/sum(e$d)*100,2)
-    pouriner=pouriner[-length(pouriner)]
-    vp=e$d[-length(e$d)]
-    names(pouriner)=names(vp)=paste("Dim", 1:(nrow(Data)-1))
+  # inertia of axes
+  pouriner <- round(e$d / sum(e$d) * 100, 2)
+  pouriner <- pouriner[-length(pouriner)]
+  vp <- e$d[-length(e$d)]
+  names(pouriner) <- names(vp) <- paste("Dim", 1:(nrow(Data) - 1))
 
-    #Graphical representation
-    if (Graph_obj==TRUE)
+  # Graphical representation
+  if (Graph_obj == TRUE) {
+    dev.new()
+    barplot(vp, col = "blue", main = "Eigenvalues")
+    dev.new()
+    par(xpd = FALSE)
+    plot(C[, 1], C[, 2], type = "n", lwd = 5, pch = 16, xlab = paste("Dim 1 (", pouriner[1], "%)"), ylab = paste("Dim 2 (", pouriner[2], "%)"), xlim = c(min(C[, 1]) - 0.2, max(C[, 1]) + 0.2), ylim = c(min(C[, 2]) - 0.2, max(C[, 2]) + 0.2))
+    text(C[, 1], C[, 2], rownames(Data), col = rainbow(nrow(Data)))
+    abline(h = 0, v = 0)
+    title("STATIS")
+
+    # projection of each object of each block
+    dev.new()
+    plot(C[, 1], C[, 2], type = "n", lwd = 5, pch = 16, xlab = paste("Dim 1 (", pouriner[1], "%)"), ylab = paste("Dim 2 (", pouriner[2], "%)"), xlim = c(min(C[, 1]) - 0.25, max(C[, 1]) + 0.25), ylim = c(min(C[, 2]) - 0.25, max(C[, 2]) + 0.25))
+    text(C[, 1], C[, 2], rownames(Data), col = rainbow(n), font = 2)
+    for (l in 1:length(Blocks))
     {
-      dev.new()
-      barplot(vp, col="blue", main="Eigenvalues")
-      dev.new()
-      par(xpd=FALSE)
-      plot(C[,1],C[,2],type="n",lwd=5,pch=16,xlab=paste("Dim 1 (",pouriner[1],"%)"), ylab=paste("Dim 2 (",pouriner[2],"%)"),xlim=c(min(C[,1])-0.2,max(C[,1])+0.2),ylim=c(min(C[,2])-0.2,max(C[,2])+0.2))
-      text(C[,1],C[,2],rownames(Data),col=rainbow(nrow(Data)))
-      abline(h=0,v=0)
-      title("STATIS")
-
-      #projection of each object of each block
-      dev.new()
-      plot(C[,1],C[,2],type="n",lwd=5,pch=16,xlab=paste("Dim 1 (",pouriner[1],"%)"), ylab=paste("Dim 2 (",pouriner[2],"%)"),xlim=c(min(C[,1])-0.25,max(C[,1])+0.25),ylim=c(min(C[,2])-0.25,max(C[,2])+0.25))
-      text(C[,1],C[,2],rownames(Data),col=rainbow(n),font=2)
-      for (l in 1: length(Blocks))
-      {
-        points(configs[,1,l],configs[,2,l],col=rainbow(n),pch=20)
-        arrows(C[,1],C[,2],configs[,1,l],configs[,2,l],col=rainbow(n),lwd=0.5,lty = 2,angle=0)
-      }
-
-      abline(h=0,v=0)
-      title("STATIS")
-
+      points(configs[, 1, l], configs[, 2, l], col = rainbow(n), pch = 20)
+      arrows(C[, 1], C[, 2], configs[, 1, l], configs[, 2, l], col = rainbow(n), lwd = 0.5, lty = 2, angle = 0)
     }
 
-
-  #RV with the compromise
-  rv=NULL
-  W_k=as.matrix(W)
-  normW=sqrt(sum(diag(crossprod(W_k))))
-  for ( i in 1:nblo)
-  {
-    W_i=Wj[,,i]
-    rv=c(rv,sum(diag(crossprod(W_i, W_k)))/(normW))
+    abline(h = 0, v = 0)
+    title("STATIS")
   }
 
-  #homogeneity
-  hom=lambda/nblo
 
-  #remove the last axis
-  configs=configs[,1:(n-1),]
-  objects=objects[,1:(n-1),]
-
-
-
-
-  #names
-  rownames(RV)=colnames(RV)=names(u)=names(dw)=names(rv)=names(facteurech)=NameBlocks
-  rownames(W)=colnames(W)=rownames(C)=names(obj)=rownames(Data)
-  C=C[,-ncol(C)]
-  rownames(C)=rownames(Data)
-  colnames(C)=paste("Dim",1:(n-1))
-  vp=e$d[-length(e$d)]
-  colnames(C)=names(vp)=paste("Dim", 1:ncol(C))
-
-  if(nblo>1)
+  # RV with the compromise
+  rv <- NULL
+  W_k <- as.matrix(W)
+  normW <- sqrt(sum(diag(crossprod(W_k))))
+  for (i in 1:nblo)
   {
-    dimnames(objects)[[1]]=dimnames(configs)[[3]]=NameBlocks
-    dimnames(configs)[[2]]=dimnames(objects)[[2]]=paste("Dim", 1:ncol(C))
-    dimnames(configs)[[1]]=dimnames(objects)[[3]]=rownames(Data)
+    W_i <- Wj[, , i]
+    rv <- c(rv, sum(diag(crossprod(W_i, W_k))) / (normW))
   }
 
-  if(Graph_weights==TRUE)
-  {
+  # homogeneity
+  hom <- lambda / nblo
+
+  # remove the last axis
+  configs <- configs[, 1:(n - 1), ]
+  objects <- objects[, 1:(n - 1), ]
+
+
+
+
+  # names
+  rownames(RV) <- colnames(RV) <- names(u) <- names(dw) <- names(rv) <- names(facteurech) <- NameBlocks
+  rownames(W) <- colnames(W) <- rownames(C) <- names(obj) <- rownames(Data)
+  C <- C[, -ncol(C)]
+  rownames(C) <- rownames(Data)
+  colnames(C) <- paste("Dim", 1:(n - 1))
+  vp <- e$d[-length(e$d)]
+  colnames(C) <- names(vp) <- paste("Dim", 1:ncol(C))
+
+  if (nblo > 1) {
+    dimnames(objects)[[1]] <- dimnames(configs)[[3]] <- NameBlocks
+    dimnames(configs)[[2]] <- dimnames(objects)[[2]] <- paste("Dim", 1:ncol(C))
+    dimnames(configs)[[1]] <- dimnames(objects)[[3]] <- rownames(Data)
+  }
+
+  if (Graph_weights == TRUE) {
     dev.new()
     barplot(u)
     title(paste("Weights"))
   }
-  homogeneity=round(hom,3)*100
+  homogeneity <- round(hom, 3) * 100
 
-  res=list(RV=round(RV,2),compromise=round(W,4),weights=round(u,5),lambda=round(lambda,3),
-           overall_error=round(Q,2),error_by_conf=round(dw,2),rv_with_compromise=round(rv,2),
-           homogeneity=homogeneity,coord=round(C,5), eigenvalues=round(vp,3), inertia=pouriner, error_by_obj=round(obj,2),
-           scalefactors=round(facteurech,2), proj_config=round(configs,5),
-           proj_objects=round(objects,5), param=list(nblo=nblo, n=n))
+  res <- list(
+    RV = round(RV, 2), compromise = round(W, 4), weights = round(u, 5), lambda = round(lambda, 3),
+    overall_error = round(Q, 2), error_by_conf = round(dw, 2), rv_with_compromise = round(rv, 2),
+    homogeneity = homogeneity, coord = round(C, 5), eigenvalues = round(vp, 3), inertia = pouriner, error_by_obj = round(obj, 2),
+    scalefactors = round(facteurech, 2), proj_config = round(configs, 5),
+    proj_objects = round(objects, 5), param = list(nblo = nblo, n = n)
+  )
 
-  class(res)="statis"
+  class(res) <- "statis"
 
 
   return(res)
-
 }

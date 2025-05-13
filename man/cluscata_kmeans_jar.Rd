@@ -2,7 +2,7 @@
 % Please edit documentation in R/cluscata_kmeans_jar.R
 \name{cluscata_kmeans_jar}
 \alias{cluscata_kmeans_jar}
-\title{Perform a cluster analysis of subjects in a JAR experiment.}
+\title{Perform a cluster analysis of subjects in a JAR experiment}
 \usage{
 cluscata_kmeans_jar(Data, nprod, nsub, levelsJAR=3, beta=0.1, clust, nstart=100, rho=0,
 Itermax=30, Graph_groups=TRUE, print_attempt=FALSE, Warnings=FALSE)
@@ -22,9 +22,9 @@ Itermax=30, Graph_groups=TRUE, print_attempt=FALSE, Warnings=FALSE)
 
 \item{nstart}{numerical. Number of starting partitions. Default: 100}
 
-\item{rho}{numerical between 0 and 1. Threshold for the noise cluster. If 0, there is no noise cluster. Default: 0}
+\item{rho}{numerical or vector between 0 and 1. Threshold for the noise cluster. Default:0. If you want a different threshold for each cluster, you can provide a vector.}
 
-\item{Itermax}{numerical. Maximum of iterations by partitionning algorithm. Default: 30}
+\item{Itermax}{numerical. Maximum of iterations by partitioning algorithm. Default: 30}
 
 \item{Graph_groups}{logical. Should each cluster compromise graphical representation be plotted? Default: TRUE}
 
@@ -36,7 +36,7 @@ Itermax=30, Graph_groups=TRUE, print_attempt=FALSE, Warnings=FALSE)
 a list with:
         \itemize{
          \item group: the clustering partition. If rho>0, some subjects could be in the noise cluster ("K+1")
-         \item rho: the threshold for the noise cluster
+         \item rho: the threshold(s) for the noise cluster
          \item homogeneity: percentage of homogeneity of the subjects in each cluster and the overall homogeneity
          \item s_with_compromise: Similarity coefficient of each subject with its cluster compromise
          \item weights: weight associated with each subject in its cluster
@@ -50,7 +50,7 @@ a list with:
          }
 }
 \description{
-Partitionning of subject from a JAR experiment. Each cluster is associated with a compromise
+Partitioning of subject from a JAR experiment. Each cluster is associated with a compromise
 computed by the CATATIS method. Moreover, a noise cluster can be set up.
 }
 \examples{

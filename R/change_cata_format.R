@@ -1,4 +1,4 @@
-##=============================================================================
+## =============================================================================
 
 ##' @title Change format of CATA datasets to perform CATATIS or CLUSCATA function
 ##'
@@ -44,13 +44,11 @@
 
 
 
-change_cata_format=function(Data, nprod, nattr, nsub, format=1, NameProds=NULL, NameAttr=NULL)
-{
-  if (format==1)
-  {
+change_cata_format <- function(Data, nprod, nattr, nsub, format = 1, NameProds = NULL, NameAttr = NULL) {
+  if (format == 1) {
     return(.second_step(Data, nprod, nattr, nsub, NameProds, NameAttr))
-  }else if(format==2){
-    data=.first_step(Data, nprod, nattr, nsub)
-    return(.second_step(data,  nprod, nattr, nsub, NameProds, NameAttr))
+  } else if (format == 2) {
+    data <- .first_step(Data, nprod, nattr, nsub)
+    return(.second_step(data, nprod, nattr, nsub, NameProds, NameAttr))
   }
 }

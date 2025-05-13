@@ -1,4 +1,4 @@
-##=============================================================================
+## =============================================================================
 
 ##' @title Displays the CATATIS graphs
 ##'
@@ -50,42 +50,34 @@
 ##' @export
 ##'
 
-##=============================================================================
+## =============================================================================
 
 
 
 
-plot.catatis=function(x, Graph=TRUE, Graph_weights=TRUE, Graph_eig=TRUE, axes=c(1,2), tit="CATATIS", cex=1,
-                      col.obj="blue", col.attr="red", ...)
-{
-
-  res.catatis=x
-  if(inherits(res.catatis, "catatis")==FALSE)
-  {
+plot.catatis <- function(x, Graph = TRUE, Graph_weights = TRUE, Graph_eig = TRUE, axes = c(1, 2), tit = "CATATIS", cex = 1,
+                         col.obj = "blue", col.attr = "red", ...) {
+  res.catatis <- x
+  if (inherits(res.catatis, "catatis") == FALSE) {
     stop("The class of the object must be 'catatis'")
   }
 
 
-  #show graphical representation
-  if(Graph==TRUE)
-  {
-    vp=res.catatis$CA$eig[,1]
-    if (Graph_eig==TRUE)
-    {
+  # show graphical representation
+  if (Graph == TRUE) {
+    vp <- res.catatis$CA$eig[, 1]
+    if (Graph_eig == TRUE) {
       dev.new()
-      barplot(vp, col="blue", main="Eigenvalues")
+      barplot(vp, col = "blue", main = "Eigenvalues")
     }
     dev.new()
     options(ggrepel.max.overlaps = Inf)
-    print(plot.CA(res.catatis$CA, axes=axes, title=tit, cex=cex, col.row=col.obj, col.col=col.attr))
+    print(plot.CA(res.catatis$CA, axes = axes, title = tit, cex = cex, col.row = col.obj, col.col = col.attr))
   }
 
-  if (Graph_weights==TRUE)
-  {
+  if (Graph_weights == TRUE) {
     dev.new()
     barplot(res.catatis$weights)
     title(paste("Weights"))
   }
-
-
 }

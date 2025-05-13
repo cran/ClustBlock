@@ -1,4 +1,4 @@
-##=============================================================================
+## =============================================================================
 ##' @title Show the ClusMB or clustering on STATIS axes results
 ##'
 ##' @usage
@@ -30,19 +30,19 @@
 ##' @export
 
 
-##=============================================================================
+## =============================================================================
 
 
-summary.clusRows=function(object, ...)
-{
-  res.ClusRows=object
-  if(inherits(res.ClusRows, "clusRows")==FALSE)
-  {
+summary.clusRows <- function(object, ...) {
+  res.ClusRows <- object
+  if (inherits(res.ClusRows, "clusRows") == FALSE) {
     stop("The class of the object must be 'clusRows'")
   }
 
 
-  res=list(groups=res.ClusRows$group, nbClustRetained= max(res.ClusRows$group),
-           nbgH=res.ClusRows$nbgH, nbgCH=res.ClusRows$nbgCH)
+  res <- list(
+    groups = res.ClusRows$group, nbClustRetained = max(res.ClusRows$group),
+    nbgH = res.ClusRows$nbgH, nbgCH = res.ClusRows$nbgCH
+  )
   return(res)
 }

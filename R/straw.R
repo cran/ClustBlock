@@ -1,4 +1,4 @@
-#'strawberries data
+#' strawberries data
 #'
 #' @docType data
 #'
@@ -10,7 +10,7 @@
 #' @keywords datasets
 #'
 #' @references  Ares, G., & Jaeger, S. R. (2013). Check-all-that-apply questions: Influence of attribute
-#'order on sensory product characterization. Food Quality and Preference, 28(1), 141-153.
+#' order on sensory product characterization. Food Quality and Preference, 28(1), 141-153.
 #'
 #' @examples
 #' data(straw)

@@ -1,4 +1,3 @@
-
 ##' @title Performs the STATIS method on Free Sorting data
 ##'
 ##' @usage
@@ -45,27 +44,27 @@
 ##' \itemize{
 ##' \item Lavit, C., Escoufier, Y., Sabatier, R., Traissac, P. (1994). The act (statis method). Computational 462 Statistics & Data Analysis, 18 (1), 97-119.\\
 ##' \item Llobell, F., Cariou, V., Vigneau, E., Labenne, A., & Qannari, E. M. (2018). Analysis and clustering of multiblock datasets by means of the STATIS and CLUSTATIS methods.Application to sensometrics. Food Quality and Preference, in Press.
-##'}
+##' }
 ##'
 ##'
 ##' @keywords FreeSorting
 ##'
 ##' @examples
 ##'
-##'data(choc)
-##'res.sta=statis_FreeSort(choc)
+##' data(choc)
+##' res.sta=statis_FreeSort(choc)
 ##'
 ##' @seealso  \code{\link{preprocess_FreeSort}}, \code{\link{clustatis_FreeSort}}
 ##'
 ##' @export
 
 
-statis_FreeSort=function(Data, NameSub=NULL, Graph_obj=TRUE, Graph_weights=TRUE)
-{
+statis_FreeSort <- function(Data, NameSub = NULL, Graph_obj = TRUE, Graph_weights = TRUE) {
+  prepro <- preprocess_FreeSort(Data, NameSub = NameSub)
 
-  prepro=preprocess_FreeSort(Data, NameSub = NameSub)
-
-  a=statis(Data=prepro$new_Data,Blocks=prepro$Blocks,NameBlocks= prepro$NameBlocks,
-              scale=FALSE,  Graph_obj=Graph_obj, Graph_weights=Graph_weights)
+  a <- statis(
+    Data = prepro$new_Data, Blocks = prepro$Blocks, NameBlocks = prepro$NameBlocks,
+    scale = FALSE, Graph_obj = Graph_obj, Graph_weights = Graph_weights
+  )
   return(a)
 }

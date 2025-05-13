@@ -1,4 +1,4 @@
-##=============================================================================
+## =============================================================================
 ##' @title Perform the CATATIS method on Just About Right data.
 ##'
 ##' @usage
@@ -66,14 +66,11 @@
 ##'
 ##' @export
 
-##=============================================================================
-catatis_jar=function(Data, nprod, nsub, levelsJAR=3, beta=0.1, Graph=TRUE, Graph_weights=TRUE, Test_weights=FALSE, nperm=100)
-{
-  #preprocessing
-  prepro=preprocess_JAR(Data, nprod, nsub, levelsJAR, beta)
-  #catatis
-  cat=catatis(prepro$Datafinal, nsub, NameBlocks = prepro$NameSub, Graph=Graph, Graph_weights=Graph_weights, Test_weights=Test_weights, nperm=nperm)
-  return (cat)
-
+## =============================================================================
+catatis_jar <- function(Data, nprod, nsub, levelsJAR = 3, beta = 0.1, Graph = TRUE, Graph_weights = TRUE, Test_weights = FALSE, nperm = 100) {
+  # preprocessing
+  prepro <- preprocess_JAR(Data, nprod, nsub, levelsJAR, beta)
+  # catatis
+  cat <- catatis(prepro$Datafinal, nsub, NameBlocks = prepro$NameSub, Graph = Graph, Graph_weights = Graph_weights, Test_weights = Test_weights, nperm = nperm)
+  return(cat)
 }
-

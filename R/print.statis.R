@@ -1,4 +1,4 @@
-##=============================================================================
+## =============================================================================
 
 
 ##' @title Print the STATIS results
@@ -23,20 +23,18 @@
 ##' @export
 
 
-##=============================================================================
+## =============================================================================
 
 
 
 
-print.statis=function(x, ...)
-{
-  res.statis=x
-  if(inherits(res.statis, "statis")==FALSE)
-  {
+print.statis <- function(x, ...) {
+  res.statis <- x
+  if (inherits(res.statis, "statis") == FALSE) {
     stop("The class of the object must be 'statis'")
   }
 
-    cat("STATIS method on quantitative blocks\n")
-    cat(paste("number of blocks:",res.statis$param$nblo, "\n"))
-    cat(paste("number of objects:",res.statis$param$n, "\n"))
+  cat("STATIS method on quantitative blocks\n")
+  cat(paste("number of blocks:", res.statis$param$nblo, "\n"))
+  cat(paste("number of objects:", res.statis$param$n, "\n"))
 }

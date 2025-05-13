@@ -1,4 +1,4 @@
-#'cheese Just About Right data
+#' cheese Just About Right data
 #'
 #' @docType data
 #'

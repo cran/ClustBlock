@@ -1,4 +1,4 @@
-#'fish data
+#' fish data
 #'
 #' @docType data
 #'

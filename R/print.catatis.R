@@ -1,4 +1,4 @@
-##=============================================================================
+## =============================================================================
 
 
 ##' @title Print the CATATIS results
@@ -23,21 +23,19 @@
 ##' @export
 
 
-##=============================================================================
+## =============================================================================
 
 
 
 
-print.catatis=function(x, ...)
-{
-  res.catatis=x
-  if(inherits(res.catatis, "catatis")==FALSE)
-  {
+print.catatis <- function(x, ...) {
+  res.catatis <- x
+  if (inherits(res.catatis, "catatis") == FALSE) {
     stop("The class of the object must be 'catatis'")
   }
 
   cat("CATATIS method on binary blocks\n")
-  cat(paste("number of subjects:",res.catatis$param$nblo, "\n"))
-  cat(paste("number of products by subject:",res.catatis$param$n, "\n"))
-  cat(paste("number of attributes by subject:",res.catatis$param$nvar, "\n"))
+  cat(paste("number of subjects:", res.catatis$param$nblo, "\n"))
+  cat(paste("number of products by subject:", res.catatis$param$n, "\n"))
+  cat(paste("number of attributes by subject:", res.catatis$param$nvar, "\n"))
 }
