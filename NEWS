@@ -1,6 +1,2 @@
-Changes in ClustBlock 4.1.0 (2025-05-13)
-*New possibility: have a noise cluster per group
-*Automatic computation or manual available
-*clusMB method graphs improvement
-*Clustering on STATIS axes graphs improvement
-*Help improvement
+Changes in ClustBlock 4.1.1 (2025-06-11)
+*Minor debug

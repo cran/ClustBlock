@@ -433,12 +433,7 @@ clustatis <- function(Data, Blocks, NameBlocks = NULL, Noise_cluster = FALSE,
 
         # multiple threshold
         if (Unique_threshold == FALSE) {
-          grou <- NULL
-          for (i in 1:nblo)
-          {
-            grou[i] <- which.max(cr[[i]])
-          }
-
+          grou=coupe
 
           mat_utile <- matrix(unlist(cr2), nrow = nblo, ncol = 2, byrow = TRUE)
 

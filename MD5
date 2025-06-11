@@ -1,7 +1,7 @@
-277bcd24654b03c4129a174c1bbd17ae *DESCRIPTION
+8bc007f2407bf78794291d8e9159ed0a *DESCRIPTION
 18041f2368d8ebc2756ae666b9035fff *LICENSE
 88beefc2710e9f3e6866ce199cb73c4d *NAMESPACE
-1315a75f762e0a0eaf0adba557d3e68d *NEWS
+ca9815f7ecaf064521c84d693695641b *NEWS
 2cb7ce441e9970704f7486374184dab1 *R/ClusMB.R
 034e6658c7414796662c0a13715cf57a *R/RATAchoc.R
 aeb0f1a58d4f43fcdfda7947375437c5 *R/catatis.R
@@ -11,13 +11,13 @@ f9dc1015266204f74f24d1800efc0cde *R/catatis_jar.R
 17aa202b4edeffca2661c3a1c0a67435 *R/change_cata_format2.R
 1cb8ce58ff1accd66340e8aeb45dbd5e *R/cheese.R
 99330efa3d08fe9b8b3297099b72edb5 *R/choc.R
-73f4487565776f3df5b2fd9d9580b8d3 *R/cluscata.R
+1077b680be109cf09bc54305cf0c6b9f *R/cluscata.R
 f65f81dc5c0c2f7c543e0df6b97b9ee7 *R/cluscata_jar.R
 eb4b5d9068b52859a985207b827f79d9 *R/cluscata_kmeans.R
 50661d91283f5d2dc1861ec7e4305ba3 *R/cluscata_kmeans_jar.R
 bf0c8cee5787b2c1b8a7b254a3053db0 *R/cluscata_rata.R
 882babeb74209543ffa3073374a31d1b *R/clustRowsOnStatisAxes.R
-7bc25675838bc7882925e927924e4ea6 *R/clustatis.R
+bfcf4870245cc89575e3d635517cec8f *R/clustatis.R
 fa6c1c566dedd5f970520c095c9dabef *R/clustatis_FreeSort.R
 819bbbca0c96647b63e7fe562f6e8684 *R/clustatis_FreeSort_kmeans.R
 d6d05eb072ad982ce00710f9e0963767 *R/clustatis_kmeans.R
@@ -65,9 +65,9 @@ b301cbdd104a26e64ee43443a2064349 *data/choc.RData
 1bd2c6cb89be1be23e4b75cc277b7f90 *data/fish.rda
 7a57a3c84307e41bcdf0c2b0466b3bd8 *data/smoo.RData
 4e73aa845144c9f918fd2036cfa35f59 *data/straw.rda
-82f07c4f9eb55b5dc689425eb6cbc358 *inst/CITATION
+80df19bcc5d656a8311a9f4c1acb87e4 *inst/CITATION
 1d8b1fbd9732e15b6195f649be9de85f *man/ClusMB.Rd
-fcacdc841d73f4e26c16cf7c59e4d58f *man/ClustBlock-package.Rd
+228f712e6eb6c8fff2e2febfc7e7d5ba *man/ClustBlock-package.Rd
 045dbae3a432137ae9b51b202760873d *man/RATAchoc.Rd
 b6d42e500dd4b185b9b061eba0dbd0da *man/catatis.Rd
 b0750d1da5e2abb6e7cb8f36ad15f23a *man/catatis_jar.Rd

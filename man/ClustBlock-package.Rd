@@ -8,9 +8,9 @@
   \tabular{ll}{
     Package: \tab ClustBlock\cr
     Type: \tab Package\cr
-    Version: \tab 4.1.0\cr
+    Version: \tab 4.1.1\cr
     First version Date: \tab 2019-03-06\cr
-    Last version Date: \tab 2025-05-13\cr
+    Last version Date: \tab 2025-06-11\cr
   }
 }
 
