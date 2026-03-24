@@ -25,6 +25,8 @@ data(smoo)
 res1=ClusMB(smoo, rep(2,24))
 plot(res1)
 
+graphics.off()
+
 }
 \seealso{
 \code{\link{ClusMB}}, \code{\link{clustRowsOnStatisAxes}}

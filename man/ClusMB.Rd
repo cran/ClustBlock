@@ -53,6 +53,8 @@ chang2=change_cata_format2(Data, nprod= 6, nattr= 27, nsub = 11, nsess= 1)
 res2=ClusMB(Data= chang2$Datafinal, Blocks= rep(27, 11), center=FALSE)
 indicesClusters(Data= chang2$Datafinal, Blocks= rep(27, 11),cut = res2$group, center=FALSE)
 
+
+graphics.off()
 }
 \references{
 Llobell, F., & Giacalone, D. (2025). Two Methods for Clustering Products in a Sensory Study: STATIS and ClusMB. Journal of Sensory Studies, 40(1), e70024.\cr

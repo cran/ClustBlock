@@ -91,6 +91,8 @@ computed by the STATIS method. Moreover, a noise cluster can be set up.
  Noise_cluster=TRUE, Graph_dend=FALSE, Graph_bar=FALSE, Unique_threshold= FALSE,
  rhoparam=c(0.6, 0.5,0.4))
 
+ graphics.off()
+
 }
 \references{
 Llobell, F., Cariou, V., Vigneau, E., Labenne, A., & Qannari, E. M. (2018). Analysis and clustering of multiblock datasets by means of the STATIS and CLUSTATIS methods. Application to sensometrics. Food Quality and Preference, in Press.\cr

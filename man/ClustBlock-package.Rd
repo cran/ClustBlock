@@ -3,14 +3,21 @@
 \alias{ClustBlock}
 \docType{package}
 \title{Clustering of Datasets}
-\description{ Hierarchical and partitioning algorithms of blocks of variables.The CLUSTATIS method and the CLUSCATA method are the core of this package. The CATATIS methods allows to compute some indices and tests to control the quality of CATA data. Multivariate analysis and clustering of subjects for quantitative multiblock data, CATA, RATA, Free Sorting and JAR experiments are available. Clustering of rows in multi-block context (notably with ClusMB strategy) is also included.}
+\description{ Hierarchical and partitioning algorithms of blocks of variables.
+The CLUSTATIS method and the CLUSCATA method are the core of this package.
+The CATATIS methods allows to compute some indices and tests to control the quality of CATA data.
+Multivariate analysis and clustering of subjects for quantitative multiblock data, CATA,
+RATA, Free Sorting and JAR experiments are available.
+Clustering of rows in multi-block context (notably with ClusMB strategy) is also included.
+Performing clustering based on CATA and liking at the same time is possible thanks to cluscata_liking function.
+}
 \details{
   \tabular{ll}{
     Package: \tab ClustBlock\cr
     Type: \tab Package\cr
-    Version: \tab 4.1.1\cr
+    Version: \tab 5.0.0\cr
     First version Date: \tab 2019-03-06\cr
-    Last version Date: \tab 2025-06-11\cr
+    Last version Date: \tab 2026-03-23\cr
   }
 }
 
@@ -28,10 +35,12 @@ Llobell, F., Cariou, V., Vigneau, E., Labenne, A., & Qannari, E. M. (2019). A ne
 Llobell, F., Giacalone, D., Labenne, A., & Qannari, E. M. (2019). Assessment of the agreement and cluster analysis of\cr  the respondents in a CATA experiment. Food Quality and Preference, 77, 184-190.\cr
 Llobell, F., & Qannari, E. M. (2020). CLUSTATIS: Cluster analysis of blocks of variables. Electronic\cr Journal of Applied Statistical Analysis, 13(2), 436-453.\cr
 Llobell, F. (2020). Classification de tableaux de donnees, applications en analyse sensorielle (Doctoral\cr dissertation, Nantes, Ecole nationale veterinaire).\cr
+Vigneau, E., Cariou, V., Giacalone, D., Berget, I., & Llobell, F. (2022). Combining hedonic information and CATA description for consumer segmentation. Food Quality and Preference, 95, 104358.\cr
 Llobell, F., Bonnet, L., & Giacalone, D. (2024). Assessment of panel performance in CATA and RATA experiment. \cr Journal of Sensory Studies, 39(4), e12941.\cr
 Llobell, F., & Giacalone, D. (2025). Two Methods for Clustering Products in a Sensory Study: STATIS and ClusMB. \cr Journal of Sensory Studies, 40(1), e70024.}}
 
 \keyword{Clustering}
+\keyword{Cluster analysis}
 \keyword{Blocks}
 \keyword{Check-All-That-Apply}
 \keyword{Projective mapping}
@@ -46,3 +55,5 @@ Llobell, F., & Giacalone, D. (2025). Two Methods for Clustering Products in a Se
 \keyword{Rate-All-That-Apply}
 \keyword{RATA}
 \keyword{Multi-block}
+\keyword{Liking}
+\keyword{Hedonic}

@@ -58,6 +58,8 @@
 ##' res2=ClusMB(Data= chang2$Datafinal, Blocks= rep(27, 11), center=FALSE)
 ##' indicesClusters(Data= chang2$Datafinal, Blocks= rep(27, 11),cut = res2$group, center=FALSE)
 ##'
+##'
+##' graphics.off()
 ##' @seealso   \code{\link{indicesClusters}}, \code{\link{summary.clusRows}} , \code{\link{clustRowsOnStatisAxes}}
 ##'
 ##' @export
@@ -200,7 +202,7 @@ ClusMB <- function(Data, Blocks, NameBlocks = NULL, scale = FALSE, center = TRUE
     }
   }
 
-  res <- kmeans(X, centers, iter.max = 100)
+  res <- kmeans(X, centers, algorithm = "Lloyd", iter.max = 100)
 
   resClusMB <- list(
     group = res$cluster, nbgH = nbgroup_hart,

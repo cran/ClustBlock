@@ -104,6 +104,8 @@
 ##'  Noise_cluster=TRUE, Graph_dend=FALSE, Graph_bar=FALSE, Unique_threshold= FALSE,
 ##'  rhoparam=c(0.6, 0.5,0.4))
 ##'
+##'  graphics.off()
+##'
 ##' @seealso   \code{\link{plot.clustatis}}, \code{\link{summary.clustatis}} , \code{\link{clustatis_kmeans}}, \code{\link{statis}}
 ##'
 ##' @export

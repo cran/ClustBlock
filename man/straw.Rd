@@ -6,7 +6,7 @@
 \title{strawberries data}
 \format{
 CATA data. A data frame with 6 rows (the number of strawberries) and 1824 columns (the number of consumers (114) * the number of attributes (16)).
- For each consumer,each attribute and eachb product, there is 1 if the attribute has been checked by the consumer for the product, and 0 if not.
+ For each consumer,each attribute and each product, there is 1 if the attribute has been checked by the consumer for the product, and 0 if not.
 }
 \usage{
 data(straw)

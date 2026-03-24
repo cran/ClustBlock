@@ -29,8 +29,6 @@
 ##' Llobell, F., Cariou, V., Vigneau, E., Labenne, A., & Qannari, E. M. (2018). Analysis and clustering of multiblock datasets by means of the STATIS and CLUSTATIS methods. Application to sensometrics. Food Quality and Preference, in Press.
 ##'
 ##'
-##' @importFrom  FactoMineR tab.disjonctif
-##'
 ##'
 ##' @examples
 ##' data(choc)

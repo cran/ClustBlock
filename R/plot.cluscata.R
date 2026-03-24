@@ -38,10 +38,6 @@
 ##' @return the CLUSCATA graphs
 ##'
 ##'
-##'
-##'
-##'
-##'
 ##' @keywords CATA
 ##'
 ##' @examples

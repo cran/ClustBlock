@@ -1,6 +1,5 @@
 ## =============================================================================
 
-
 ##' @title Perform a cluster analysis of subjects from a CATA experiment
 ##'
 ##' @description
@@ -14,7 +13,7 @@
 ##'          printlevel=FALSE, gpmax=min(6, nblo-2), rhoparam=NULL,
 ##'          Testonlyoneclust=FALSE, alpha=0.05, nperm=50, Warnings=FALSE)
 ##'
-##' @param Data data frame or matrix where the blocks of binary variables are merged horizontally. If you have a different format, see \code{\link{change_cata_format}}
+##' @param Data data frame or matrix where the blocks of variables (attributes) are merged horizontally. If you have a different format, see \code{\link{change_cata_format}}
 ##'
 ##' @param nblo  numerical. Number of blocks (subjects).
 ##'
@@ -465,8 +464,7 @@ cluscata <- function(Data, nblo, NameBlocks = NULL, NameVar = NULL, Noise_cluste
 
     res.consol[[K]] <- cluscata_kmeans(Data, nblo, coupe,
       rho = rho2consider, NameBlocks = NameBlocks, NameVar = NameVar, Itermax = Itermax,
-      Graph_groups = FALSE, Warnings = Warnings
-    )
+      Graph_groups = FALSE, Warnings = Warnings)
   }
   names(cutree_k) <- names(res.consol) <- paste0("partition", 1:gpmax)
 

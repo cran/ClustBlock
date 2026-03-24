@@ -10,7 +10,7 @@ cluscata(Data, nblo, NameBlocks=NULL, NameVar=NULL, Noise_cluster=FALSE,
          Testonlyoneclust=FALSE, alpha=0.05, nperm=50, Warnings=FALSE)
 }
 \arguments{
-\item{Data}{data frame or matrix where the blocks of binary variables are merged horizontally. If you have a different format, see \code{\link{change_cata_format}}}
+\item{Data}{data frame or matrix where the blocks of variables (attributes) are merged horizontally. If you have a different format, see \code{\link{change_cata_format}}}
 
 \item{nblo}{numerical. Number of blocks (subjects).}
 

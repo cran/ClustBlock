@@ -1,2 +1,2 @@
-Changes in ClustBlock 4.1.1 (2025-06-11)
-*Minor debug
+Changes in ClustBlock 5.0.0 (2026-03-23)
+*Add cluscata_liking function, with plot and summary, devoted to cluster analysis of the combination of CATA and liking data.

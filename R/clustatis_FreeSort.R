@@ -87,6 +87,7 @@
 ##' res.clu=clustatis_FreeSort(choc)
 ##' plot(res.clu, Graph_dend=FALSE)
 ##' summary(res.clu)
+##' graphics.off()
 ##'
 ##' @seealso   \code{\link{clustatis}}, \code{\link{preprocess_FreeSort}}, \code{\link{summary.clustatis}}, , \code{\link{plot.clustatis}}
 ##'

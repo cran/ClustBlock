@@ -74,6 +74,7 @@ data(choc)
 res.clu=clustatis_FreeSort(choc)
 plot(res.clu, Graph_dend=FALSE)
 summary(res.clu)
+graphics.off()
 
 }
 \references{
