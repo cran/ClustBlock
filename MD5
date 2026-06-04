@@ -1,7 +1,7 @@
-f69f3adac9dc531e9fa1b805a288b70d *DESCRIPTION
+223e7eaee36d07838de2c40ebe037d47 *DESCRIPTION
 18041f2368d8ebc2756ae666b9035fff *LICENSE
-12fb465da2a7349eac7a5139bb75f0a4 *NAMESPACE
-3d01cea3055bb6c3d0c34f600693048f *NEWS
+ee196ce44facd618745ae40b0c22579f *NAMESPACE
+c682d8244b3861cd9d9962d660d40dfe *NEWS
 2ee403f83b27d779316709320fd8581d *R/ClusMB.R
 034e6658c7414796662c0a13715cf57a *R/RATAchoc.R
 7efd7e34ed5b8d2156716f93ec0cd65d *R/cata_ryebread.R
@@ -36,6 +36,7 @@ a2396d94c75adf5f5f316a11d0e3a0cb *R/crit_statisWj_fast.R
 1e6626d8fecfe9f77be4f96a46a80156 *R/fish.R
 09325b225f37c0c29ed9014ad1c18ba4 *R/indicesclusters.R
 10e4ab2c369c52fe033bb56f6e955b17 *R/liking_ryebread.R
+e75a9a2bcac47d5de966900d0f8fb8f0 *R/mixclustatis.R
 9d74e027eabae93493e2401b02609b92 *R/one_cluster_or_more.R
 d68c926c697917b693cae53f8d66df27 *R/one_cluster_or_more_cata.R
 53fcfddd9ed7c11b3b160e1fff044171 *R/order_var.R
@@ -76,9 +77,9 @@ b301cbdd104a26e64ee43443a2064349 *data/choc.RData
 ea2d15b981ee1225848e628fd64dc91b *data/liking_ryebread.rda
 7a57a3c84307e41bcdf0c2b0466b3bd8 *data/smoo.RData
 4e73aa845144c9f918fd2036cfa35f59 *data/straw.rda
-0684c22378abdff411b74a806041b222 *inst/CITATION
+67488ebe10c18e09c68cf03bd7db2756 *inst/CITATION
 6b505ff4528e99964b6b1178613f824c *man/ClusMB.Rd
-f2aab64d45c5b59fcb8953e85f280d24 *man/ClustBlock-package.Rd
+be0beadc3cfd85271a4787d953800efa *man/ClustBlock-package.Rd
 045dbae3a432137ae9b51b202760873d *man/RATAchoc.Rd
 46196279ad6e605b51ee64e13c316ca9 *man/cata_ryebread.Rd
 b6d42e500dd4b185b9b061eba0dbd0da *man/catatis.Rd
@@ -105,6 +106,7 @@ aff2069e9a0c18cb55bb3dadcd354651 *man/consistency_cata_panel.Rd
 061cf5da98840f6158adc183adc7eba6 *man/fish.Rd
 d25986f983149904ad0892f96c7b7488 *man/indicesClusters.Rd
 3cb0efaf1779247cbe09577b343f8b02 *man/liking_ryebread.Rd
+f38be8a60f8a342c467799dfa18a0100 *man/mixclustatis.Rd
 d5a866445e53a328a450f67064d37f47 *man/plot.catatis.Rd
 57a13202e8c1f6010c3b04835656a699 *man/plot.clusRows.Rd
 21c34118a7812fdfe50aceddbe66ea47 *man/plot.cluscata.Rd

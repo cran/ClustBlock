@@ -1,2 +1,2 @@
-Changes in ClustBlock 5.0.0 (2026-03-23)
-*Add cluscata_liking function, with plot and summary, devoted to cluster analysis of the combination of CATA and liking data.
+Changes in ClustBlock 6.0.0 (2026-06-04)
+*Add MixCluStatis function for clustering of variables (quantitative, qualitative or mixed)

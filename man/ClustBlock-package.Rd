@@ -10,14 +10,15 @@ Multivariate analysis and clustering of subjects for quantitative multiblock dat
 RATA, Free Sorting and JAR experiments are available.
 Clustering of rows in multi-block context (notably with ClusMB strategy) is also included.
 Performing clustering based on CATA and liking at the same time is possible thanks to cluscata_liking function.
+Clustering of variables (quantitative, qualitative or mixed) can be done thanks to the MixCluStatis function.
 }
 \details{
   \tabular{ll}{
     Package: \tab ClustBlock\cr
     Type: \tab Package\cr
-    Version: \tab 5.0.0\cr
+    Version: \tab 6.0.0\cr
     First version Date: \tab 2019-03-06\cr
-    Last version Date: \tab 2026-03-23\cr
+    Last version Date: \tab 2026-06-04\cr
   }
 }
 
@@ -57,3 +58,7 @@ Llobell, F., & Giacalone, D. (2025). Two Methods for Clustering Products in a Se
 \keyword{Multi-block}
 \keyword{Liking}
 \keyword{Hedonic}
+\keyword{Variables}
+\keyword{mixed}
+\keyword{Qualitative}
+\keyword{Categorical}
