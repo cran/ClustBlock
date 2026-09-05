@@ -49,6 +49,7 @@ a list with:
 CATATIS method. Additional outputs are also computed. Non-binary data are accepted and weights can be tested.
 }
 \examples{
+\donttest{
 data(straw)
 res.cat=catatis(straw, nblo=114)
 summary(res.cat)
@@ -63,7 +64,7 @@ res.cat2=catatis(Data= chang$Datafinal, nblo = 12, NameBlocks =  chang$NameSub, 
 Data=fish[1:66,2:30]
 chang2=change_cata_format2(Data, nprod= 6, nattr= 27, nsub = 11, nsess= 1)
 res.cat3=catatis(Data= chang2$Datafinal, nblo = 11, NameBlocks =  chang2$NameSub)
-
+}
 
 }
 \references{

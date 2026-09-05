@@ -11,14 +11,15 @@ RATA, Free Sorting and JAR experiments are available.
 Clustering of rows in multi-block context (notably with ClusMB strategy) is also included.
 Performing clustering based on CATA and liking at the same time is possible thanks to cluscata_liking function.
 Clustering of variables (quantitative, qualitative or mixed) can be done thanks to the MixCluStatis function.
+Clustering on JAR + Liking can be achieved thanks to preprocess_JAR_liking function.
 }
 \details{
   \tabular{ll}{
     Package: \tab ClustBlock\cr
     Type: \tab Package\cr
-    Version: \tab 6.0.0\cr
+    Version: \tab 6.1.0\cr
     First version Date: \tab 2019-03-06\cr
-    Last version Date: \tab 2026-06-04\cr
+    Last version Date: \tab 2026-09-05\cr
   }
 }
 
@@ -62,3 +63,4 @@ Llobell, F., & Giacalone, D. (2025). Two Methods for Clustering Products in a Se
 \keyword{mixed}
 \keyword{Qualitative}
 \keyword{Categorical}
+\keyword{Liking}
